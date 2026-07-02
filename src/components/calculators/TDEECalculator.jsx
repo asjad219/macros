@@ -190,7 +190,7 @@ export default function TDEECalculator() {
 🍞 Carbs:   ${results.macros.carbs.grams}g (${results.macros.carbs.calories} kcal)
 🥑 Fat:     ${results.macros.fat.grams}g (${results.macros.fat.calories} kcal)
 ━━━━━━━━━━━━━━━━━━━━━
-Calculated at macrocalc.app
+Calculated at calcmacros.com
     `.trim();
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);

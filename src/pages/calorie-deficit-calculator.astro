@@ -6,7 +6,7 @@ import Footer from '../components/astro/Footer.astro';
 import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
 import CalorieDeficitCalculator from '../components/calculators/CalorieDeficitCalculator.jsx';
 import FAQAccordion from '../components/ui/FAQAccordion.jsx';
-import { AdLeaderboard } from '../components/ui/AdUnits.jsx';
+import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
 
 const title = 'Calorie Deficit Calculator — How Big Should Your Deficit Be? | CalcMacros';
 const description = 'Calculate your calorie deficit, weekly fat loss rate, and estimated time to reach your goal weight. Free, instant, no signup required.';
@@ -78,41 +78,69 @@ const faqSchema = {
     </div>
 
     <section class="content-section">
-      <h2>What Is a Calorie Deficit?</h2>
-      <p>
-        A calorie deficit occurs when you consume fewer calories than your body burns in a day.
-        Your Total Daily Energy Expenditure (TDEE) is the number of calories your body needs to
-        maintain its current weight. Eating below this number forces your body to use stored
-        energy — primarily body fat — to make up the difference.
-      </p>
+      <p>A calorie deficit is the fundamental driver of fat loss. No matter which diet or eating pattern you follow — whether that's keto, intermittent fasting, or a standard balanced diet — fat loss happens when you consume fewer calories than your body burns. This calculator helps you find your specific deficit and project how long it will take to reach your goal weight.</p>
 
-      <h2>How Much of a Deficit Do You Need?</h2>
-      <p>
-        The standard recommendation is a daily deficit of 300–500 kcal for moderate, sustainable
-        fat loss. This equates to approximately 0.5–1 lb (0.25–0.45 kg) of fat loss per week.
-      </p>
+      <h2>What Is a Calorie Deficit?</h2>
+      <p>A calorie deficit occurs when your total daily calorie intake is lower than your Total Daily Energy Expenditure (TDEE). Your TDEE is the number of calories your body burns each day, accounting for your resting metabolism, digestion (the thermic effect of food), and all physical activity.</p>
+      <p>The widely-cited "3,500 calories per pound" rule states that a cumulative deficit of 3,500 calories results in approximately 1 pound of fat loss. While this is a simplification (actual fat loss varies by individual, hormone status, and composition of weight lost), it's a reliable enough estimate for planning purposes. A more precise conversion: 7,700 kcal ≈ 1 kg of body fat.</p>
+
+      <h2>How to Calculate Your Calorie Deficit</h2>
       <ul>
-        <li><strong>250 kcal/day deficit:</strong> ~0.5 lb/week loss — slow, very sustainable, minimal muscle risk</li>
-        <li><strong>500 kcal/day deficit:</strong> ~1 lb/week loss — the widely-recommended "sweet spot"</li>
-        <li><strong>750+ kcal/day deficit:</strong> Faster loss, but increased muscle loss risk and harder to sustain</li>
+        <li><strong>Find your TDEE</strong> — Use the TDEE Calculator to determine how many calories your body burns daily.</li>
+        <li><strong>Choose your deficit size</strong> — A 10% deficit is gentle and sustainable. A 20% deficit produces faster results but requires more dietary discipline. Anything above 25% risks significant muscle loss and metabolic slowdown.</li>
+        <li><strong>Set your daily calorie target</strong> — Subtract your chosen deficit from your TDEE. This is how many calories you should eat per day.</li>
+        <li><strong>Project your timeline</strong> — Enter your current and goal weight to see how many weeks it will take at your chosen deficit level.</li>
       </ul>
 
-      <h2>Why You Shouldn't Cut Calories Too Aggressively</h2>
-      <p>
-        Extreme deficits (more than 1,000 kcal/day below TDEE) lead to rapid muscle loss,
-        metabolic adaptation, fatigue, and nutrient deficiencies. The body responds to severe
-        restriction by lowering its metabolic rate — making future fat loss harder.
-        A moderate, consistent deficit with adequate protein intake is always superior to
-        aggressive restriction.
-      </p>
+      <AdInArticle client:idle />
 
-      <h2>The 3,500 Calorie Rule — Is It Still Accurate?</h2>
-      <p>
-        The old "3,500 kcal = 1 lb of fat" rule is a rough approximation. Modern research
-        shows fat loss is non-linear — it slows as you lose weight because your TDEE decreases
-        with lower body mass. This is why you should recalculate your numbers every 4–6 weeks
-        and adjust your intake accordingly.
-      </p>
+      <h2>How Fast Will I Lose Weight?</h2>
+      <p>At a 500-calorie daily deficit, you create a weekly deficit of 3,500 calories — approximately 1 lb (0.45 kg) of fat per week. At a 250-calorie deficit, you'd lose about 0.5 lbs per week. The first 1–2 weeks often show faster scale movement due to water weight loss, especially on lower-carbohydrate diets, but this is not the same as fat loss.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Daily Deficit</th>
+            <th>Weekly Deficit</th>
+            <th>Est. Weekly Loss</th>
+            <th>Pace</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>250 kcal</td>
+            <td>1,750 kcal</td>
+            <td>~0.5 lbs / 0.2 kg</td>
+            <td>Slow &amp; sustainable</td>
+          </tr>
+          <tr>
+            <td>500 kcal</td>
+            <td>3,500 kcal</td>
+            <td>~1 lb / 0.45 kg</td>
+            <td>Recommended</td>
+          </tr>
+          <tr>
+            <td>750 kcal</td>
+            <td>5,250 kcal</td>
+            <td>~1.5 lbs / 0.7 kg</td>
+            <td>Aggressive</td>
+          </tr>
+          <tr>
+            <td>1,000 kcal</td>
+            <td>7,000 kcal</td>
+            <td>~2 lbs / 0.9 kg</td>
+            <td>Maximum — not for most people</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Common Mistakes That Ruin a Calorie Deficit</h2>
+      <ul>
+        <li><strong>Eating back exercise calories</strong> — If you're using an activity multiplier in your TDEE, your exercise is already accounted for. Don't double-count it.</li>
+        <li><strong>Liquid calories</strong> — Coffee drinks, juices, alcohol, and protein shakes add up fast and are often not tracked carefully.</li>
+        <li><strong>Portion underestimation</strong> — Studies show people routinely underestimate portion sizes by 20–40%. Weighing food with a kitchen scale is significantly more accurate than eyeballing.</li>
+        <li><strong>Not recalculating</strong> — As you lose weight, your TDEE decreases. Failing to recalculate every 4–6 weeks means you're chasing an outdated target.</li>
+      </ul>
 
       <h2>Frequently Asked Questions</h2>
       <FAQAccordion items={faqs} page="deficit" client:visible />

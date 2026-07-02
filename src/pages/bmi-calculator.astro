@@ -6,7 +6,7 @@ import Footer from '../components/astro/Footer.astro';
 import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
 import BMICalculator from '../components/calculators/BMICalculator.jsx';
 import FAQAccordion from '../components/ui/FAQAccordion.jsx';
-import { AdLeaderboard } from '../components/ui/AdUnits.jsx';
+import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
 
 const title = 'BMI Calculator — Body Mass Index with Category & Gauge | CalcMacros';
 const description = 'Calculate your BMI instantly with visual gauge and category. Understand what your BMI means and what to do next. Free, no signup required.';
@@ -75,49 +75,72 @@ const faqSchema = {
     </div>
 
     <section class="content-section">
-      <h2>What Is BMI?</h2>
-      <p>
-        BMI (Body Mass Index) is a simple screening tool calculated from your height and weight.
-        It was developed in the 1830s by Lambert Adolphe Jacques Quetelet as a population-level
-        measure — not as a clinical diagnostic tool for individuals.
-      </p>
-      <p>
-        Despite its limitations, BMI remains widely used in healthcare as an initial screening
-        tool because it correlates reasonably well with body fat percentage at a population level
-        and requires only two easily measured inputs.
-      </p>
+      <p>Body Mass Index (BMI) is one of the most widely used health screening tools in the world. Calculated from your height and weight, it provides a quick estimate of whether you're in a healthy weight range. While BMI has well-known limitations — particularly for muscular individuals — it remains a useful entry-level metric for understanding your current health status.</p>
 
-      <h2>BMI Categories</h2>
+      <h2>What Is BMI?</h2>
+      <p>BMI is calculated by dividing your weight in kilograms by the square of your height in meters:</p>
+      <p><strong>BMI = weight (kg) ÷ height² (m)</strong></p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>BMI Range</th>
+            <th>Category</th>
+            <th>Health Implication</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&lt; 18.5</td>
+            <td>Underweight</td>
+            <td>May indicate nutritional deficiency or underlying condition</td>
+          </tr>
+          <tr>
+            <td>18.5–24.9</td>
+            <td>Normal weight</td>
+            <td>Associated with lowest risk of weight-related disease</td>
+          </tr>
+          <tr>
+            <td>25.0–29.9</td>
+            <td>Overweight</td>
+            <td>Slightly elevated risk of metabolic disease</td>
+          </tr>
+          <tr>
+            <td>30.0–34.9</td>
+            <td>Obese (Class I)</td>
+            <td>Elevated risk of type 2 diabetes, cardiovascular disease</td>
+          </tr>
+          <tr>
+            <td>35.0–39.9</td>
+            <td>Obese (Class II)</td>
+            <td>High risk — medical evaluation recommended</td>
+          </tr>
+          <tr>
+            <td>≥ 40.0</td>
+            <td>Obese (Class III)</td>
+            <td>Very high risk — specialist intervention often required</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <AdInArticle client:idle />
+
+      <h2>BMI Limitations: What It Doesn't Tell You</h2>
+      <p>BMI is a population-level screening tool, not a precise measure of individual health. Its key limitations:</p>
       <ul>
-        <li><strong>Under 18.5:</strong> Underweight — may indicate malnutrition or other health concerns</li>
-        <li><strong>18.5–24.9:</strong> Normal Weight — associated with the lowest risk of weight-related disease</li>
-        <li><strong>25.0–29.9:</strong> Overweight — elevated risk for metabolic conditions</li>
-        <li><strong>30.0 and above:</strong> Obese — significantly elevated health risk</li>
+        <li><strong>Doesn't measure body fat:</strong> A bodybuilder with 8% body fat may have the same BMI as someone with 30% body fat at the same height and weight. BMI cannot tell the difference.</li>
+        <li><strong>Ethnicity variance:</strong> Research shows that people of Asian descent face elevated health risks at lower BMI values. The World Health Organization recommends lower thresholds for Asian populations.</li>
+        <li><strong>Age variance:</strong> BMI may underestimate body fat in older adults who have lost muscle mass, and overestimate it in growing children and teenagers.</li>
+        <li><strong>"Skinny fat":</strong> A "normal weight" BMI with a high body fat percentage and low muscle mass carries similar metabolic risks to obesity.</li>
       </ul>
 
-      <h2>BMI Limitations — What It Doesn't Tell You</h2>
-      <p>
-        BMI does not distinguish between muscle and fat. A muscular athlete may have a BMI of 28
-        (classified as "overweight") despite having very low body fat — while a sedentary person
-        with a BMI of 23 may have a high body fat percentage and significant metabolic risk.
-      </p>
-      <p>
-        BMI also doesn't account for age, sex, ethnicity, or fat distribution. Visceral fat
-        (fat around the organs) is significantly more dangerous than subcutaneous fat, and BMI
-        cannot differentiate between them.
-      </p>
-      <p>
-        Use BMI as one data point among many — in combination with waist circumference, body fat
-        percentage, and metabolic markers like blood glucose and triglycerides.
-      </p>
-
       <h2>What to Do After Calculating Your BMI</h2>
-      <p>
-        If your BMI indicates you're outside the normal range, the most actionable next step is
-        to calculate how many calories your body actually burns each day (TDEE) and set a realistic
-        goal. A 300–500 kcal daily deficit combined with adequate protein intake is the evidence-based
-        approach to sustainable fat loss.
-      </p>
+      <p>Your BMI gives you a snapshot, not a complete picture. The most useful next steps:</p>
+      <ul>
+        <li><strong>Calculate your TDEE</strong> — Understanding how many calories your body burns daily is the foundation of any body composition goal.</li>
+        <li><strong>Set a calorie target</strong> — Use the Macro Calculator to find your ideal daily calorie and macro targets.</li>
+        <li><strong>Focus on body composition</strong> — The goal isn't just to change the number on the scale, but to build muscle and reduce body fat — which may not always be reflected by BMI alone.</li>
+      </ul>
 
       <h2>Frequently Asked Questions</h2>
       <FAQAccordion items={faqs} page="bmi" client:visible />

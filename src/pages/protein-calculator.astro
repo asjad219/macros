@@ -6,7 +6,7 @@ import Footer from '../components/astro/Footer.astro';
 import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
 import ProteinCalculator from '../components/calculators/ProteinCalculator.jsx';
 import FAQAccordion from '../components/ui/FAQAccordion.jsx';
-import { AdLeaderboard } from '../components/ui/AdUnits.jsx';
+import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
 
 const title = 'Protein Calculator — How Much Protein Do You Need Per Day? | CalcMacros';
 const description = 'Calculate your daily protein target based on your bodyweight and goal. Includes per-meal breakdown and food equivalent guide. Free and instant.';
@@ -74,44 +74,109 @@ const faqSchema = {
     </div>
 
     <section class="content-section">
-      <h2>How Much Protein Do You Need?</h2>
-      <p>
-        Protein requirements depend on your goal, activity level, and bodyweight. The research
-        consensus from sports nutrition is clear: most people significantly undereat protein,
-        especially when in a calorie deficit.
-      </p>
+      <p>Protein is the most important macronutrient for body composition — whether your goal is fat loss, muscle gain, or general health. Yet most people eat far less protein than research recommends. This calculator gives you science-backed targets based on your body weight and specific goal, then breaks them down into practical per-meal amounts.</p>
 
-      <h2>Protein Recommendations by Goal</h2>
+      <h2>How Much Protein Do You Need Per Day?</h2>
+      <p>The right protein intake depends on your goal. The minimum daily protein recommendation from the WHO and most health organizations is 0.8g per kilogram of bodyweight (0.36g/lb) — but this is a minimum for sedentary adults to avoid deficiency, not an optimal amount for active people.</p>
+      <p>For anyone who exercises regularly or wants to optimize body composition, the evidence-based optimal range is significantly higher:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Goal</th>
+            <th>Recommended Intake</th>
+            <th>Example (80kg person)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>General health</td>
+            <td>0.8g/kg (0.36g/lb)</td>
+            <td>64g/day</td>
+          </tr>
+          <tr>
+            <td>Fat loss (preserve muscle)</td>
+            <td>1.6g/kg (0.73g/lb)</td>
+            <td>128g/day</td>
+          </tr>
+          <tr>
+            <td>Muscle gain</td>
+            <td>1.8g/kg (0.82g/lb)</td>
+            <td>144g/day</td>
+          </tr>
+          <tr>
+            <td>Athlete / intense training</td>
+            <td>2.2g/kg (1.0g/lb)</td>
+            <td>176g/day</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Why Protein Is the Most Important Macro</h2>
+      <p>Protein plays three critical roles in body composition that the other macronutrients cannot replicate:</p>
       <ul>
-        <li><strong>Muscle Gain:</strong> 1.8–2.2g per kg (0.8–1.0g per lb) — maximize muscle protein synthesis</li>
-        <li><strong>Body Recomposition:</strong> 1.6–2.0g per kg — lose fat while retaining muscle</li>
-        <li><strong>Weight Loss:</strong> 1.4–1.8g per kg — prevent muscle loss in a deficit</li>
-        <li><strong>Maintenance:</strong> 1.2–1.6g per kg — general health and muscle preservation</li>
-        <li><strong>Endurance Athletes:</strong> 1.4–1.7g per kg — support recovery and adaptation</li>
+        <li><strong>Muscle preservation:</strong> When you're in a calorie deficit, your body can break down muscle tissue for fuel. High protein intake signals the body to preserve muscle, ensuring the weight you lose is primarily fat.</li>
+        <li><strong>Satiety:</strong> Protein is the most satiating macronutrient — gram for gram, it keeps you fuller longer than carbohydrates or fat. Studies show high-protein diets naturally reduce calorie intake.</li>
+        <li><strong>Thermic effect:</strong> Your body burns 20–30% of protein calories during digestion (versus 5–10% for carbs and 0–3% for fat). This means high-protein diets have a small but meaningful metabolic advantage.</li>
       </ul>
 
-      <h2>Why Is Protein So Important?</h2>
-      <p>
-        Protein is the only macronutrient that directly builds and repairs muscle tissue. It also
-        has the highest thermic effect of food (TEF) — your body burns approximately 20–30% of
-        protein calories just digesting it. This means high-protein diets inherently create a
-        small metabolic advantage.
-      </p>
-      <p>
-        Protein is also the most satiating macronutrient, meaning it keeps you fuller for longer
-        — critical when you're eating in a calorie deficit and need to manage hunger.
-      </p>
+      <AdInArticle client:idle />
 
       <h2>How to Hit Your Protein Target</h2>
-      <p>
-        The most practical approach is to distribute your daily protein target evenly across
-        3–5 meals. Research shows muscle protein synthesis is maximized at doses of approximately
-        0.4g per kg of bodyweight per meal, rather than one or two large protein doses.
-      </p>
-      <p>
-        High-protein foods: chicken breast (31g/100g), Greek yogurt (10g/100g), eggs (6g per egg),
-        cottage cheese (12g/100g), canned tuna (25g/100g), beef (26g/100g), whey protein (24g/scoop).
-      </p>
+      <p>The single most effective strategy is to plan your protein sources first, then build the rest of your meals around them. Here are the most protein-efficient whole foods:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Food</th>
+            <th>Protein Content</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chicken breast (100g)</td>
+            <td>31g</td>
+          </tr>
+          <tr>
+            <td>Canned tuna (100g)</td>
+            <td>26g</td>
+          </tr>
+          <tr>
+            <td>Lean ground beef (100g)</td>
+            <td>26g</td>
+          </tr>
+          <tr>
+            <td>Whey protein (1 scoop)</td>
+            <td>22g</td>
+          </tr>
+          <tr>
+            <td>Large eggs (1 egg)</td>
+            <td>6g</td>
+          </tr>
+          <tr>
+            <td>Greek yogurt (100g)</td>
+            <td>10g</td>
+          </tr>
+          <tr>
+            <td>Cottage cheese (100g)</td>
+            <td>11g</td>
+          </tr>
+          <tr>
+            <td>Lentils, cooked (100g)</td>
+            <td>9g</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>If you're struggling to hit your target from food alone, a whey protein shake (20–25g per scoop) is a convenient, cost-effective supplement — not a replacement for whole foods, but a practical tool.</p>
+
+      <h2>Protein by Diet Type</h2>
+      <p>Your diet type affects how you source your protein, but not how much you need. Here's how to hit your targets on common diet patterns:</p>
+      <ul>
+        <li><strong>Keto / Low-carb:</strong> Protein targets are the same. Focus on eggs, meat, fish, and full-fat dairy. Avoid protein powders with significant carbs.</li>
+        <li><strong>Plant-based:</strong> Combine protein sources to cover all essential amino acids. Tofu, tempeh, edamame, lentils, chickpeas, and pea protein are all excellent. Leucine is the critical amino acid for muscle synthesis — ensure sufficient intake.</li>
+        <li><strong>Intermittent fasting:</strong> Protein needs don't change with meal timing. Eat the same daily total within your eating window. Higher protein per meal (0.55g/kg or more) maximizes muscle protein synthesis per sitting.</li>
+      </ul>
 
       <h2>Frequently Asked Questions</h2>
       <FAQAccordion items={faqs} page="protein" client:visible />

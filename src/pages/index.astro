@@ -107,60 +107,106 @@ const faqSchema = {
 
     <!-- SEO Content -->
     <section class="content-section">
-      <h2>What Is a Macro Calculator?</h2>
-      <p>
-        A macro calculator — short for macronutrient calculator — estimates your ideal daily intake of
-        protein, carbohydrates, and fat. It does this by first calculating your Total Daily Energy
-        Expenditure (TDEE), then distributing those calories across the three macronutrients according
-        to your goal and preferred diet style.
-      </p>
-      <p>
-        Unlike a simple calorie counter, a macro calculator gives you a complete nutritional target
-        for the day. Instead of just eating "less," you know exactly how many grams of protein,
-        carbs, and fat to aim for — which makes hitting your goal significantly more reliable.
-      </p>
-
-      <h2>What Is TDEE?</h2>
-      <p>
-        TDEE stands for <strong>Total Daily Energy Expenditure</strong> — the total number of calories
-        your body burns per day across all activity. It accounts for your Basal Metabolic Rate (BMR,
-        calories burned at rest) multiplied by an activity factor.
-      </p>
-      <p>
-        Knowing your TDEE is the foundation of any nutrition plan. To lose weight, eat slightly below
-        your TDEE. To gain muscle, eat slightly above it. To maintain your current weight, eat at it.
-        No guesswork. No fad diet required.
-      </p>
-
-      <h2>How Are Macros Calculated?</h2>
-      <AdInArticle client:idle />
-      <p>
-        Our calculator uses the <strong>Mifflin-St Jeor formula</strong> to calculate your BMR,
-        which has the highest accuracy for the general population in peer-reviewed research. It then
-        applies an activity multiplier to get your TDEE, subtracts or adds your goal-based calorie
-        adjustment, and distributes the resulting calories across protein, carbohydrates, and fat
-        based on your selected diet type.
-      </p>
-      <p>
-        A minimum protein floor of 1.6g per kg of bodyweight is enforced to protect muscle mass
-        when you're in a calorie deficit — consistent with current sports nutrition research.
-      </p>
-
-      <h2>What Diet Type Should I Choose?</h2>
+      <p>The CalcMacros Macro &amp; TDEE Calculator is the most detailed free nutrition calculator available — no email required, no paywalls, and no guesswork. Whether you're trying to lose fat, build muscle, or understand exactly what you should be eating each day, this tool gives you a complete picture in seconds.</p>
+      
+      <p>Enter your age, sex, height, weight, activity level, and goal. The calculator instantly outputs your Total Daily Energy Expenditure (TDEE), your adjusted calorie target, and a full macro breakdown — protein, carbs, and fat — in grams and calories. Results are displayed with animated charts that make your numbers easy to understand at a glance.</p>
+      
+      <h2>How to Use the Macro Calculator</h2>
+      <p>Using CalcMacros takes less than 60 seconds. Here's how to get your numbers:</p>
       <ul>
-        <li><strong>Standard (Balanced):</strong> 30% protein, 40% carbs, 30% fat. Good general starting point for most people.</li>
-        <li><strong>High Protein:</strong> 40% protein, 35% carbs, 25% fat. Ideal for muscle gain or body recomposition.</li>
-        <li><strong>Low Carb:</strong> 35% protein, 20% carbs, 45% fat. For those prioritizing insulin sensitivity or fat adaptation.</li>
-        <li><strong>Keto:</strong> 25% protein, 5% carbs, 70% fat. For those following a strict ketogenic protocol.</li>
+        <li><strong>Choose your unit system</strong> — Metric (kg/cm) or Imperial (lbs/ft). Your preference is saved automatically.</li>
+        <li><strong>Enter your age, sex, height, and weight</strong> — These inputs determine your Basal Metabolic Rate (BMR).</li>
+        <li><strong>Select your activity level</strong> — Be honest here. Most people are "lightly active" or "moderately active." Overestimating activity is the #1 cause of inaccurate TDEE calculations.</li>
+        <li><strong>Choose your goal</strong> — Lose fat, build muscle, maintain, or recompose. The calculator adjusts your calorie target accordingly.</li>
+        <li><strong>Select a diet type</strong> — Standard, High-Protein, Keto, Low-Carb, or High-Carb. This sets your macro ratios.</li>
+        <li><strong>Review your results</strong> — Your TDEE, target calories, and macro split appear instantly in the results panel.</li>
       </ul>
-
-      <h2>How Accurate Is This Calculator?</h2>
-      <p>
-        Every TDEE calculator is an estimate — individual metabolism varies by 10–15% even between
-        people with identical stats. Use the results as a starting point, track your weight for
-        2–3 weeks, and adjust calories by 100–150 kcal if you're not seeing the expected change.
-        Recalculate every 4–6 weeks as your body composition changes.
-      </p>
+      <p>Results update automatically as you change any input — no need to click a button. You can also copy your full results to clipboard with the "Share my results" button for easy tracking in notes or apps.</p>
+      
+      <AdInArticle client:idle />
+      
+      <h2>Understanding Your Results</h2>
+      
+      <h3>TDEE (Total Daily Energy Expenditure)</h3>
+      <p>Your TDEE is the total number of calories your body burns every day, factoring in your resting metabolism, digestion, and all physical activity. This is your maintenance calorie level — the amount you'd eat to neither gain nor lose weight. It's calculated by multiplying your BMR by an activity multiplier that accounts for exercise frequency and intensity.</p>
+      
+      <h3>Target Calories</h3>
+      <p>Your target calorie intake is your TDEE adjusted for your specific goal. For fat loss, the calculator applies a 10–20% calorie deficit. For muscle gain, it adds a 10–15% surplus. For maintenance and body recomposition, you eat at TDEE. A hard floor is applied — your target will never drop below BMR + 200 calories, which protects against dangerously low intake.</p>
+      
+      <h3>Protein, Carbs, and Fat</h3>
+      <p>Your macros are calculated by applying your chosen diet type's ratio to your target calorie intake. Protein provides 4 calories per gram, carbohydrates provide 4 calories per gram, and fat provides 9 calories per gram. If your protein falls below the minimum recommended for muscle preservation (1.6g/kg of bodyweight), the protein floor is automatically applied and flagged with a notice.</p>
+      
+      <h3>The Donut Chart</h3>
+      <p>The animated donut chart shows your macro split as a percentage of total calories — not by weight in grams. This is the correct way to visualize macros because fat has 2.25× more calories per gram than protein and carbohydrates. A "30% protein" diet means 30% of your calories come from protein, not 30% of the weight of your food.</p>
+      
+      <h2>How We Calculate Your Macros</h2>
+      <p>CalcMacros uses the Mifflin-St Jeor equation by default — the formula with the highest validated accuracy for estimating BMR in the general population, according to multiple peer-reviewed studies including Frankenfield et al. (2005) in the Journal of the American Dietetic Association.</p>
+      
+      <h3>Mifflin-St Jeor (Default)</h3>
+      <p>Developed in 1990, this formula accounts for weight, height, age, and sex. It consistently outperforms older formulas in accuracy tests across diverse populations.</p>
+      
+      <h3>Harris-Benedict (Revised 1984)</h3>
+      <p>The original formula, revised by Roza and Shizgal in 1984. It tends to overestimate calorie needs by 50–100 calories compared to Mifflin-St Jeor, particularly for sedentary individuals. Still widely used in clinical settings.</p>
+      
+      <h3>Katch-McArdle</h3>
+      <p>The most accurate formula for individuals who know their body fat percentage, as it calculates BMR based on lean body mass rather than total body weight. Particularly useful for very muscular or very lean individuals where the other formulas may be less accurate.</p>
+      
+      <h3>Activity Multipliers</h3>
+      <p>Once your BMR is established, it's multiplied by an activity factor to produce your TDEE. The multipliers used (1.2 to 1.9) are from the original research by Harris and Benedict and are the standard in sports nutrition and dietetic practice.</p>
+      
+      <h2>Macro Ratios by Goal</h2>
+      <p>The "right" macro ratio depends on your goal, diet preference, and training style. Here are the evidence-based ratios used by CalcMacros, based on guidelines from sports nutrition research:</p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Goal / Diet</th>
+            <th>Protein</th>
+            <th>Carbs</th>
+            <th>Fat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fat Loss</td>
+            <td>40%</td>
+            <td>35%</td>
+            <td>25%</td>
+          </tr>
+          <tr>
+            <td>Body Recomposition</td>
+            <td>35%</td>
+            <td>40%</td>
+            <td>25%</td>
+          </tr>
+          <tr>
+            <td>Maintenance</td>
+            <td>30%</td>
+            <td>40%</td>
+            <td>30%</td>
+          </tr>
+          <tr>
+            <td>Muscle Gain</td>
+            <td>30%</td>
+            <td>45%</td>
+            <td>25%</td>
+          </tr>
+          <tr>
+            <td>Keto</td>
+            <td>25%</td>
+            <td>5%</td>
+            <td>70%</td>
+          </tr>
+          <tr>
+            <td>Endurance</td>
+            <td>25%</td>
+            <td>55%</td>
+            <td>20%</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p><em>Note: These are percentage of total calories, not percentage of food weight. The protein floor rule ensures you always eat at least 1.6g of protein per kilogram of bodyweight, regardless of your diet type — this is the minimum proven to preserve muscle mass during a calorie deficit.</em></p>
 
       <h2>Frequently Asked Questions</h2>
       <FAQAccordion items={faqs} page="home" client:visible />
