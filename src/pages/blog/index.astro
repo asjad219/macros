@@ -1,0 +1,60 @@
+---
+// src/pages/blog/index.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/astro/Header.astro';
+import Footer from '../../components/astro/Footer.astro';
+
+const title = 'Blog — Nutrition, Macros & Fat Loss Guides | CalcMacros';
+const description = 'Evidence-based guides on macros, TDEE, calorie deficits, and fat loss. No fluff. No supplements pitches. Just science-backed nutrition information.';
+const canonical = 'https://calcmacros.com/blog';
+
+const posts = [
+  {
+    href: '/blog/what-are-macros',
+    title: 'What Are Macros? A Complete Beginner Guide',
+    excerpt: 'Protein, carbs, and fat explained — what they do, how many you need, and why tracking them beats counting calories alone.',
+    tag: 'Nutrition Basics',
+  },
+  {
+    href: '/blog/what-is-tdee',
+    title: 'What Is TDEE and Why Does It Matter?',
+    excerpt: 'Total Daily Energy Expenditure is the number your entire nutrition plan is built around. Here is exactly what it is and how to use it.',
+    tag: 'Calorie Science',
+  },
+  {
+    href: '/blog/how-to-calculate-macros',
+    title: 'How to Calculate Your Macros Step by Step',
+    excerpt: 'A complete walkthrough of calculating your own macros from scratch — including which formulas to use and common mistakes to avoid.',
+    tag: 'Macros Guide',
+  },
+  {
+    href: '/blog/calorie-deficit-explained',
+    title: 'Calorie Deficit Explained — How Big Should Yours Be?',
+    excerpt: 'The science of calorie deficits: why too large a deficit backfires, what the research says about optimal deficit size, and how to adjust over time.',
+    tag: 'Fat Loss',
+  },
+];
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <Header />
+  <main>
+    <div class="page-container">
+      <section class="hero">
+        <h1>Nutrition &amp; Macro Guides</h1>
+        <p>Evidence-based articles on macros, TDEE, fat loss, and body composition. No fluff.</p>
+      </section>
+
+      <div class="blog-grid">
+        {posts.map(post => (
+          <a href={post.href} class="blog-card">
+            <span class="blog-tag">{post.tag}</span>
+            <h2>{post.title}</h2>
+            <p>{post.excerpt}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,142 @@
+---
+// src/pages/bmr-calculator.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import TDEECalculator from '../components/calculators/TDEECalculator.jsx';
+import FAQAccordion from '../components/ui/FAQAccordion.jsx';
+import { AdLeaderboard } from '../components/ui/AdUnits.jsx';
+
+const title = 'BMR Calculator — Basal Metabolic Rate Formula | CalcMacros';
+const description = 'Calculate your Basal Metabolic Rate (BMR) — the calories your body burns at complete rest. Choose from 3 formulas: Mifflin-St Jeor, Harris-Benedict, and Katch-McArdle.';
+const canonical = 'https://calcmacros.com/bmr-calculator';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'BMR Calculator',
+  url: canonical,
+  description,
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const faqs = [
+  {
+    question: 'Can I eat less than my BMR?',
+    answer: 'It is highly discouraged to eat below your BMR for extended periods. Doing so forces your body to break down muscle tissue for energy, suppresses thyroid function, slows metabolism, and can lead to nutrient deficiencies.'
+  },
+  {
+    question: 'Why is BMR lower than TDEE?',
+    answer: 'BMR only accounts for the calories required to stay alive at complete rest. TDEE (Total Daily Energy Expenditure) adds all your physical activity (walking, exercise, digestion) on top of your BMR, making it a larger number.'
+  },
+  {
+    question: 'How can I increase my BMR?',
+    answer: 'The most effective way to increase your BMR is to build lean muscle mass through resistance training. Muscle tissue is metabolically active and burns significantly more calories at rest than fat tissue.'
+  }
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    }
+  }))
+};
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema]}>
+  <Header />
+
+  <main>
+    <div class="page-container">
+      <div style="margin-top: 32px; margin-bottom: 16px;">
+        <AdLeaderboard client:idle />
+      </div>
+      <section class="hero">
+        <h1>BMR Calculator</h1>
+        <p>Calculate your Basal Metabolic Rate — the calories your body burns at complete rest. Your BMR is the foundation of every nutrition plan.</p>
+      </section>
+
+      <!-- Reuses TDEE calculator — BMR is displayed in results -->
+      <TDEECalculator client:load />
+
+      <RelatedCalculators current="/bmr-calculator" />
+    </div>
+
+    <section class="content-section">
+      <h2>What Is BMR?</h2>
+      <p>
+        BMR (Basal Metabolic Rate) is the number of calories your body burns per day at complete rest —
+        doing nothing but keeping your organs functioning, maintaining body temperature, circulating blood,
+        and breathing. It accounts for approximately 60–75% of your total daily calorie burn.
+      </p>
+      <p>
+        Your BMR is the absolute minimum you should eat. Eating below your BMR long-term suppresses
+        thyroid function, slows metabolism, causes muscle loss, and creates nutritional deficiencies.
+        This is the hard floor of any sustainable nutrition plan.
+      </p>
+
+      <h2>BMR Formula Comparison</h2>
+
+      <h3>Mifflin-St Jeor (1990) — Recommended</h3>
+      <p>
+        The most accurate formula for the general population according to peer-reviewed research.
+        Developed in 1990, it outperforms the Harris-Benedict formula in accuracy studies.
+        Use this unless you know your body fat percentage.
+      </p>
+      <ul>
+        <li>Men: (10 × weight in kg) + (6.25 × height in cm) − (5 × age) + 5</li>
+        <li>Women: (10 × weight in kg) + (6.25 × height in cm) − (5 × age) − 161</li>
+      </ul>
+
+      <h3>Harris-Benedict (Revised 1984)</h3>
+      <p>
+        The original BMR formula, revised by Roza and Shizgal in 1984. Still widely used. Tends to
+        slightly overestimate BMR in overweight individuals. A reliable second option.
+      </p>
+
+      <h3>Katch-McArdle (Uses Lean Body Mass)</h3>
+      <p>
+        The most accurate formula if you know your body fat percentage — because it accounts for
+        lean body mass directly. Particularly useful for athletes with above-average muscle mass,
+        where standard formulas can underestimate BMR.
+      </p>
+      <ul>
+        <li>Formula: 370 + (21.6 × lean body mass in kg)</li>
+      </ul>
+
+      <h2>BMR vs TDEE — The Critical Difference</h2>
+      <p>
+        BMR is your calorie burn at rest. TDEE (Total Daily Energy Expenditure) adds all physical
+        activity on top of your BMR using an activity multiplier. Your TDEE is the number you
+        actually use to set nutrition targets — not your BMR.
+      </p>
+      <p>
+        A common mistake is confusing the two and setting calorie targets based on BMR. This
+        creates an unintentionally large deficit and leads to the problems described above. Always
+        calculate TDEE first, then apply your goal-based adjustment.
+      </p>
+
+      <h2>What Affects Your BMR?</h2>
+      <ul>
+        <li><strong>Body composition:</strong> More muscle = higher BMR. Muscle tissue burns ~3x more calories at rest than fat tissue.</li>
+        <li><strong>Age:</strong> BMR typically decreases ~1–2% per decade after age 30 due to gradual muscle loss.</li>
+        <li><strong>Sex:</strong> Men generally have a higher BMR due to greater muscle mass and lower body fat percentage.</li>
+        <li><strong>Hormones:</strong> Thyroid hormones directly regulate BMR — hypo/hyperthyroidism can shift BMR by 15–40%.</li>
+        <li><strong>Genetics:</strong> Inherent metabolic rate varies by approximately ±10% between individuals.</li>
+      </ul>
+
+      <h2>Frequently Asked Questions</h2>
+      <FAQAccordion items={faqs} page="bmr" client:visible />
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

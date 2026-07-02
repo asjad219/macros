@@ -1,0 +1,103 @@
+---
+// src/pages/privacy-policy.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+
+const title = 'Privacy Policy | CalcMacros';
+const description = 'CalcMacros privacy policy — how we handle your data, cookies, and analytics. We do not collect or store any personal health data.';
+const canonical = 'https://calcmacros.com/privacy-policy';
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <Header />
+  <main>
+    <div class="page-container">
+      <section class="hero">
+        <h1>Privacy Policy</h1>
+        <p>Last updated: July 2026</p>
+      </section>
+    </div>
+
+    <section class="content-section">
+      <p>
+        CalcMacros ("we," "us," or "our") operates the website calcmacros.com. This privacy policy
+        explains what information we collect, how we use it, and your rights regarding that information.
+      </p>
+
+      <h2>Information We Do Not Collect</h2>
+      <p>
+        All calculations performed on CalcMacros are processed entirely in your browser. We do not
+        transmit, store, or have access to any health data you enter into our calculators — including
+        your age, weight, height, or body composition data. This data never leaves your device.
+      </p>
+
+      <h2>Information We Collect Automatically</h2>
+      <p>
+        We use Google Analytics 4 (GA4) to collect anonymous usage data, including:
+      </p>
+      <ul>
+        <li>Pages viewed and time spent on each page</li>
+        <li>Approximate geographic location (country/region level only)</li>
+        <li>Device type and browser</li>
+        <li>Referring website</li>
+        <li>Calculator interaction events (e.g., "calculator completed") — no input values are recorded</li>
+      </ul>
+      <p>
+        This data is anonymized and aggregated. It is used solely to understand how the site is
+        used so we can improve it.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        We use the following cookies:
+      </p>
+      <ul>
+        <li><strong>Google Analytics cookies (_ga, _gid):</strong> Anonymous analytics. Expire after 2 years and 24 hours respectively.</li>
+        <li><strong>Preference cookie (unit):</strong> Stores your metric/imperial unit preference in localStorage. Not transmitted to any server.</li>
+      </ul>
+
+      <h2>Google AdSense</h2>
+      <p>
+        CalcMacros displays advertisements served by Google AdSense. Google may use cookies to
+        serve ads based on your prior visits to websites. You can opt out of personalized advertising
+        by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">Google Ads Settings</a>.
+      </p>
+
+      <h2>Third-Party Services</h2>
+      <p>We use the following third-party services:</p>
+      <ul>
+        <li>Google Analytics — anonymous usage analytics</li>
+        <li>Google AdSense — display advertising</li>
+        <li>Cloudflare — website hosting and security</li>
+        <li>Google Fonts — typography (Inter and JetBrains Mono)</li>
+      </ul>
+
+      <h2>Your Rights</h2>
+      <p>
+        You can opt out of Google Analytics tracking by installing the
+        <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">Google Analytics Opt-out Browser Add-on</a>.
+        You can clear or block cookies through your browser settings at any time.
+      </p>
+
+      <h2>Children's Privacy</h2>
+      <p>
+        CalcMacros is not directed to children under the age of 13. We do not knowingly collect
+        personal information from children.
+      </p>
+
+      <h2>Changes to This Policy</h2>
+      <p>
+        We may update this privacy policy from time to time. Changes will be reflected by updating
+        the "last updated" date at the top of this page.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this privacy policy? Contact us at
+        <a href="mailto:hello@calcmacros.com" style="color: var(--accent);">hello@calcmacros.com</a>.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

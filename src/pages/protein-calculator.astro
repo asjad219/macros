@@ -1,0 +1,122 @@
+---
+// src/pages/protein-calculator.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import ProteinCalculator from '../components/calculators/ProteinCalculator.jsx';
+import FAQAccordion from '../components/ui/FAQAccordion.jsx';
+import { AdLeaderboard } from '../components/ui/AdUnits.jsx';
+
+const title = 'Protein Calculator — How Much Protein Do You Need Per Day? | CalcMacros';
+const description = 'Calculate your daily protein target based on your bodyweight and goal. Includes per-meal breakdown and food equivalent guide. Free and instant.';
+const canonical = 'https://calcmacros.com/protein-calculator';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Protein Calculator',
+  url: canonical,
+  description,
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const faqs = [
+  {
+    question: 'How much protein do I need per day?',
+    answer: 'For general health, the minimum recommended intake is 0.36g of protein per pound of bodyweight (0.8g/kg) per day. For people who exercise regularly or want to build or preserve muscle, research supports 0.7–1g per pound of bodyweight (1.6–2.2g/kg) per day. Athletes in intense training may benefit from up to 1.2g per pound (2.6g/kg) per day.'
+  },
+  {
+    question: 'What happens if I eat too much protein?',
+    answer: 'For healthy adults with normal kidney function, high protein intake is safe and does not cause kidney damage. Excess protein calories, like excess calories from any source, can contribute to fat gain if they push you above your TDEE. Very high protein diets (above 2.5g per kg of bodyweight) are generally unnecessary for most people and offer diminishing returns on muscle building.'
+  },
+  {
+    question: 'What are the best high-protein foods?',
+    answer: 'The most protein-dense whole foods include chicken breast (31g per 100g), canned tuna (26g per 100g), lean ground beef (26g per 100g), cottage cheese (11g per 100g), Greek yogurt (10g per 100g), eggs (13g per 100g), lentils (9g per 100g cooked), and edamame (11g per 100g). Whey protein powder provides 20–25g per serving and is a convenient supplement when whole food intake is insufficient.'
+  },
+  {
+    question: 'Should I spread my protein across meals?',
+    answer: 'Research suggests that muscle protein synthesis is maximally stimulated by doses of 0.4g of protein per kg of bodyweight per meal, taken at least 3–4 times per day. Practically, this means spreading protein across 3–5 meals rather than consuming most of it in one sitting. Protein consumed before and after training sessions is particularly beneficial for muscle repair and growth.'
+  }
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    }
+  }))
+};
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema]}>
+  <Header />
+
+  <main>
+    <div class="page-container">
+      <div style="margin-top: 32px; margin-bottom: 16px;">
+        <AdLeaderboard client:idle />
+      </div>
+      <section class="hero">
+        <h1>Protein Calculator</h1>
+        <p>Find your optimal daily protein intake based on your bodyweight and goal — with a per-meal breakdown and food equivalents.</p>
+      </section>
+
+      <ProteinCalculator client:load />
+
+      <RelatedCalculators current="/protein-calculator" />
+    </div>
+
+    <section class="content-section">
+      <h2>How Much Protein Do You Need?</h2>
+      <p>
+        Protein requirements depend on your goal, activity level, and bodyweight. The research
+        consensus from sports nutrition is clear: most people significantly undereat protein,
+        especially when in a calorie deficit.
+      </p>
+
+      <h2>Protein Recommendations by Goal</h2>
+      <ul>
+        <li><strong>Muscle Gain:</strong> 1.8–2.2g per kg (0.8–1.0g per lb) — maximize muscle protein synthesis</li>
+        <li><strong>Body Recomposition:</strong> 1.6–2.0g per kg — lose fat while retaining muscle</li>
+        <li><strong>Weight Loss:</strong> 1.4–1.8g per kg — prevent muscle loss in a deficit</li>
+        <li><strong>Maintenance:</strong> 1.2–1.6g per kg — general health and muscle preservation</li>
+        <li><strong>Endurance Athletes:</strong> 1.4–1.7g per kg — support recovery and adaptation</li>
+      </ul>
+
+      <h2>Why Is Protein So Important?</h2>
+      <p>
+        Protein is the only macronutrient that directly builds and repairs muscle tissue. It also
+        has the highest thermic effect of food (TEF) — your body burns approximately 20–30% of
+        protein calories just digesting it. This means high-protein diets inherently create a
+        small metabolic advantage.
+      </p>
+      <p>
+        Protein is also the most satiating macronutrient, meaning it keeps you fuller for longer
+        — critical when you're eating in a calorie deficit and need to manage hunger.
+      </p>
+
+      <h2>How to Hit Your Protein Target</h2>
+      <p>
+        The most practical approach is to distribute your daily protein target evenly across
+        3–5 meals. Research shows muscle protein synthesis is maximized at doses of approximately
+        0.4g per kg of bodyweight per meal, rather than one or two large protein doses.
+      </p>
+      <p>
+        High-protein foods: chicken breast (31g/100g), Greek yogurt (10g/100g), eggs (6g per egg),
+        cottage cheese (12g/100g), canned tuna (25g/100g), beef (26g/100g), whey protein (24g/scoop).
+      </p>
+
+      <h2>Frequently Asked Questions</h2>
+      <FAQAccordion items={faqs} page="protein" client:visible />
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

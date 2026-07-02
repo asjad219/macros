@@ -1,0 +1,128 @@
+---
+// src/pages/bmi-calculator.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import BMICalculator from '../components/calculators/BMICalculator.jsx';
+import FAQAccordion from '../components/ui/FAQAccordion.jsx';
+import { AdLeaderboard } from '../components/ui/AdUnits.jsx';
+
+const title = 'BMI Calculator — Body Mass Index with Category & Gauge | CalcMacros';
+const description = 'Calculate your BMI instantly with visual gauge and category. Understand what your BMI means and what to do next. Free, no signup required.';
+const canonical = 'https://calcmacros.com/bmi-calculator';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'BMI Calculator',
+  url: canonical,
+  description,
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const faqs = [
+  {
+    question: 'What does BMI measure?',
+    answer: 'BMI (Body Mass Index) is a simple ratio of weight to height squared, used as a population-level screening tool to categorize weight status. A BMI below 18.5 is considered underweight, 18.5–24.9 is normal weight, 25.0–29.9 is overweight, and 30.0 or above is classified as obese. It does not directly measure body fat, muscle mass, or health.'
+  },
+  {
+    question: 'Is BMI accurate for athletes and muscular people?',
+    answer: 'No. BMI does not distinguish between muscle and fat. A highly muscular person may have an "overweight" or "obese" BMI despite having very low body fat. Conversely, someone with a "normal" BMI can have a high percentage of body fat ("skinny fat"). For a more accurate picture of body composition, consider waist-to-height ratio, body fat percentage measurement, or DEXA scan.'
+  },
+  {
+    question: 'What should I do after calculating my BMI?',
+    answer: 'BMI is a starting point, not a diagnosis. If your BMI is outside the normal range, the most actionable next step is to calculate your TDEE and understand how many calories your body burns daily. From there, you can set a realistic calorie target and macro split aligned with your goal — whether that is losing fat, gaining muscle, or maintaining your current body composition.'
+  }
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    }
+  }))
+};
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema]}>
+  <Header />
+
+  <main>
+    <div class="page-container">
+      <div style="margin-top: 32px; margin-bottom: 16px;">
+        <AdLeaderboard client:idle />
+      </div>
+      <section class="hero">
+        <div class="flex items-center gap-2 mb-6 justify-center flex-wrap">
+          <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><path d="M2 12h4l2-9 5 18 2-9h5"/></svg> Medical standard</span>
+          <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> No signup required</span>
+          <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Fast calculation</span>
+        </div>
+        <h1>BMI Calculator</h1>
+        <p>Calculate your Body Mass Index instantly. See your category and gauge, and understand what your BMI actually means.</p>
+      </section>
+
+      <BMICalculator client:load />
+
+      <RelatedCalculators current="/bmi-calculator" />
+    </div>
+
+    <section class="content-section">
+      <h2>What Is BMI?</h2>
+      <p>
+        BMI (Body Mass Index) is a simple screening tool calculated from your height and weight.
+        It was developed in the 1830s by Lambert Adolphe Jacques Quetelet as a population-level
+        measure — not as a clinical diagnostic tool for individuals.
+      </p>
+      <p>
+        Despite its limitations, BMI remains widely used in healthcare as an initial screening
+        tool because it correlates reasonably well with body fat percentage at a population level
+        and requires only two easily measured inputs.
+      </p>
+
+      <h2>BMI Categories</h2>
+      <ul>
+        <li><strong>Under 18.5:</strong> Underweight — may indicate malnutrition or other health concerns</li>
+        <li><strong>18.5–24.9:</strong> Normal Weight — associated with the lowest risk of weight-related disease</li>
+        <li><strong>25.0–29.9:</strong> Overweight — elevated risk for metabolic conditions</li>
+        <li><strong>30.0 and above:</strong> Obese — significantly elevated health risk</li>
+      </ul>
+
+      <h2>BMI Limitations — What It Doesn't Tell You</h2>
+      <p>
+        BMI does not distinguish between muscle and fat. A muscular athlete may have a BMI of 28
+        (classified as "overweight") despite having very low body fat — while a sedentary person
+        with a BMI of 23 may have a high body fat percentage and significant metabolic risk.
+      </p>
+      <p>
+        BMI also doesn't account for age, sex, ethnicity, or fat distribution. Visceral fat
+        (fat around the organs) is significantly more dangerous than subcutaneous fat, and BMI
+        cannot differentiate between them.
+      </p>
+      <p>
+        Use BMI as one data point among many — in combination with waist circumference, body fat
+        percentage, and metabolic markers like blood glucose and triglycerides.
+      </p>
+
+      <h2>What to Do After Calculating Your BMI</h2>
+      <p>
+        If your BMI indicates you're outside the normal range, the most actionable next step is
+        to calculate how many calories your body actually burns each day (TDEE) and set a realistic
+        goal. A 300–500 kcal daily deficit combined with adequate protein intake is the evidence-based
+        approach to sustainable fat loss.
+      </p>
+
+      <h2>Frequently Asked Questions</h2>
+      <FAQAccordion items={faqs} page="bmi" client:visible />
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

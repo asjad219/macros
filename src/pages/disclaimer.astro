@@ -1,0 +1,80 @@
+---
+// src/pages/disclaimer.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+
+const title = 'Disclaimer | CalcMacros';
+const description = 'CalcMacros medical and nutritional disclaimer. Our calculators provide estimates only — always consult a qualified healthcare professional.';
+const canonical = 'https://calcmacros.com/disclaimer';
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <Header />
+  <main>
+    <div class="page-container">
+      <section class="hero">
+        <h1>Disclaimer</h1>
+        <p>Please read this disclaimer carefully before using CalcMacros tools.</p>
+      </section>
+    </div>
+
+    <section class="content-section">
+      <h2>Not Medical Advice</h2>
+      <p>
+        CalcMacros provides nutritional estimation tools for informational and educational purposes only.
+        The content on this website — including all calculator results, blog posts, and other information
+        — does not constitute medical advice, nutritional counseling, or a clinical recommendation.
+      </p>
+
+      <h2>Estimates Only</h2>
+      <p>
+        All calculator results are mathematical estimates based on population-level formulas (Mifflin-St Jeor,
+        Harris-Benedict, Katch-McArdle). These formulas carry inherent margins of error. Individual
+        results may vary significantly based on genetics, hormonal factors, gut microbiome, medications,
+        medical conditions, and other factors that no formula can fully account for.
+      </p>
+      <p>
+        The widely-cited variance in BMR between individuals with identical measurements can be as large
+        as ±300 kcal/day. Treat all results as starting estimates and adjust based on real-world outcomes.
+      </p>
+
+      <h2>Consult a Professional</h2>
+      <p>
+        Before making significant changes to your diet or exercise routine — especially if you have or
+        suspect any medical condition, are pregnant, breastfeeding, under 18, over 65, or taking any
+        medication — consult a qualified healthcare professional, registered dietitian, or physician.
+      </p>
+      <p>
+        This is particularly important for:
+      </p>
+      <ul>
+        <li>Very low calorie diets (below 1,200 kcal/day for women or 1,500 kcal/day for men)</li>
+        <li>Ketogenic or very low carbohydrate diets</li>
+        <li>Individuals with diabetes, kidney disease, heart disease, or eating disorder history</li>
+        <li>Anyone using our tools to manage weight during pregnancy</li>
+      </ul>
+
+      <h2>No Endorsement</h2>
+      <p>
+        References to specific foods, supplements, or nutrition strategies on this site do not
+        constitute endorsements. We do not receive compensation for mentioning specific products
+        unless explicitly disclosed as sponsored content.
+      </p>
+
+      <h2>Affiliate Disclosure</h2>
+      <p>
+        CalcMacros may participate in affiliate marketing programs. If we link to products and
+        you make a purchase, we may receive a commission at no extra cost to you. All such links
+        will be disclosed clearly.
+      </p>
+
+      <h2>External Links</h2>
+      <p>
+        We are not responsible for the content, accuracy, or practices of any external websites
+        linked from this site. External links are provided for convenience only.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

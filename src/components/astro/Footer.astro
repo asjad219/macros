@@ -1,0 +1,131 @@
+---
+// src/components/astro/Footer.astro
+const year = new Date().getFullYear();
+
+const CALC_LINKS = [
+  { to: '/',                           label: 'TDEE & Macro Calculator' },
+  { to: '/calorie-deficit-calculator', label: 'Calorie Deficit Calculator' },
+  { to: '/protein-calculator',         label: 'Protein Calculator' },
+  { to: '/bmi-calculator',             label: 'BMI Calculator' },
+  { to: '/bmr-calculator',             label: 'BMR Calculator' },
+];
+
+const LEGAL_LINKS = [
+  { to: '/privacy-policy', label: 'Privacy Policy' },
+  { to: '/terms',          label: 'Terms of Service' },
+  { to: '/disclaimer',     label: 'Medical Disclaimer' },
+  { to: '/contact',        label: 'Contact' },
+];
+---
+
+<footer style="background: var(--bg-card); border-top: 1px solid var(--border); margin-top: 80px;">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12" style="max-width: 1120px;">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+      {/* Brand column */}
+      <div class="space-y-4">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 font-bold text-lg"
+          style="color: var(--text-primary); text-decoration: none;"
+        >
+          <div
+            class="w-7 h-7 rounded-lg flex items-center justify-center"
+            style="background: var(--text-primary);"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--bg-base)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+              <line x1="8" y1="6" x2="16" y2="6" />
+              <line x1="16" y1="14" x2="16" y2="18" />
+              <line x1="8" y1="10" x2="8" y2="10" />
+              <line x1="12" y1="10" x2="12" y2="10" />
+              <line x1="16" y1="10" x2="16" y2="10" />
+              <line x1="8" y1="14" x2="8" y2="14" />
+              <line x1="12" y1="14" x2="12" y2="14" />
+              <line x1="8" y1="18" x2="8" y2="18" />
+              <line x1="12" y1="18" x2="12" y2="18" />
+            </svg>
+          </div>
+          Calc<span style="color: var(--text-muted);">Macros</span>
+        </a>
+        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+          Free, science-backed macro and calorie calculators for weight loss, muscle gain, and performance.
+        </p>
+        <p class="text-xs" style="color: var(--text-secondary);">
+          Know your numbers. Hit your goals.
+        </p>
+      </div>
+
+      {/* Calculators column */}
+      <div class="space-y-3">
+        <h3 class="font-semibold" style="color: var(--text-primary); letter-spacing: 0.05em; text-transform: uppercase; font-size: 11px;">
+          Calculators
+        </h3>
+        <ul class="space-y-2 list-none p-0 m-0">
+          {CALC_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.to}
+                class="footer-link-modern"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Legal column */}
+      <div class="space-y-3">
+        <h3 class="font-semibold" style="color: var(--text-primary); letter-spacing: 0.05em; text-transform: uppercase; font-size: 11px;">
+          Legal
+        </h3>
+        <ul class="space-y-2 list-none p-0 m-0">
+          {LEGAL_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.to}
+                class="footer-link-modern"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    {/* Medical disclaimer banner */}
+    <div class="disclaimer mb-8" style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+      <p style="margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+        <strong style="color: var(--text-primary);">Medical Disclaimer: </strong>
+        The information provided by CalcMacros is for educational purposes only and does not constitute medical or nutritional advice. Results are estimates based on population averages and may not reflect your individual metabolism. Consult a registered dietitian or healthcare professional before making significant changes to your diet, especially if you have a medical condition.
+      </p>
+    </div>
+
+    {/* Bottom bar */}
+    <div
+      class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6"
+      style="border-top: 1px solid var(--border);"
+    >
+      <p class="text-xs" style="color: var(--text-secondary); margin: 0;">
+         &copy; 2026 CalcMacros. All rights reserved. Free to use — no signup required.
+      </p>
+      <p class="text-xs" style="color: var(--text-secondary); margin: 0;">
+        Formulas: Mifflin-St Jeor (1990), Harris-Benedict (1984), Katch-McArdle
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-link-modern {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 150ms ease;
+    display: inline-block;
+  }
+  .footer-link-modern:hover {
+    color: var(--text-primary);
+  }
+</style>

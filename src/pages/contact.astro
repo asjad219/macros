@@ -1,0 +1,63 @@
+---
+// src/pages/contact.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+
+const title = 'Contact | CalcMacros';
+const description = 'Get in touch with the CalcMacros team. Questions, feedback, partnerships, or press inquiries.';
+const canonical = 'https://calcmacros.com/contact';
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <Header />
+  <main>
+    <div class="page-container">
+      <section class="hero">
+        <h1>Contact</h1>
+        <p>Questions, feedback, or partnership inquiries? We'd love to hear from you.</p>
+      </section>
+    </div>
+
+    <section class="content-section">
+      <h2>Get in Touch</h2>
+      <p>
+        The best way to reach us is by email. We aim to respond within 1–2 business days.
+      </p>
+
+      <div class="card" style="margin-top: 32px;">
+        <h3 style="margin: 0 0 20px; font: 600 18px/1.4 var(--font-sans); color: var(--text-primary);">Email Us</h3>
+
+        <div style="margin-bottom: 20px;">
+          <div class="section-label" style="margin-bottom: 6px;">General inquiries</div>
+          <a href="mailto:hello@calcmacros.com" style="font: 500 16px var(--font-sans); color: var(--accent); text-decoration: none;">hello@calcmacros.com</a>
+        </div>
+
+        <div style="margin-bottom: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+          <div class="section-label" style="margin-bottom: 6px;">Bug reports &amp; calculator issues</div>
+          <a href="mailto:hello@calcmacros.com" style="font: 500 16px var(--font-sans); color: var(--accent); text-decoration: none;">hello@calcmacros.com</a>
+        </div>
+
+        <div style="padding-top: 20px; border-top: 1px solid var(--border);">
+          <div class="section-label" style="margin-bottom: 6px;">Advertising &amp; partnerships</div>
+          <a href="mailto:hello@calcmacros.com" style="font: 500 16px var(--font-sans); color: var(--accent); text-decoration: none;">hello@calcmacros.com</a>
+        </div>
+      </div>
+
+      <h2>What to Include</h2>
+      <p>For the fastest response, please include:</p>
+      <ul>
+        <li>Which calculator or page you're referring to</li>
+        <li>What you expected vs. what you saw (for bug reports)</li>
+        <li>Your browser and device type if you're reporting a display issue</li>
+      </ul>
+
+      <h2>Feature Requests</h2>
+      <p>
+        We're actively developing CalcMacros. If there's a calculator, feature, or content topic
+        you'd like to see added, send us an email — user requests directly inform our roadmap.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

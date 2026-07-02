@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+
+const title = 'Server Error | CalcMacros';
+const description = 'An unexpected error occurred on the server.';
+const canonical = 'https://calcmacros.com/500';
+
+interface Props {
+  error: unknown;
+}
+const { error } = Astro.props;
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <Header />
+  <main class="page-container" style="text-align: center; padding: 100px 20px; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <h1 style="font-size: 4rem; color: var(--primary); margin-bottom: 16px;">500</h1>
+    <h2>Server Error</h2>
+    <p style="margin-bottom: 32px; color: var(--text-secondary); max-width: 500px;">Oops, something went wrong on our end. Please try again later.</p>
+    {error instanceof Error ? <p style="color: var(--text-tertiary); font-size: 0.875rem; font-family: monospace; max-width: 600px; text-align: left; background: var(--bg-card); padding: 16px; border-radius: 8px; margin-bottom: 32px; overflow-x: auto;">{error.message}</p> : null}
+    <a href="/" class="btn btn-primary" style="display: inline-block;">Return Home</a>
+  </main>
+  <Footer />
+</BaseLayout>

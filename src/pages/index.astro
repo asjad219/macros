@@ -1,11 +1,171 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+// src/pages/index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import TDEECalculator from '../components/calculators/TDEECalculator.jsx';
+import FAQAccordion from '../components/ui/FAQAccordion.jsx';
+import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const title = 'Free Macro & TDEE Calculator — Instant Results | CalcMacros';
+const description = 'Calculate your exact macros and daily calories in seconds. Free TDEE + macro calculator for weight loss, muscle gain, and keto. No email. No signup.';
+const canonical = 'https://calcmacros.com/';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Macro & TDEE Calculator',
+  url: 'https://calcmacros.com',
+  description: 'Free macro and TDEE calculator for weight loss and muscle gain.',
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const faqs = [
+  {
+    question: 'What is a macro calculator?',
+    answer: 'A macro calculator estimates how many grams of protein, carbohydrates, and fat you should eat each day based on your body stats and fitness goal. It works by first calculating your Total Daily Energy Expenditure (TDEE) — how many calories you burn daily — and then splitting those calories into the three macronutrients according to your chosen diet type and goal.',
+  },
+  {
+    question: 'What is TDEE and why does it matter?',
+    answer: 'TDEE stands for Total Daily Energy Expenditure. It is the total number of calories your body burns in 24 hours, including your resting metabolism, digestion, and all physical activity. Knowing your TDEE gives you a precise calorie target: eat below it to lose fat, eat at it to maintain weight, and eat above it to build muscle.',
+  },
+  {
+    question: 'How accurate is this macro calculator?',
+    answer: 'The calculator uses the Mifflin-St Jeor equation, which peer-reviewed research identifies as the most accurate BMR formula for the general population, with a typical error margin of ±10%. However, no calculator can account for individual metabolic variation. Use the result as a starting point, track your weight for 2–3 weeks, and adjust your calories by ±100 per day based on results.',
+  },
+  {
+    question: 'What is BMR and how is it different from TDEE?',
+    answer: 'BMR (Basal Metabolic Rate) is the number of calories your body burns at complete rest — essentially the energy needed to keep your heart beating, lungs breathing, and brain functioning. TDEE adds all physical activity on top of BMR. For most people, BMR accounts for 60–70% of their TDEE. You should never eat below your BMR for extended periods.',
+  },
+  {
+    question: 'How many macros should I eat to lose weight?',
+    answer: 'To lose weight, aim to eat 10–20% below your TDEE in total calories. A typical macro split for fat loss is 40% protein, 35% carbohydrates, and 25% fat. Prioritizing protein (at least 0.7–1g per pound of bodyweight) preserves muscle tissue while your body burns fat for energy. A 500-calorie daily deficit typically produces approximately 1 lb of fat loss per week.',
+  },
+  {
+    question: 'Should I use metric or imperial units?',
+    answer: 'Both work equally well — the calculator converts between them internally. Use whichever unit you think in. If you know your weight in kilograms and height in centimeters, use metric. If you know your weight in pounds and height in feet and inches, use imperial. The mathematical results are identical either way.',
+  },
+  {
+    question: 'How often should I recalculate my macros?',
+    answer: 'Recalculate your macros every 4–6 weeks, or whenever your body weight changes by more than 5 lbs (2.3 kg), your activity level changes significantly, or your fitness goal shifts. As you lose or gain weight, your TDEE changes, so your calorie and macro targets must be updated to keep making progress.',
+  },
+  {
+    question: 'What is the difference between the Mifflin-St Jeor and Harris-Benedict formulas?',
+    answer: 'Both formulas estimate BMR, but were developed at different times using different population samples. The Mifflin-St Jeor equation (1990) is generally considered more accurate for modern populations and is the default in this calculator. The Harris-Benedict equation (revised 1984) tends to produce slightly higher estimates, which can lead to overestimating calorie needs. For most users, the difference is 50–100 calories per day.',
+  },
+  {
+    question: 'What are macros?',
+    answer: 'Macros (macronutrients) are the three main nutrients your body uses for energy: protein, carbohydrates, and fat. Protein provides 4 calories per gram and is essential for muscle repair and growth. Carbohydrates provide 4 calories per gram and are your body\'s primary fuel source. Fat provides 9 calories per gram and supports hormone production, brain function, and vitamin absorption. Tracking macros gives you precise control over body composition.',
+  },
+  {
+    question: 'Can I build muscle and lose fat at the same time?',
+    answer: 'Yes — this is called body recomposition, and it is most achievable for beginners, people returning after a break, or those with a significant amount of body fat to lose. It requires eating at or very near your TDEE with very high protein intake (1g per pound of bodyweight), combined with consistent resistance training. Progress is slower than dedicated bulking or cutting phases, but body composition improves simultaneously.',
+  }
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    }
+  }))
+};
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema]}>
+  <Header />
+
+  <main>
+    <!-- Hero -->
+    <div class="page-container">
+      <div style="margin-top: 32px; margin-bottom: 16px;">
+        <AdLeaderboard client:idle />
+      </div>
+      <section class="hero">
+        <div class="flex items-center gap-2 mb-6 justify-center flex-wrap">
+          <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><path d="M2 12h4l2-9 5 18 2-9h5"/></svg> Science-backed</span>
+          <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> No signup required</span>
+          <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Fast calculation</span>
+        </div>
+        <h1>Macro &amp; TDEE Calculator</h1>
+        <p>Find your exact calories and macros in 30 seconds. A premium tool for evidence-based nutrition planning.</p>
+      </section>
+
+      <!-- Calculator Island -->
+      <TDEECalculator client:load />
+
+      <!-- Related calculators -->
+      <RelatedCalculators current="/" />
+    </div>
+
+    <!-- SEO Content -->
+    <section class="content-section">
+      <h2>What Is a Macro Calculator?</h2>
+      <p>
+        A macro calculator — short for macronutrient calculator — estimates your ideal daily intake of
+        protein, carbohydrates, and fat. It does this by first calculating your Total Daily Energy
+        Expenditure (TDEE), then distributing those calories across the three macronutrients according
+        to your goal and preferred diet style.
+      </p>
+      <p>
+        Unlike a simple calorie counter, a macro calculator gives you a complete nutritional target
+        for the day. Instead of just eating "less," you know exactly how many grams of protein,
+        carbs, and fat to aim for — which makes hitting your goal significantly more reliable.
+      </p>
+
+      <h2>What Is TDEE?</h2>
+      <p>
+        TDEE stands for <strong>Total Daily Energy Expenditure</strong> — the total number of calories
+        your body burns per day across all activity. It accounts for your Basal Metabolic Rate (BMR,
+        calories burned at rest) multiplied by an activity factor.
+      </p>
+      <p>
+        Knowing your TDEE is the foundation of any nutrition plan. To lose weight, eat slightly below
+        your TDEE. To gain muscle, eat slightly above it. To maintain your current weight, eat at it.
+        No guesswork. No fad diet required.
+      </p>
+
+      <h2>How Are Macros Calculated?</h2>
+      <AdInArticle client:idle />
+      <p>
+        Our calculator uses the <strong>Mifflin-St Jeor formula</strong> to calculate your BMR,
+        which has the highest accuracy for the general population in peer-reviewed research. It then
+        applies an activity multiplier to get your TDEE, subtracts or adds your goal-based calorie
+        adjustment, and distributes the resulting calories across protein, carbohydrates, and fat
+        based on your selected diet type.
+      </p>
+      <p>
+        A minimum protein floor of 1.6g per kg of bodyweight is enforced to protect muscle mass
+        when you're in a calorie deficit — consistent with current sports nutrition research.
+      </p>
+
+      <h2>What Diet Type Should I Choose?</h2>
+      <ul>
+        <li><strong>Standard (Balanced):</strong> 30% protein, 40% carbs, 30% fat. Good general starting point for most people.</li>
+        <li><strong>High Protein:</strong> 40% protein, 35% carbs, 25% fat. Ideal for muscle gain or body recomposition.</li>
+        <li><strong>Low Carb:</strong> 35% protein, 20% carbs, 45% fat. For those prioritizing insulin sensitivity or fat adaptation.</li>
+        <li><strong>Keto:</strong> 25% protein, 5% carbs, 70% fat. For those following a strict ketogenic protocol.</li>
+      </ul>
+
+      <h2>How Accurate Is This Calculator?</h2>
+      <p>
+        Every TDEE calculator is an estimate — individual metabolism varies by 10–15% even between
+        people with identical stats. Use the results as a starting point, track your weight for
+        2–3 weeks, and adjust calories by 100–150 kcal if you're not seeing the expected change.
+        Recalculate every 4–6 weeks as your body composition changes.
+      </p>
+
+      <h2>Frequently Asked Questions</h2>
+      <FAQAccordion items={faqs} page="home" client:visible />
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,98 @@
+---
+// src/pages/terms.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+
+const title = 'Terms of Use | CalcMacros';
+const description = 'Terms of use for CalcMacros.com — free macro and calorie calculator tools.';
+const canonical = 'https://calcmacros.com/terms';
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <Header />
+  <main>
+    <div class="page-container">
+      <section class="hero">
+        <h1>Terms of Use</h1>
+        <p>Last updated: July 2026</p>
+      </section>
+    </div>
+
+    <section class="content-section">
+      <h2>Acceptance of Terms</h2>
+      <p>
+        By accessing or using CalcMacros ("the Site"), you agree to be bound by these Terms of Use.
+        If you do not agree, do not use the Site.
+      </p>
+
+      <h2>Use of the Site</h2>
+      <p>
+        CalcMacros provides free nutritional calculation tools for informational and educational
+        purposes only. You may use these tools for personal, non-commercial purposes. You may not:
+      </p>
+      <ul>
+        <li>Copy or reproduce the Site's code or content without permission</li>
+        <li>Use automated tools to scrape or crawl the Site</li>
+        <li>Attempt to disrupt or compromise the Site's security or performance</li>
+        <li>Use the Site in any way that violates applicable laws</li>
+      </ul>
+
+      <h2>No Medical Advice</h2>
+      <p>
+        The information and tools provided by CalcMacros are for informational purposes only and
+        do not constitute medical, nutritional, or health advice. All calculations are estimates
+        based on population-level formulas. Individual results will vary.
+      </p>
+      <p>
+        Always consult a qualified healthcare provider, registered dietitian, or physician before
+        making significant changes to your diet, especially if you have any medical conditions or
+        are taking medications.
+      </p>
+
+      <h2>Accuracy of Information</h2>
+      <p>
+        We make reasonable efforts to ensure the accuracy of our calculations. However, we make no
+        warranties, express or implied, about the accuracy, completeness, or suitability of the
+        information provided. Use results as estimates and starting points only.
+      </p>
+
+      <h2>Limitation of Liability</h2>
+      <p>
+        CalcMacros and its operators shall not be liable for any direct, indirect, incidental,
+        consequential, or punitive damages arising from your use of the Site or reliance on any
+        information provided. Use the Site at your own risk.
+      </p>
+
+      <h2>Intellectual Property</h2>
+      <p>
+        All content on this Site, including text, code, and design, is owned by or licensed to
+        CalcMacros. You may not reproduce, distribute, or create derivative works without express
+        written permission.
+      </p>
+
+      <h2>Third-Party Links</h2>
+      <p>
+        The Site may contain links to third-party websites. We are not responsible for the content,
+        privacy practices, or accuracy of any third-party sites.
+      </p>
+
+      <h2>Changes to Terms</h2>
+      <p>
+        We reserve the right to modify these terms at any time. Changes take effect immediately upon
+        posting. Continued use of the Site constitutes acceptance of the revised terms.
+      </p>
+
+      <h2>Governing Law</h2>
+      <p>
+        These terms shall be governed by and construed in accordance with applicable law.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions? Email us at <a href="mailto:hello@calcmacros.com" style="color: var(--accent);">hello@calcmacros.com</a>.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

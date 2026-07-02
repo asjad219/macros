@@ -1,0 +1,48 @@
+---
+// src/components/astro/RelatedCalculators.astro
+const { current = '' } = Astro.props;
+
+const calculators = [
+  {
+    href: '/',
+    title: 'TDEE & Macro Calculator',
+    desc: 'Find your exact calories and macros in 30 seconds.',
+  },
+  {
+    href: '/protein-calculator',
+    title: 'Protein Calculator',
+    desc: 'Daily protein targets based on your goal and bodyweight.',
+  },
+  {
+    href: '/calorie-deficit-calculator',
+    title: 'Calorie Deficit Calculator',
+    desc: 'Calculate your deficit and estimate time to goal weight.',
+  },
+  {
+    href: '/bmi-calculator',
+    title: 'BMI Calculator',
+    desc: 'Body Mass Index with category and gauge visualization.',
+  },
+  {
+    href: '/bmr-calculator',
+    title: 'BMR Calculator',
+    desc: 'Your basal metabolic rate — calories burned at rest.',
+  },
+];
+
+const filtered = calculators.filter(c => c.href !== current);
+---
+
+<section style="margin-top: 64px;">
+  <h2 style="font: 600 20px/1.3 var(--font-sans); color: var(--text-primary); margin: 0 0 20px;">
+    More Free Calculators
+  </h2>
+  <div class="related-grid">
+    {filtered.map(calc => (
+      <a href={calc.href} class="related-card">
+        <h3>{calc.title}</h3>
+        <p>{calc.desc}</p>
+      </a>
+    ))}
+  </div>
+</section>

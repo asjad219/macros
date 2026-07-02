@@ -1,0 +1,234 @@
+---
+// src/components/astro/Header.astro
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/',                              label: 'TDEE & Macros' },
+  { href: '/calorie-deficit-calculator',    label: 'Calorie Deficit' },
+  { href: '/protein-calculator',            label: 'Protein' },
+  { href: '/bmi-calculator',                label: 'BMI' },
+  { href: '/bmr-calculator',                label: 'BMR' },
+];
+---
+
+<header id="site-header" class="site-header transition-all duration-200 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      {/* Logo */}
+      <a
+        href="/"
+        class="flex items-center gap-2 font-bold text-lg"
+        style="color: var(--text-primary); text-decoration: none;"
+        aria-label="CalcMacros — Home"
+      >
+        <div
+          class="w-8 h-8 rounded-lg flex items-center justify-center"
+          style="background: var(--text-primary);"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--bg-base)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+            <line x1="8" y1="6" x2="16" y2="6" />
+            <line x1="16" y1="14" x2="16" y2="18" />
+            <line x1="8" y1="10" x2="8" y2="10" />
+            <line x1="12" y1="10" x2="12" y2="10" />
+            <line x1="16" y1="10" x2="16" y2="10" />
+            <line x1="8" y1="14" x2="8" y2="14" />
+            <line x1="12" y1="14" x2="12" y2="14" />
+            <line x1="8" y1="18" x2="8" y2="18" />
+            <line x1="12" y1="18" x2="12" y2="18" />
+          </svg>
+        </div>
+        <span>
+          Calc<span style="color: var(--text-muted);">Macros</span>
+        </span>
+      </a>
+
+      {/* Desktop Nav */}
+      <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+        {navLinks.map(link => {
+          const isActive = currentPath === link.href;
+          return (
+            <a
+              href={link.href}
+              class={`desktop-nav-link ${isActive ? 'active' : ''}`}
+            >
+              {link.label}
+            </a>
+          );
+        })}
+      </nav>
+
+      {/* Right controls */}
+      <div class="flex items-center gap-2">
+        {/* Theme Toggle */}
+        <button id="theme-toggle" class="p-2 rounded-lg transition-colors duration-150 theme-toggle" aria-label="Toggle dark mode">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>        {/* Mobile hamburger */}
+        <button id="hamburger-btn" class="p-2 rounded-lg transition-colors duration-150 lg:hidden hamburger-btn" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="close-icon hidden">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    {/* Mobile nav dropdown */}
+    <nav id="mobile-nav" class="mobile-nav" aria-hidden="true">
+      <div class="mobile-nav-inner">
+        {navLinks.map((link, i) => {
+          const isActive = currentPath === link.href;
+          const isLast = i === navLinks.length - 1;
+          return (
+            <a
+              href={link.href}
+              class={`mobile-nav-link ${isActive ? 'active' : ''}`}
+              style={!isLast ? 'border-bottom: 1px solid var(--border);' : ''}
+            >
+              {link.label}
+            </a>
+          );
+        })}
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--bg-page);
+    border-bottom: 1px solid transparent;
+  }
+  
+  .site-header.scrolled {
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .desktop-nav-link {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 150ms ease, color 150ms ease;
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  .desktop-nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-subtle);
+  }
+
+  .desktop-nav-link.active {
+    color: var(--text-primary);
+    background: var(--bg-subtle);
+    font-weight: 600;
+  }
+
+  .theme-toggle:hover, .hamburger-btn:hover {
+    background: var(--bg-subtle);
+  }
+
+  .mobile-nav {
+    display: none;
+    padding-bottom: 16px;
+    animation: fade-in 200ms ease both;
+  }
+
+  .mobile-nav.open {
+    display: block;
+  }
+
+  .mobile-nav-inner {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 14px 20px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .mobile-nav-link:hover {
+    background: var(--bg-subtle);
+  }
+
+  .mobile-nav-link.active {
+    color: var(--text-primary);
+    background: var(--bg-subtle);
+    font-weight: 600;
+  }
+  /* Theme Toggle Icon Swap */
+  .theme-toggle .moon-icon { display: none; }
+  .theme-toggle .sun-icon { display: block; }
+  :global([data-theme="dark"]) .theme-toggle .sun-icon { display: none; }
+  :global([data-theme="dark"]) .theme-toggle .moon-icon { display: block; }
+
+  /* Mobile Toggle Icon Swap */
+  .hamburger-btn[aria-expanded="true"] .menu-icon { display: none; }
+  .hamburger-btn[aria-expanded="true"] .close-icon { display: block; }
+  .hamburger-btn[aria-expanded="false"] .menu-icon { display: block; }
+  .hamburger-btn[aria-expanded="false"] .close-icon { display: none; }
+</style>
+
+<script>
+  // Mobile Nav Toggle
+  const btn = document.getElementById('hamburger-btn');
+  const nav = document.getElementById('mobile-nav');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = nav?.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
+    nav?.setAttribute('aria-hidden', String(!isOpen));
+  });
+  // Theme Toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  themeToggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+
+  // Scroll effect
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 8) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  }, { passive: true });
+</script>

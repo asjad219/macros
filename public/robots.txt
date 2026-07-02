@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block any accidental build artifacts
+Disallow: /dist/
+Disallow: /_astro/
+
+Sitemap: https://calcmacros.com/sitemap-index.xml

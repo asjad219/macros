@@ -1,0 +1,123 @@
+---
+// src/pages/calorie-deficit-calculator.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import CalorieDeficitCalculator from '../components/calculators/CalorieDeficitCalculator.jsx';
+import FAQAccordion from '../components/ui/FAQAccordion.jsx';
+import { AdLeaderboard } from '../components/ui/AdUnits.jsx';
+
+const title = 'Calorie Deficit Calculator — How Big Should Your Deficit Be? | CalcMacros';
+const description = 'Calculate your calorie deficit, weekly fat loss rate, and estimated time to reach your goal weight. Free, instant, no signup required.';
+const canonical = 'https://calcmacros.com/calorie-deficit-calculator';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Calorie Deficit Calculator',
+  url: canonical,
+  description,
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const faqs = [
+  {
+    question: 'What is a calorie deficit?',
+    answer: 'A calorie deficit occurs when you consume fewer calories than your body burns in a day. Your TDEE represents the number of calories you burn daily. If your TDEE is 2,500 calories and you eat 2,000 calories, you are in a 500-calorie deficit. Over seven days, that creates a 3,500-calorie deficit — approximately equivalent to 1 pound of body fat'
+  },
+  {
+    question: 'How big should my calorie deficit be?',
+    answer: 'A moderate deficit of 10–20% below your TDEE is recommended for most people. This typically means 300–600 calories per day. Aggressive deficits (greater than 25%) increase the risk of muscle loss, nutrient deficiencies, metabolic adaptation, and fatigue. The safest and most sustainable approach is losing 0.5–1% of your body weight per week'
+  },
+  {
+    question: 'Is it safe to eat 1,200 calories a day?',
+    answer: 'For most adults, 1,200 calories per day is below the BMR and should only be followed under medical supervision. Eating below your BMR long-term causes muscle loss, slows metabolism, and leads to nutrient deficiencies. If your calculated target is below 1,400 calories, consult a registered dietitian before proceeding. Sustainable fat loss rarely requires going below 1,400–1,500 calories.'
+  },
+  {
+    question: 'Why have I stopped losing weight on a calorie deficit?',
+    answer: 'Several factors can cause a weight loss plateau: metabolic adaptation (your body lowering TDEE in response to sustained restriction), water retention (masking fat loss on the scale), inaccurate calorie tracking, or underestimating food intake. First, verify your tracking accuracy. If accurate, try a 100-calorie reduction, a diet break at maintenance for 1–2 weeks, or increasing daily activity rather than cutting calories further.'
+  },
+  {
+    question: 'How long will it take to reach my goal weight?',
+    answer: 'At a 500-calorie daily deficit, you can expect to lose approximately 1 pound (0.45 kg) per week. At a 250-calorie deficit, approximately 0.5 pounds per week. Divide your total weight loss goal in pounds by your expected weekly loss rate. Note that early weight loss is often faster due to water weight, and the rate naturally slows as you get closer to your goal'
+  }
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    }
+  }))
+};
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema]}>
+  <Header />
+
+  <main>
+    <div class="page-container">
+      <div style="margin-top: 32px; margin-bottom: 16px;">
+        <AdLeaderboard client:idle />
+      </div>
+      <section class="hero">
+        <h1>Calorie Deficit Calculator</h1>
+        <p>Enter your TDEE and daily calorie target to see your deficit, projected fat loss rate, and estimated time to goal weight.</p>
+      </section>
+
+      <CalorieDeficitCalculator client:load />
+
+      <RelatedCalculators current="/calorie-deficit-calculator" />
+    </div>
+
+    <section class="content-section">
+      <h2>What Is a Calorie Deficit?</h2>
+      <p>
+        A calorie deficit occurs when you consume fewer calories than your body burns in a day.
+        Your Total Daily Energy Expenditure (TDEE) is the number of calories your body needs to
+        maintain its current weight. Eating below this number forces your body to use stored
+        energy — primarily body fat — to make up the difference.
+      </p>
+
+      <h2>How Much of a Deficit Do You Need?</h2>
+      <p>
+        The standard recommendation is a daily deficit of 300–500 kcal for moderate, sustainable
+        fat loss. This equates to approximately 0.5–1 lb (0.25–0.45 kg) of fat loss per week.
+      </p>
+      <ul>
+        <li><strong>250 kcal/day deficit:</strong> ~0.5 lb/week loss — slow, very sustainable, minimal muscle risk</li>
+        <li><strong>500 kcal/day deficit:</strong> ~1 lb/week loss — the widely-recommended "sweet spot"</li>
+        <li><strong>750+ kcal/day deficit:</strong> Faster loss, but increased muscle loss risk and harder to sustain</li>
+      </ul>
+
+      <h2>Why You Shouldn't Cut Calories Too Aggressively</h2>
+      <p>
+        Extreme deficits (more than 1,000 kcal/day below TDEE) lead to rapid muscle loss,
+        metabolic adaptation, fatigue, and nutrient deficiencies. The body responds to severe
+        restriction by lowering its metabolic rate — making future fat loss harder.
+        A moderate, consistent deficit with adequate protein intake is always superior to
+        aggressive restriction.
+      </p>
+
+      <h2>The 3,500 Calorie Rule — Is It Still Accurate?</h2>
+      <p>
+        The old "3,500 kcal = 1 lb of fat" rule is a rough approximation. Modern research
+        shows fat loss is non-linear — it slows as you lose weight because your TDEE decreases
+        with lower body mass. This is why you should recalculate your numbers every 4–6 weeks
+        and adjust your intake accordingly.
+      </p>
+
+      <h2>Frequently Asked Questions</h2>
+      <FAQAccordion items={faqs} page="deficit" client:visible />
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
