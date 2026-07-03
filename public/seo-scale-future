@@ -1,0 +1,506 @@
+# IMPLEMENTATION TASK — Build a Scalable SEO Architecture for CalcMacros
+
+You are a Principal Software Architect, Senior Astro Developer, Technical SEO Engineer, and Google Search Specialist.
+
+The core implementation plan has already been approved.
+
+**Do NOT rewrite or replace the existing implementation plan.**
+
+Instead, implement the following architectural improvements on top of the current work to transform the project into a scalable SEO-first platform capable of supporting 50+ calculators and hundreds of articles.
+
+These improvements are mandatory and should follow Astro best practices while preserving excellent Core Web Vitals.
+
+---
+
+# OBJECTIVES
+
+The implementation should achieve:
+
+* Better Information Architecture
+* Better Internal Linking
+* Better Topical Authority
+* Better EEAT
+* Better Scalability
+* Better User Journey
+* Better Code Reusability
+* Better Long-Term SEO
+
+Never duplicate business logic.
+
+Never duplicate calculator code.
+
+Prefer reusable layouts and components.
+
+---
+
+# 1. Create a Calculator Hub (High Priority)
+
+Create a new page:
+
+```
+/calculators
+```
+
+This page becomes the central directory for every calculator.
+
+Include:
+
+* Hero section
+* Search box (client-side search)
+* Calculator categories
+* Featured calculators
+* Popular calculators
+* Recently added calculators
+* Calculator cards
+* Short descriptions
+* CTA buttons
+* Internal links
+
+Example categories:
+
+* Nutrition
+* Weight Loss
+* Body Composition
+* Health
+* Fitness
+
+Every calculator page must link back to this hub.
+
+The hub should automatically grow as new calculators are added.
+
+---
+
+# 2. Improve Breadcrumb Architecture
+
+Current:
+
+Home
+
+↓
+
+Calculator
+
+Replace with:
+
+Home
+
+↓
+
+Calculators
+
+↓
+
+Current Calculator
+
+Example:
+
+Home
+
+↓
+
+Calculators
+
+↓
+
+TDEE Calculator
+
+Use reusable breadcrumb generation.
+
+Generate Breadcrumb Schema automatically.
+
+---
+
+# 3. Build Reusable SEO Components
+
+Instead of repeating SEO code across pages, create reusable Astro components.
+
+Create:
+
+SEO.astro
+
+Breadcrumb.astro
+
+Schema.astro
+
+FAQSchema.astro
+
+CalculatorLayout.astro
+
+AuthorCard.astro
+
+LastUpdated.astro
+
+ReferenceSection.astro
+
+RelatedCalculators.astro
+
+RelatedArticles.astro
+
+CalculatorCard.astro
+
+FormulaBlock.astro
+
+InfoCard.astro
+
+FAQSection.astro
+
+Every future calculator should be built using these components.
+
+Avoid duplicated markup.
+
+---
+
+# 4. Improve Structured Data
+
+Current implementation includes:
+
+* Organization
+* FAQ
+* Breadcrumb
+* WebPage
+
+Extend this by adding:
+
+SoftwareApplication
+
+Person
+
+Article (where appropriate)
+
+WebSite
+
+SearchAction
+
+Validate every JSON-LD object against Schema.org.
+
+Avoid duplicate schema.
+
+---
+
+# 5. Freshness Signals
+
+Every calculator page should automatically display:
+
+Last Updated
+
+Author
+
+Review Date
+
+Generate this dynamically where possible.
+
+Example:
+
+Reviewed by Nutrition Research Team
+
+Last Updated July 2026
+
+---
+
+# 6. Strengthen EEAT
+
+At the bottom of every calculator page include:
+
+Author section
+
+Scientific References
+
+Research Sources
+
+Editorial Review
+
+Medical Disclaimer (where applicable)
+
+These should be reusable components.
+
+---
+
+# 7. Replace Plain Links with Calculator Cards
+
+Do not use simple text links.
+
+Create reusable calculator cards containing:
+
+Calculator icon
+
+Title
+
+Short description
+
+CTA
+
+Hover effect
+
+Accessibility support
+
+Responsive layout
+
+Use these cards everywhere:
+
+Homepage
+
+Calculator Hub
+
+Related Calculators
+
+Footer
+
+404 Page
+
+---
+
+# 8. Build a Guided User Journey
+
+Guide visitors naturally through related calculators.
+
+Example:
+
+BMI Calculator
+
+↓
+
+BMR Calculator
+
+↓
+
+TDEE Calculator
+
+↓
+
+Calorie Deficit Calculator
+
+↓
+
+Macro Calculator
+
+↓
+
+Protein Calculator
+
+Every calculator should contain a "Next Recommended Calculator" section with contextual explanations.
+
+The recommendation should make logical sense based on user goals.
+
+---
+
+# 9. Create a Reusable Calculator Layout
+
+Every calculator page should share the same layout.
+
+Structure:
+
+Hero
+
+Calculator
+
+Explanation
+
+Formula
+
+Examples
+
+FAQ
+
+People Also Ask
+
+Related Calculators
+
+Related Articles
+
+References
+
+Author
+
+Last Updated
+
+Comments (optional)
+
+CTA
+
+Avoid rebuilding page layouts individually.
+
+---
+
+# 10. Explore More Calculators
+
+Near the footer of every calculator page include:
+
+Explore More Calculators
+
+Display calculator cards instead of text links.
+
+Automatically pull related calculators.
+
+Future calculators should appear automatically.
+
+---
+
+# 11. Add People Also Ask Sections
+
+Every calculator should include search-intent FAQs.
+
+Example for TDEE:
+
+What is TDEE?
+
+How is TDEE calculated?
+
+Is TDEE different from BMR?
+
+Should I eat below my TDEE?
+
+How accurate is a TDEE calculator?
+
+Mark up with FAQ Schema.
+
+---
+
+# 12. Reusable Formula Components
+
+Instead of embedding formulas inside pages, create reusable components.
+
+Examples:
+
+FormulaBlock.astro
+
+InfoCard.astro
+
+ReferenceSection.astro
+
+FAQSection.astro
+
+These should support future calculators with minimal modification.
+
+---
+
+# 13. Improve Homepage Architecture
+
+The homepage should gradually evolve into a true SEO landing page rather than only displaying a calculator.
+
+Recommended homepage structure:
+
+Hero
+
+Featured Macro Calculator
+
+Popular Calculators
+
+Calculator Categories
+
+Latest Articles
+
+Featured Guides
+
+Why Trust CalcMacros
+
+Scientific Accuracy
+
+User Reviews (future)
+
+Newsletter (optional)
+
+Footer
+
+The homepage should target "Macro Calculator" while linking users to dedicated calculator pages for specific topics.
+
+---
+
+# 14. Internal Linking Strategy
+
+Implement a scalable internal linking system.
+
+Homepage
+
+↓
+
+Calculator Hub
+
+↓
+
+Calculator Page
+
+↓
+
+Related Calculator
+
+↓
+
+Relevant Article
+
+↓
+
+Another Calculator
+
+No orphan pages.
+
+No isolated calculators.
+
+Every page should have contextual inbound and outbound links.
+
+---
+
+# 15. Future Scalability
+
+The architecture must support adding new calculators such as:
+
+Body Fat Calculator
+
+FFMI Calculator
+
+Water Intake Calculator
+
+Lean Body Mass Calculator
+
+Ideal Weight Calculator
+
+Maintenance Calories Calculator
+
+Carb Calculator
+
+Fat Intake Calculator
+
+Waist-to-Height Ratio Calculator
+
+Body Surface Area Calculator
+
+Adding a new calculator should require minimal effort by reusing layouts, components, schema, metadata, and navigation.
+
+---
+
+# 16. Validation
+
+After implementation, perform a complete verification.
+
+Confirm:
+
+* No duplicate metadata
+* No duplicate schema
+* No broken links
+* No orphan pages
+* No hydration issues
+* No console errors
+* Excellent Lighthouse performance
+* Excellent Core Web Vitals
+* Accessibility compliance
+* Mobile responsiveness
+* Correct XML Sitemap
+* Correct Breadcrumb Schema
+* Correct Canonical URLs
+
+---
+
+# FINAL DELIVERABLES
+
+Provide:
+
+* File-by-file implementation summary
+* New reusable components created
+* Updated project architecture
+* Internal linking map
+* Schema implementation summary
+* Lighthouse impact
+* SEO improvements
+* Scalability report
+* Maintenance recommendations
+
+The final architecture should be production-ready, scalable, maintainable, SEO-first, and optimized for Google Search, AI Overviews, Featured Snippets, and long-term organic traffic growth.

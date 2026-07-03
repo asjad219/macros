@@ -8,16 +8,16 @@ import TDEECalculator from '../components/calculators/TDEECalculator.jsx';
 import FAQAccordion from '../components/ui/FAQAccordion.jsx';
 import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
 
-const title = 'Free Macro & TDEE Calculator — Instant Results | CalcMacros';
-const description = 'Calculate your exact macros and daily calories in seconds. Free TDEE + macro calculator for weight loss, muscle gain, and keto. No email. No signup.';
+const title = 'Free Macro Calculator — Instant Results | CalcMacros';
+const description = 'Calculate your exact macros and daily calories in seconds. Free TDEE and macro calculator for weight loss, muscle gain, and keto. No email. No signup.';
 const canonical = 'https://calcmacros.com/';
 
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Macro & TDEE Calculator',
+  name: 'Macro Calculator',
   url: 'https://calcmacros.com',
-  description: 'Free macro and TDEE calculator for weight loss and muscle gain.',
+  description: 'Free nutrition macro calculator for weight loss and muscle gain.',
   applicationCategory: 'HealthApplication',
   offers: { '@type': 'Offer', price: '0' },
 };
@@ -28,8 +28,8 @@ const faqs = [
     answer: 'A macro calculator estimates how many grams of protein, carbohydrates, and fat you should eat each day based on your body stats and fitness goal. It works by first calculating your Total Daily Energy Expenditure (TDEE) — how many calories you burn daily — and then splitting those calories into the three macronutrients according to your chosen diet type and goal.',
   },
   {
-    question: 'What is TDEE and why does it matter?',
-    answer: 'TDEE stands for Total Daily Energy Expenditure. It is the total number of calories your body burns in 24 hours, including your resting metabolism, digestion, and all physical activity. Knowing your TDEE gives you a precise calorie target: eat below it to lose fat, eat at it to maintain weight, and eat above it to build muscle.',
+    question: 'What is TDEE and why does it matter for macros?',
+    answer: 'TDEE stands for Total Daily Energy Expenditure. It is the total number of calories your body burns in 24 hours. Knowing your TDEE gives you a precise calorie target for your macro split: eat below it to lose fat, eat at it to maintain weight, and eat above it to build muscle. For a dedicated breakdown of your daily energy expenditure, try our <a href="/tdee-calculator">TDEE Calculator</a>.',
   },
   {
     question: 'How accurate is this macro calculator?',
@@ -94,8 +94,8 @@ const faqSchema = {
           <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> No signup required</span>
           <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Fast calculation</span>
         </div>
-        <h1>Macro &amp; TDEE Calculator</h1>
-        <p>Find your exact calories and macros in 30 seconds. A premium tool for evidence-based nutrition planning.</p>
+        <h1>Macro Calculator</h1>
+        <p>Find your exact macros in 30 seconds. A premium tool for evidence-based nutrition planning.</p>
       </section>
 
       <!-- Calculator Island -->
@@ -107,7 +107,7 @@ const faqSchema = {
 
     <!-- SEO Content -->
     <section class="content-section">
-      <p>The CalcMacros Macro &amp; TDEE Calculator is the most detailed free nutrition calculator available — no email required, no paywalls, and no guesswork. Whether you're trying to lose fat, build muscle, or understand exactly what you should be eating each day, this tool gives you a complete picture in seconds.</p>
+      <p>The CalcMacros Macro Calculator is the most detailed free nutrition calculator available — no email required, no paywalls, and no guesswork. Whether you're trying to lose fat, build muscle, or understand exactly what you should be eating each day, this tool gives you a complete picture in seconds.</p>
       
       <p>Enter your age, sex, height, weight, activity level, and goal. The calculator instantly outputs your Total Daily Energy Expenditure (TDEE), your adjusted calorie target, and a full macro breakdown — protein, carbs, and fat — in grams and calories. Results are displayed with animated charts that make your numbers easy to understand at a glance.</p>
       
@@ -128,7 +128,7 @@ const faqSchema = {
       <h2>Understanding Your Results</h2>
       
       <h3>TDEE (Total Daily Energy Expenditure)</h3>
-      <p>Your TDEE is the total number of calories your body burns every day, factoring in your resting metabolism, digestion, and all physical activity. This is your maintenance calorie level — the amount you'd eat to neither gain nor lose weight. It's calculated by multiplying your BMR by an activity multiplier that accounts for exercise frequency and intensity.</p>
+      <p>Your TDEE is the total number of calories your body burns every day, factoring in your resting metabolism, digestion, and all physical activity. This is your maintenance calorie level — the amount you'd eat to neither gain nor lose weight. Want to learn more about your daily calorie burn? Visit our dedicated <a href="/tdee-calculator">TDEE Calculator</a>.</p>
       
       <h3>Target Calories</h3>
       <p>Your target calorie intake is your TDEE adjusted for your specific goal. For fat loss, the calculator applies a 10–20% calorie deficit. For muscle gain, it adds a 10–15% surplus. For maintenance and body recomposition, you eat at TDEE. A hard floor is applied — your target will never drop below BMR + 200 calories, which protects against dangerously low intake.</p>

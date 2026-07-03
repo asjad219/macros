@@ -56,7 +56,14 @@ const {
   <meta name="twitter:description" content={description} />
 
   <!-- Schema.org JSON-LD -->
-  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  {schema && Array.isArray(schema)
+    ? schema.map((s) => (
+        <script type="application/ld+json" set:html={JSON.stringify(s)} />
+      ))
+    : schema && (
+        <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      )
+  }
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />

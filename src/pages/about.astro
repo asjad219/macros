@@ -1,0 +1,53 @@
+---
+// src/pages/about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+
+const title = 'About Us | CalcMacros';
+const description = 'Learn more about CalcMacros, our mission, and the team behind our free, science-backed nutritional calculators.';
+const canonical = 'https://calcmacros.com/about';
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <Header />
+  <main>
+    <div class="page-container">
+      <section class="hero">
+        <h1>About Us</h1>
+        <p>Providing free, science-backed nutritional tools for everyone.</p>
+      </section>
+    </div>
+
+    <section class="content-section">
+      <h2>Our Mission</h2>
+      <p>
+        At CalcMacros, our mission is simple: to make evidence-based nutritional calculations accessible, fast, and completely free. We believe that everyone should have access to accurate tools to understand their body's energy needs without being forced to sign up for accounts, hand over email addresses, or pay for premium subscriptions.
+      </p>
+
+      <h2>Why We Built CalcMacros</h2>
+      <p>
+        The internet is full of macro and calorie calculators, but we noticed a persistent problem: many of them are hidden behind paywalls, cluttered with aggressive marketing, or use outdated formulas.
+      </p>
+      <p>
+        We built CalcMacros to solve this. Our tools use the most widely accepted scientific formulas, such as the Mifflin-St Jeor and Harris-Benedict equations, to provide you with the most accurate baselines for your health and fitness journey. Whether your goal is to lose fat, build muscle, or simply maintain a healthy lifestyle, our calculators give you the numbers you need in seconds.
+      </p>
+
+      <h2>Transparency & Accuracy</h2>
+      <p>
+        We pride ourselves on transparency. All of our calculators clearly state which scientific formulas they use, and we never hide our methodology. We prioritize privacy by processing all calculations directly in your browser—meaning your personal health data is never stored on our servers.
+      </p>
+
+      <h2>The Team</h2>
+      <p>
+        CalcMacros is maintained by a dedicated team of web developers and fitness enthusiasts who are passionate about health, data, and clean design. We continuously update our tools and add new features based on the latest nutritional research and user feedback.
+      </p>
+
+      <h2>Get in Touch</h2>
+      <p>
+        We love hearing from our users. If you have questions, feedback, or suggestions for new calculators, please don't hesitate to reach out to us at <a href="mailto:info@calcmacros.com" style="color: var(--accent);">info@calcmacros.com</a>. You can also visit our <a href="/contact" style="color: var(--accent);">Contact page</a> for more specific inquiries.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

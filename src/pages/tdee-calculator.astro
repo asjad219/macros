@@ -1,0 +1,158 @@
+---
+// src/pages/tdee-calculator.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import TDEECalculator from '../components/calculators/TDEECalculator.jsx';
+import FAQAccordion from '../components/ui/FAQAccordion.jsx';
+import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
+
+const title = 'Free TDEE Calculator — Total Daily Energy Expenditure | CalcMacros';
+const description = 'Calculate your exact TDEE (Total Daily Energy Expenditure) and find out how many calories you burn per day. The best science-backed TDEE calculator.';
+const canonical = 'https://calcmacros.com/tdee-calculator';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'TDEE Calculator',
+  url: 'https://calcmacros.com/tdee-calculator',
+  description: 'Free Total Daily Energy Expenditure (TDEE) calculator to determine your daily calorie burn.',
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const faqs = [
+  {
+    question: 'What is a TDEE calculator?',
+    answer: 'A TDEE calculator is a tool that estimates how many calories your body burns in a single day. TDEE stands for Total Daily Energy Expenditure. It takes into account your basal metabolic rate (BMR) and the energy you use for physical activity and digestion.',
+  },
+  {
+    question: 'How is TDEE calculated?',
+    answer: 'TDEE is calculated by first estimating your Basal Metabolic Rate (BMR) using formulas like the Mifflin-St Jeor equation. Once your BMR is determined, it is multiplied by an activity factor (ranging from 1.2 for sedentary to 1.9 for extra active) to account for your physical movement throughout the day.',
+  },
+  {
+    question: 'What is the difference between BMR and TDEE?',
+    answer: 'BMR (Basal Metabolic Rate) is the number of calories you burn at complete rest just to keep your body functioning (breathing, circulating blood). TDEE (Total Daily Energy Expenditure) is your BMR plus the calories you burn from all physical activity, exercise, and digesting food.',
+  },
+  {
+    question: 'How do I use my TDEE to lose weight?',
+    answer: 'To lose weight, you must consume fewer calories than your TDEE, creating a calorie deficit. A common and sustainable deficit is 500 calories below your TDEE per day, which typically results in about 1 pound of fat loss per week.',
+  },
+  {
+    question: 'Should I eat my TDEE to gain muscle?',
+    answer: 'To gain muscle, you need to eat in a slight calorie surplus. Eating exactly your TDEE will maintain your current weight. To build muscle, consume 10-15% above your TDEE combined with a progressive strength training program and adequate protein.',
+  }
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    }
+  }))
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "https://calcmacros.com/"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "TDEE Calculator"
+  }]
+};
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema, breadcrumbSchema]}>
+  <Header />
+
+  <main>
+
+
+    <!-- Hero -->
+    <div class="page-container">
+      <div style="margin-top: 16px; margin-bottom: 16px;">
+        <AdLeaderboard client:idle />
+      </div>
+      <section class="hero">
+        <div class="flex items-center gap-2 mb-6 justify-center flex-wrap">
+          <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><path d="M2 12h4l2-9 5 18 2-9h5"/></svg> Science-backed</span>
+          <span class="badge" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 inline-block"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Free to Use</span>
+        </div>
+        <h1>TDEE Calculator</h1>
+        <p>Calculate your Total Daily Energy Expenditure (TDEE) and learn exactly how many calories your body burns every day.</p>
+      </section>
+
+      <!-- Calculator Island -->
+      <TDEECalculator client:load />
+
+      <!-- Related calculators -->
+      <RelatedCalculators current="/tdee-calculator" />
+    </div>
+
+    <!-- SEO Content -->
+    <section class="content-section">
+      <h2>What is TDEE?</h2>
+      <p>TDEE stands for <strong>Total Daily Energy Expenditure</strong>. It represents the total number of calories your body burns in a 24-hour period. Knowing your TDEE is the fundamental first step in any nutrition plan, whether your goal is to lose weight, build muscle, or maintain your current physique.</p>
+      
+      <p>Your body burns calories in three primary ways:</p>
+      <ul>
+        <li><strong>Basal Metabolic Rate (BMR):</strong> The calories burned just to keep you alive (breathing, heart beating) at complete rest.</li>
+        <li><strong>Thermic Effect of Food (TEF):</strong> The calories burned digesting, absorbing, and storing food.</li>
+        <li><strong>Physical Activity:</strong> The calories burned through exercise and Non-Exercise Activity Thermogenesis (NEAT), which includes walking, typing, and fidgeting.</li>
+      </ul>
+      
+      <AdInArticle client:idle />
+      
+      <h2>How TDEE is Calculated</h2>
+      <p>This calculator determines your TDEE using a two-step process:</p>
+      <ol>
+        <li><strong>Calculate BMR:</strong> We use the Mifflin-St Jeor equation, which peer-reviewed research identifies as the most accurate formula for the general population. It factors in your age, sex, weight, and height.</li>
+        <li><strong>Apply an Activity Multiplier:</strong> We then multiply your BMR by a standard activity factor (ranging from 1.2 to 1.9) based on the physical activity level you select.</li>
+      </ol>
+      
+      <h2>Difference Between BMR and TDEE</h2>
+      <p>Many people confuse BMR and TDEE, but they serve very different purposes:</p>
+      <p><strong><a href="/bmr-calculator">BMR</a></strong> is the baseline. If you laid in bed all day and didn't move, you would burn your BMR in calories. You should almost never eat below your BMR, as it can cause hormonal disruption and extreme fatigue.</p>
+      <p><strong>TDEE</strong> is your maintenance level. It includes your BMR plus all the movement you do during the day. If you eat your TDEE in calories, your weight will stay exactly the same.</p>
+      
+      <h2>TDEE for Different Goals</h2>
+      
+      <h3>Maintenance Calories</h3>
+      <p>Your maintenance calories are exactly equal to your TDEE. Eating this amount allows you to fuel your workouts and recover properly without changing your body weight.</p>
+      
+      <h3>Fat Loss Calories</h3>
+      <p>To lose fat, you must be in a <a href="/calorie-deficit-calculator">calorie deficit</a>. We recommend a sustainable 10-20% deficit from your TDEE. This prevents muscle loss and keeps energy levels stable while encouraging your body to burn stored fat.</p>
+      
+      <h3>Muscle Gain Calories</h3>
+      <p>To build muscle optimally, you need a calorie surplus. We recommend eating 10-15% above your TDEE. Combine this surplus with adequate <a href="/protein-calculator">protein</a> and progressive resistance training to ensure the extra calories are partitioned toward muscle growth rather than fat storage.</p>
+      
+      <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+        <h3 style="margin-top: 0;">Ready to start your journey?</h3>
+        <p style="margin-bottom: 1.5rem;">Use the calculator above to find your exact numbers, and remember to recalculate every time your weight changes by 5-10 pounds.</p>
+        <button class="btn btn-primary" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Calculate Your TDEE Now</button>
+      </div>
+
+      <h2>Frequently Asked Questions</h2>
+      <FAQAccordion items={faqs} page="tdee" client:visible />
+      
+      <div style="margin-top: 4rem; font-size: 0.875rem; color: var(--text-secondary); display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 1rem;">
+        <span><strong>Author:</strong> CalcMacros Nutrition Team</span>
+        <span><strong>Last Updated:</strong> {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
