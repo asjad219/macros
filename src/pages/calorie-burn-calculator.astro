@@ -1,0 +1,439 @@
+---
+// src/pages/calorie-burn-calculator.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
+
+const title = 'Calorie Burn Calculator — Calories Burned by Exercise | CalcMacros';
+const description = 'Calculate calories burned during any exercise. Running, walking, cycling, swimming, and 30+ activities. Enter your weight, activity, and duration for instant results.';
+const canonical = 'https://calcmacros.com/calorie-burn-calculator';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Calorie Burn Calculator',
+  url: canonical,
+  description: 'Calculate calories burned for 30+ exercises using MET values from Ainsworth et al. (2011).',
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://calcmacros.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Calorie Burn Calculator', item: canonical },
+  ],
+};
+
+const faqs = [
+  {
+    question: 'How many calories does running burn per mile?',
+    answer: 'Running burns approximately 70–110 calories per mile, depending on your weight and pace. A 70 kg (154 lb) person burns roughly 80–90 calories per mile. Heavier runners burn more. Pace has a smaller effect than body weight — the calorie cost per mile is surprisingly consistent across moderate running speeds (5–8 mph). At 6 mph (10 min/mile), a 70 kg person burns approximately 98 calories per mile.',
+  },
+  {
+    question: 'How many calories does walking 10,000 steps burn?',
+    answer: '10,000 steps typically burns 300–500 calories for most adults. A rough estimate: multiply your weight in kg by 0.5 to get calories burned per 1,000 steps. For a 70 kg person, 10,000 steps burns approximately 350 calories. This varies based on pace, terrain (hills burn more), and individual stride length. Brisk walking burns more per step than slow walking.',
+  },
+  {
+    question: 'What is a MET value in exercise?',
+    answer: 'MET stands for Metabolic Equivalent of Task. A MET of 1.0 represents energy expenditure at rest (sitting quietly). Exercise is expressed as a multiple of resting metabolic rate: walking at 3.5 mph has a MET of 4.3, meaning it burns 4.3 times as many calories as sitting still. The formula is: Calories = MET × weight (kg) × duration (hours). MET values are sourced from the Ainsworth et al. (2011) Compendium of Physical Activities.',
+  },
+  {
+    question: 'Does weight affect how many calories you burn exercising?',
+    answer: 'Yes — significantly. Because the calorie burn formula is directly proportional to body weight (Calories = MET × weight × time), a heavier person burns more calories doing the same exercise for the same duration. A 90 kg person burns approximately 50% more calories running for 30 minutes than a 60 kg person at the same pace.',
+  },
+  {
+    question: 'Is calorie burn from exercise shown on fitness trackers accurate?',
+    answer: 'Fitness trackers typically overestimate calorie burn by 20–60%, depending on the device and activity. Heart rate-based estimates are more accurate than step-count-based estimates for vigorous exercise. For diet and weight management purposes, it is safer to use calculator estimates like this one (based on validated MET values) rather than tracker numbers, and to set conservative calorie targets.',
+  },
+  {
+    question: 'How many calories should I burn per workout to lose weight?',
+    answer: 'A 300–500 calorie deficit per day is the recommended range for sustainable fat loss (0.5–1 lb per week). Exercise is one component of this — typically contributing 200–400 calories per workout session. Combining exercise calorie burn with a modest dietary adjustment is more effective and sustainable than extreme exercise or extreme dietary restriction alone.',
+  },
+  {
+    question: 'Does muscle mass increase calories burned during exercise?',
+    answer: 'Slightly — but the effect during exercise itself is modest compared to the effect at rest. During exercise, muscle mass mainly matters because stronger muscles can sustain higher intensities. The major benefit of muscle mass is the increase in resting metabolic rate (BMR) — more muscle mass means more calories burned all day, not just during workouts.',
+  },
+  {
+    question: 'How does exercise calorie burn compare to diet for weight loss?',
+    answer: 'Diet creates a much larger calorie deficit than exercise for most people. A 30-minute run burns ~300 calories — the equivalent of a small snack or drink. It takes approximately 7 hours of walking to burn 1 pound of fat through exercise alone. Both matter, but diet is the primary lever for weight loss. Exercise is critical for preserving muscle during fat loss, improving metabolic health, and long-term weight maintenance.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema, breadcrumbSchema]}>
+  <Header />
+
+  <main>
+    <div class="page-container" style="padding-top:1rem;">
+      <nav aria-label="breadcrumb">
+        <ol style="list-style:none;padding:0;margin:0;display:flex;gap:.5rem;font-size:.875rem;color:var(--text-secondary);">
+          <li><a href="/" style="color:var(--text-secondary);text-decoration:none;">Home</a></li>
+          <li>/</li>
+          <li aria-current="page">Calorie Burn Calculator</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="page-container">
+      <div style="margin-top:16px;margin-bottom:16px;">
+        <AdLeaderboard client:idle />
+      </div>
+
+      <section class="hero">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;">
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">30+ activities</span>
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">MET-based formula</span>
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">Instant results</span>
+        </div>
+        <h1>Calorie Burn Calculator</h1>
+        <p>Calculate exactly how many calories you burn during any exercise. Choose from 30+ activities and get instant, MET-based results.</p>
+      </section>
+
+      <!-- Calculator Widget -->
+      <div class="calc-layout" style="display:grid;gap:24px;align-items:start;">
+        <style>
+          @media (min-width: 992px) {
+            .calc-layout { grid-template-columns: minmax(0, 5fr) minmax(0, 4fr); }
+            .sticky-results { position: sticky; top: 24px; }
+          }
+        </style>
+
+        <!-- Form Column -->
+        <div class="calc-card" id="cb-widget">
+          <div id="cb-form">
+          <!-- Unit + Weight -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+            <div>
+              <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Unit System</label>
+              <div class="segment-control" id="cb-unit-control">
+                <button class="segment-option active" data-value="imperial" type="button">Imperial</button>
+                <button class="segment-option" data-value="metric" type="button">Metric</button>
+              </div>
+            </div>
+            <div>
+              <label for="cb-weight" style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Body Weight</label>
+              <div style="position:relative;">
+                <input type="number" id="cb-weight" class="calc-input" placeholder="180" min="66" max="660" step="1" style="padding-right:48px;" />
+                <span id="cb-weight-unit" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font:500 13px var(--font-sans);color:var(--text-muted);">lbs</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity -->
+          <div style="margin-bottom:16px;">
+            <label for="cb-activity" style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Activity</label>
+            <select id="cb-activity" class="calc-input" style="cursor:pointer;-webkit-appearance:none;appearance:none;">
+              <option value="">— Select an activity —</option>
+              <optgroup label="Cardio">
+                <option value="2.8">Walking (slow, 2mph)</option>
+                <option value="3.5">Walking (moderate, 3mph)</option>
+                <option value="4.3">Walking (brisk, 3.5mph)</option>
+                <option value="8.3">Running (5mph / 12 min mile)</option>
+                <option value="9.8">Running (6mph / 10 min mile)</option>
+                <option value="11.0">Running (7mph / 8.5 min mile)</option>
+                <option value="11.8">Running (8mph / 7.5 min mile)</option>
+                <option value="4.0">Cycling (leisure, &lt;10mph)</option>
+                <option value="8.0">Cycling (moderate, 12–14mph)</option>
+                <option value="10.0">Cycling (vigorous, 16–19mph)</option>
+                <option value="5.8">Swimming (moderate effort)</option>
+                <option value="9.8">Swimming (vigorous effort)</option>
+                <option value="11.8">Jump Rope</option>
+                <option value="5.0">Elliptical (moderate)</option>
+                <option value="7.0">Rowing Machine (moderate)</option>
+                <option value="9.0">Stair Climbing</option>
+                <option value="8.0">HIIT / Circuit Training</option>
+              </optgroup>
+              <optgroup label="Strength">
+                <option value="3.5">Weight Training (general)</option>
+                <option value="6.0">Powerlifting / Barbell</option>
+                <option value="3.8">Bodyweight Training</option>
+                <option value="9.0">CrossFit</option>
+                <option value="8.0">Kettlebell Training</option>
+              </optgroup>
+              <optgroup label="Sports">
+                <option value="6.5">Basketball</option>
+                <option value="7.0">Soccer / Football</option>
+                <option value="7.3">Tennis (singles)</option>
+                <option value="5.5">Badminton</option>
+                <option value="4.8">Cricket</option>
+                <option value="4.0">Volleyball</option>
+              </optgroup>
+              <optgroup label="Daily Activities">
+                <option value="2.5">Yoga</option>
+                <option value="3.0">Pilates</option>
+                <option value="2.3">Stretching</option>
+                <option value="4.8">Dancing (general)</option>
+                <option value="6.0">Hiking (hills)</option>
+                <option value="3.5">Gardening</option>
+                <option value="3.3">House Cleaning</option>
+                <option value="4.3">Golf (walking)</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- Duration + Intensity -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:4px;">
+            <div>
+              <label for="cb-duration" style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Duration</label>
+              <div style="position:relative;">
+                <input type="number" id="cb-duration" class="calc-input" placeholder="30" min="1" max="300" step="1" style="padding-right:52px;" />
+                <span style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font:500 13px var(--font-sans);color:var(--text-muted);">min</span>
+              </div>
+            </div>
+            <div>
+              <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Intensity</label>
+              <div class="segment-control" id="cb-intensity-control">
+                <button class="segment-option" data-value="low" type="button">Low</button>
+                <button class="segment-option active" data-value="moderate" type="button">Mod</button>
+                <button class="segment-option" data-value="high" type="button">High</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Results Column -->
+        <div class="sticky-results">
+          <!-- EMPTY STATE -->
+          <div id="cb-empty" class="calc-empty calc-card" style="height:100%;display:flex;flex-direction:column;justify-content:center;">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <p style="font-weight:600;color:var(--text-primary);margin:0 0 4px;">Select your weight, activity & duration</p>
+          <p style="font-size:14px;color:var(--text-secondary);margin:0;">Calories appear instantly</p>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="cb-results" style="display:none;" class="animate-slide-up">
+          <!-- Primary: Calories -->
+          <div class="result-card" style="margin-bottom:16px;border-top:3px solid var(--accent-green);">
+            <div class="result-card__label">Calories Burned</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin:8px 0;">
+              <span id="cb-calories" class="result-card__number">—</span>
+              <span style="font:500 20px var(--font-mono);color:var(--text-secondary);">kcal</span>
+            </div>
+            <div id="cb-summary" class="result-card__unit"></div>
+          </div>
+
+          <!-- Secondary cards -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div class="result-card" style="padding:16px;">
+              <div class="result-card__label" style="font-size:11px;">Per Minute</div>
+              <div id="cb-per-min" style="font:700 24px var(--font-mono);color:var(--text-primary);margin-top:4px;">—</div>
+              <div style="font:400 12px var(--font-sans);color:var(--text-muted);">kcal/min</div>
+            </div>
+            <div class="result-card" style="padding:16px;">
+              <div class="result-card__label" style="font-size:11px;">MET Value</div>
+              <div id="cb-met" style="font:700 24px var(--font-mono);color:var(--text-primary);margin-top:4px;">—</div>
+              <div style="font:400 12px var(--font-sans);color:var(--text-muted);">adjusted MET</div>
+            </div>
+          </div>
+
+          <!-- % of daily needs -->
+          <div style="padding:16px;background:var(--bg-subtle);border-radius:12px;margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="font:500 13px var(--font-sans);color:var(--text-secondary);">% of 2,000 kcal daily target</span>
+              <span id="cb-pct-daily" style="font:700 14px var(--font-sans);color:var(--accent);">—%</span>
+            </div>
+            <div style="height:8px;background:var(--border);border-radius:99px;overflow:hidden;">
+              <div id="cb-pct-bar" style="height:100%;background:var(--accent);border-radius:99px;width:0%;transition:width .4s ease;"></div>
+            </div>
+          </div>
+
+          <div style="padding:16px;background:var(--bg-subtle);border-radius:12px;font:400 14px/1.6 var(--font-sans);color:var(--text-secondary);">
+            <strong style="color:var(--text-primary);">Add to your TDEE:</strong>
+            <a href="/tdee-calculator" style="color:var(--accent);text-decoration:none;font-weight:600;"> Calculate your total daily calorie burn →</a>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <RelatedCalculators current="/calorie-burn-calculator" />
+    </div>
+
+    <!-- SEO Content -->
+    <section class="content-section">
+      <AdInArticle client:idle />
+
+      <p>The calorie burn calculator uses <strong>MET values from the Ainsworth et al. (2011) Compendium of Physical Activities</strong> — the most comprehensive and widely cited database of exercise energy expenditure in exercise science. Enter your weight, choose from 30+ activities across cardio, strength, sports, and daily activities, and get your calorie burn estimate instantly.</p>
+
+      <h2>What Is a Calorie Burn Calculator?</h2>
+      <p>A calorie burn calculator estimates the number of calories (kilocalories) your body expends during a specific physical activity over a given time period. Unlike fitness trackers that use heart rate and proprietary algorithms, this calculator uses the well-established MET (Metabolic Equivalent of Task) method — the same standard used in exercise science research and clinical settings.</p>
+
+      <h2>How to Use This Calculator</h2>
+      <ol>
+        <li><strong>Enter your body weight</strong> — calorie burn is directly proportional to weight, so accuracy matters.</li>
+        <li><strong>Select your activity</strong> — choose from 30+ activities across cardio, strength, sports, and daily activities.</li>
+        <li><strong>Enter your duration</strong> — in minutes.</li>
+        <li><strong>Adjust intensity</strong> — Low (−15%), Moderate (baseline), or High (+15%). Use this to fine-tune for your actual effort level.</li>
+      </ol>
+
+      <h2>How We Calculate Calories Burned</h2>
+      <p>The formula used in this calculator is:</p>
+      <p><strong>Calories = MET × Weight (kg) × Duration (hours)</strong></p>
+      <p>Where MET (Metabolic Equivalent of Task) is a standard measure of exercise intensity. A MET of 1.0 = resting metabolism. Walking at 3.5 mph has a MET of 4.3 — meaning it burns 4.3 times as many calories per unit of time as sitting still.</p>
+      <p>The intensity adjustment (Low/Moderate/High) applies a ±15% modifier to the baseline MET value to account for variation in effort within the same activity type.</p>
+
+      <h2>Calorie Burn by Activity — Reference Table</h2>
+      <table>
+        <thead>
+          <tr><th>Activity</th><th>MET</th><th>70kg / 30 min</th><th>90kg / 30 min</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Walking (3.5mph)</td><td>4.3</td><td>151 kcal</td><td>194 kcal</td></tr>
+          <tr><td>Running (6mph)</td><td>9.8</td><td>343 kcal</td><td>441 kcal</td></tr>
+          <tr><td>Cycling (moderate)</td><td>8.0</td><td>280 kcal</td><td>360 kcal</td></tr>
+          <tr><td>Swimming (moderate)</td><td>5.8</td><td>203 kcal</td><td>261 kcal</td></tr>
+          <tr><td>HIIT / Circuit</td><td>8.0</td><td>280 kcal</td><td>360 kcal</td></tr>
+          <tr><td>Weight Training</td><td>3.5</td><td>123 kcal</td><td>158 kcal</td></tr>
+          <tr><td>Yoga</td><td>2.5</td><td>88 kcal</td><td>113 kcal</td></tr>
+          <tr><td>Soccer</td><td>7.0</td><td>245 kcal</td><td>315 kcal</td></tr>
+        </tbody>
+      </table>
+
+      <AdInArticle client:idle />
+
+      <h2>Frequently Asked Questions</h2>
+      <div id="cb-faq">
+        {faqs.map((faq, i) => (
+          <div class="faq-item" id={`cb-faq-${i}`}>
+            <button class="faq-question" aria-expanded="false" aria-controls={`cb-faq-answer-${i}`}>
+              {faq.question}
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" id={`cb-faq-answer-${i}`} role="region">
+              <p>{faq.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="disclaimer" style="margin-top:40px;">
+        <strong>Disclaimer:</strong> Calorie burn estimates are based on average MET values and may vary by ±15–20% depending on individual fitness level, body composition, terrain, and environmental conditions. These estimates are for educational purposes and should not replace professional medical or fitness advice.
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script is:inline>
+  (function() {
+    let unit = 'imperial';
+    let intensity = 'moderate';
+
+    const unitCtrl = document.getElementById('cb-unit-control');
+    const intensityCtrl = document.getElementById('cb-intensity-control');
+    const weightEl = document.getElementById('cb-weight');
+    const activityEl = document.getElementById('cb-activity');
+    const durationEl = document.getElementById('cb-duration');
+    const weightUnit = document.getElementById('cb-weight-unit');
+    const emptyEl = document.getElementById('cb-empty');
+    const resultsEl = document.getElementById('cb-results');
+
+    function updateWeightUnit() {
+      if (weightUnit) weightUnit.textContent = unit === 'metric' ? 'kg' : 'lbs';
+      if (unit === 'metric') {
+        weightEl.placeholder = '80'; weightEl.min = '30'; weightEl.max = '300';
+      } else {
+        weightEl.placeholder = '180'; weightEl.min = '66'; weightEl.max = '660';
+      }
+    }
+
+    function calculate() {
+      const wVal = parseFloat(weightEl.value);
+      const metVal = parseFloat(activityEl.value);
+      const dur = parseFloat(durationEl.value);
+      if (!wVal || !metVal || !dur) return null;
+
+      const weight_kg = unit === 'metric' ? wVal : wVal * 0.453592;
+      const intensityMult = intensity === 'low' ? 0.85 : intensity === 'high' ? 1.15 : 1.0;
+      const adjMet = metVal * intensityMult;
+      const durHrs = dur / 60;
+      const calories = Math.round(adjMet * weight_kg * durHrs);
+      const calPerMin = Math.round((adjMet * weight_kg / 60) * 10) / 10;
+      const pct = Math.min(Math.round((calories / 2000) * 100), 999);
+      const actLabel = activityEl.options[activityEl.selectedIndex].text;
+
+      return {
+        calories, calPerMin, pct,
+        met: Math.round(adjMet * 10) / 10,
+        summary: `${dur} min of ${actLabel}`,
+      };
+    }
+
+    function render(result) {
+      if (!result) {
+        emptyEl.style.display = 'block';
+        resultsEl.style.display = 'none';
+        return;
+      }
+      emptyEl.style.display = 'none';
+      resultsEl.style.display = 'block';
+      document.getElementById('cb-calories').textContent = result.calories.toLocaleString();
+      document.getElementById('cb-summary').textContent = result.summary;
+      document.getElementById('cb-per-min').textContent = result.calPerMin;
+      document.getElementById('cb-met').textContent = result.met;
+      document.getElementById('cb-pct-daily').textContent = result.pct + '%';
+      document.getElementById('cb-pct-bar').style.width = Math.min(result.pct, 100) + '%';
+    }
+
+    function wireSegment(ctrl, onChange) {
+      ctrl.querySelectorAll('.segment-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          ctrl.querySelectorAll('.segment-option').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          onChange(btn.dataset.value);
+        });
+      });
+    }
+
+    wireSegment(unitCtrl, v => {
+      unit = v;
+      updateWeightUnit();
+      weightEl.value = '';
+      render(null);
+    });
+    wireSegment(intensityCtrl, v => { intensity = v; render(calculate()); });
+
+    [weightEl, activityEl, durationEl].forEach(el => {
+      if (el) el.addEventListener('input', () => render(calculate()));
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-answer').classList.remove('open');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          answer.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    updateWeightUnit();
+  })();
+</script>

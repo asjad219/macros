@@ -1,0 +1,446 @@
+---
+// src/pages/lean-body-mass-calculator.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
+
+const title = 'Lean Body Mass Calculator — Calculate Your LBM | CalcMacros';
+const description = 'Calculate your lean body mass (LBM) — the weight of everything in your body except fat. Use your results to get a more accurate TDEE with Katch-McArdle. Free.';
+const canonical = 'https://calcmacros.com/lean-body-mass-calculator';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Lean Body Mass Calculator',
+  url: canonical,
+  description: 'Free lean body mass calculator using body fat percentage (Method A) or Boer estimation formula (Method B).',
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://calcmacros.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Lean Body Mass Calculator', item: canonical },
+  ],
+};
+
+const faqs = [
+  {
+    question: 'What is lean body mass?',
+    answer: 'Lean body mass (LBM) is the total weight of your body minus all fat tissue. It includes muscle, bone, organs, blood, water, and connective tissue — everything that is not fat. For example, if you weigh 80 kg with 20% body fat, your lean body mass is 64 kg (80 × 0.80). LBM is a more accurate basis for calculating calorie needs, protein targets, and BMR than total body weight.',
+  },
+  {
+    question: 'What is the difference between lean body mass and muscle mass?',
+    answer: 'Lean body mass and muscle mass are not the same thing. Lean body mass includes all non-fat components: skeletal muscle, smooth muscle, organs, bone, blood, and body water. Skeletal muscle mass is typically 40–50% of lean body mass for most adults. When people talk about "gaining lean mass," they usually mean gaining skeletal muscle — but any increase in LBM is beneficial.',
+  },
+  {
+    question: 'How do I increase my lean body mass?',
+    answer: 'Resistance training is the most effective way to increase lean body mass — specifically skeletal muscle mass. Progressive overload (gradually increasing weight, reps, or difficulty over time) is the key training principle. Adequate protein intake (1.6–2.2g per kg of body weight, or 0.7–1g per lb) is required to support muscle synthesis. A slight calorie surplus (200–300 kcal above TDEE) accelerates muscle gain, though muscle can be gained in a maintenance or modest deficit if training hard.',
+  },
+  {
+    question: 'Why does lean body mass matter for calculating calories?',
+    answer: 'Fat tissue is largely metabolically inactive — it burns very few calories at rest. Lean tissue, especially muscle, is metabolically active. The Katch-McArdle BMR formula uses lean body mass directly (BMR = 370 + 21.6 × LBM in kg), making it the most accurate BMR formula for people with above-average or below-average muscle mass. Using standard formulas like Mifflin-St Jeor with total body weight can significantly under- or over-estimate calorie needs for muscular or very overweight individuals.',
+  },
+  {
+    question: 'What is a good lean body mass for my height?',
+    answer: 'Lean body mass targets vary by height, sex, and fitness goals. A useful reference: an "average" athletic male at 5\'10" (178cm) might have 65–75 kg of LBM. A competitive natural bodybuilder of the same height might have 80–85 kg. For women at 5\'5" (165cm), average athletic LBM is approximately 45–55 kg. These are rough guides — LBM is best tracked as a personal trend over time, not compared to absolute targets.',
+  },
+  {
+    question: 'How accurate is the lean body mass calculator without body fat percentage?',
+    answer: 'Method B (without body fat %) uses the Boer formula (1984), which estimates LBM from body weight, height, and sex. Compared to DEXA scans (the gold standard), the Boer formula is accurate to within ±3–5 kg for most people in a healthy weight range. Accuracy decreases significantly at very high or very low body fat percentages. For the best accuracy, use Method A with a known body fat percentage.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema, breadcrumbSchema]}>
+  <Header />
+
+  <main>
+    <div class="page-container" style="padding-top:1rem;">
+      <nav aria-label="breadcrumb">
+        <ol style="list-style:none;padding:0;margin:0;display:flex;gap:.5rem;font-size:.875rem;color:var(--text-secondary);">
+          <li><a href="/" style="color:var(--text-secondary);text-decoration:none;">Home</a></li>
+          <li>/</li>
+          <li aria-current="page">Lean Body Mass Calculator</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="page-container">
+      <div style="margin-top:16px;margin-bottom:16px;">
+        <AdLeaderboard client:idle />
+      </div>
+
+      <section class="hero">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;">
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">2 calculation methods</span>
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">Katch-McArdle BMR</span>
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">Free — instant</span>
+        </div>
+        <h1>Lean Body Mass Calculator</h1>
+        <p>Calculate your lean body mass (LBM) — the weight of your muscles, bones, and organs. Use your LBM to get the most accurate TDEE estimate with the Katch-McArdle formula.</p>
+      </section>
+
+      <!-- Calculator Widget -->
+      <div class="calc-layout" style="display:grid;gap:24px;align-items:start;">
+        <style>
+          @media (min-width: 992px) {
+            .calc-layout { grid-template-columns: minmax(0, 5fr) minmax(0, 4fr); }
+            .sticky-results { position: sticky; top: 24px; }
+          }
+        </style>
+
+        <!-- Form Column -->
+        <div class="calc-card" id="lbm-widget">
+          <div id="lbm-form">
+          <!-- Method Selection -->
+          <div style="margin-bottom:24px;">
+            <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Calculation Method</label>
+            <div class="segment-control" id="lbm-method-control">
+              <button class="segment-option active" data-value="body_fat" type="button">Method A — With Body Fat %</button>
+              <button class="segment-option" data-value="estimation" type="button">Method B — Estimation</button>
+            </div>
+            <p id="lbm-method-desc" style="font:400 13px var(--font-sans);color:var(--text-muted);margin:8px 0 0;">Most accurate. Requires knowing your body fat percentage.</p>
+          </div>
+
+          <!-- Unit System -->
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Unit System</label>
+            <div class="segment-control" id="lbm-unit-control">
+              <button class="segment-option active" data-value="imperial" type="button">Imperial</button>
+              <button class="segment-option" data-value="metric" type="button">Metric</button>
+            </div>
+          </div>
+
+          <!-- Weight (always shown) -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <label for="lbm-weight" style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Body Weight</label>
+              <div style="position:relative;">
+                <input type="number" id="lbm-weight" class="calc-input" placeholder="180" min="66" max="660" step="0.1" style="padding-right:48px;" />
+                <span id="lbm-weight-unit" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font:500 13px var(--font-sans);color:var(--text-muted);">lbs</span>
+              </div>
+            </div>
+            <!-- Body Fat % (Method A) -->
+            <div id="lbm-bf-field">
+              <label for="lbm-bf" style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Body Fat %</label>
+              <div style="position:relative;">
+                <input type="number" id="lbm-bf" class="calc-input" placeholder="20" min="3" max="60" step="0.1" style="padding-right:32px;" />
+                <span style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font:500 13px var(--font-sans);color:var(--text-muted);">%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Method B fields (hidden initially) -->
+          <div id="lbm-method-b-fields" style="display:none;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <label for="lbm-height" style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Height</label>
+              <div style="position:relative;">
+                <input type="number" id="lbm-height" class="calc-input" placeholder="70" min="36" max="96" step="0.1" style="padding-right:48px;" />
+                <span id="lbm-height-unit" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font:500 13px var(--font-sans);color:var(--text-muted);">in</span>
+              </div>
+            </div>
+            <div>
+              <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Sex</label>
+              <div class="segment-control" id="lbm-sex-control">
+                <button class="segment-option active" data-value="male" type="button">Male</button>
+                <button class="segment-option" data-value="female" type="button">Female</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Results Column -->
+        <div class="sticky-results">
+          <!-- EMPTY STATE -->
+          <div id="lbm-empty" class="calc-empty calc-card" style="height:100%;display:flex;flex-direction:column;justify-content:center;">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <p style="font-weight:600;color:var(--text-primary);margin:0 0 4px;">Enter your measurements</p>
+          <p style="font-size:14px;color:var(--text-secondary);margin:0;">Your lean body mass appears instantly</p>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="lbm-results" style="display:none;" class="animate-slide-up">
+          <!-- Primary: LBM -->
+          <div class="result-card" style="margin-bottom:16px;border-top:3px solid var(--accent-green);">
+            <div class="result-card__label">Lean Body Mass</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin:8px 0;flex-wrap:wrap;">
+              <span id="lbm-kg" class="result-card__number">—</span>
+              <span style="font:500 18px var(--font-mono);color:var(--text-secondary);">kg</span>
+              <span style="font:400 16px var(--font-sans);color:var(--text-muted);">/</span>
+              <span id="lbm-lbs" style="font:700 36px var(--font-mono);color:var(--text-primary);">—</span>
+              <span style="font:500 18px var(--font-mono);color:var(--text-secondary);">lbs</span>
+            </div>
+          </div>
+
+          <!-- Secondary cards -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div class="result-card" style="border-top:3px solid var(--accent-orange);">
+              <div class="result-card__label">Fat Mass</div>
+              <div id="lbm-fat-kg" style="font:700 28px var(--font-mono);color:var(--text-primary);margin-top:4px;">—</div>
+              <div id="lbm-fat-lbs" class="result-card__unit">—</div>
+            </div>
+            <div class="result-card" style="border-top:3px solid #8B5CF6;">
+              <div class="result-card__label">BMR (Katch-McArdle)</div>
+              <div id="lbm-bmr" style="font:700 28px var(--font-mono);color:var(--text-primary);margin-top:4px;">—</div>
+              <div class="result-card__unit">kcal / day at rest</div>
+            </div>
+          </div>
+
+          <!-- Protein Recommendation -->
+          <div class="result-card" style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div>
+              <div class="result-card__label">Protein Recommendation</div>
+              <div style="font:700 28px var(--font-mono);color:var(--text-primary);margin-top:4px;" id="lbm-protein">— g</div>
+              <div class="result-card__unit">per day (1g per lb of LBM)</div>
+            </div>
+          </div>
+
+          <!-- Katch-McArdle note -->
+          <div style="padding:16px;background:var(--bg-subtle);border-radius:12px;font:400 14px/1.6 var(--font-sans);color:var(--text-secondary);margin-bottom:16px;">
+            <strong style="color:var(--text-primary);">More accurate TDEE:</strong> The Katch-McArdle BMR shown above accounts for your body composition directly. Use it in the
+            <a href="/tdee-calculator" style="color:var(--accent);text-decoration:none;font-weight:600;">TDEE Calculator</a> for better accuracy than standard formulas.
+          </div>
+
+          <div style="padding:16px;background:var(--bg-subtle);border-radius:12px;font:400 14px/1.6 var(--font-sans);color:var(--text-secondary);">
+            <strong style="color:var(--text-primary);">Measure your body fat:</strong> Use the
+            <a href="/body-fat-calculator" style="color:var(--accent);text-decoration:none;font-weight:600;">Body Fat Calculator</a> to get your body fat % for Method A — the most accurate approach.
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <RelatedCalculators current="/lean-body-mass-calculator" />
+    </div>
+
+    <!-- SEO Content -->
+    <section class="content-section">
+      <AdInArticle client:idle />
+
+      <p>The lean body mass calculator gives you two ways to estimate your LBM. <strong>Method A</strong> uses your known body fat percentage for a direct, accurate calculation. <strong>Method B</strong> uses the Boer formula (1984) — a validated estimation method that only requires your body weight, height, and sex when body fat percentage is unknown.</p>
+
+      <h2>What Is Lean Body Mass?</h2>
+      <p>Lean body mass (LBM) is the total weight of your body excluding all fat tissue. It includes:</p>
+      <ul>
+        <li><strong>Skeletal muscle</strong> — the largest component, typically 40–50% of LBM</li>
+        <li><strong>Bone mass</strong> — approximately 15% of LBM</li>
+        <li><strong>Organ mass</strong> — heart, lungs, liver, kidneys, and other organs</li>
+        <li><strong>Body water</strong> — blood, intracellular fluid, and extracellular fluid</li>
+        <li><strong>Connective tissue</strong> — tendons, ligaments, cartilage</li>
+      </ul>
+
+      <h2>How to Use This Calculator</h2>
+      <p><strong>Method A (most accurate):</strong> Enter your total body weight and your body fat percentage. The calculator will directly compute LBM = weight × (1 − body fat%). Use the <a href="/body-fat-calculator" style="color:var(--accent);">Body Fat Calculator</a> to find your body fat percentage first.</p>
+      <p><strong>Method B (estimation):</strong> Enter your body weight, height, and sex. The calculator uses the Boer formula to estimate LBM. This is less accurate than Method A but useful when body fat percentage is unknown.</p>
+
+      <h2>How We Calculate Lean Body Mass</h2>
+      <h3>Method A: Direct Calculation</h3>
+      <p><strong>LBM = Total Weight × (1 − Body Fat% / 100)</strong></p>
+      <p>This is mathematically exact given accurate inputs. The accuracy depends entirely on the accuracy of the body fat percentage used.</p>
+
+      <h3>Method B: Boer Formula (1984)</h3>
+      <p>Male: LBM (kg) = (0.407 × weight_kg) + (0.267 × height_cm) − 19.2</p>
+      <p>Female: LBM (kg) = (0.252 × weight_kg) + (0.473 × height_cm) − 48.3</p>
+      <p>The Boer formula is the most accurate of the LBM estimation formulas without body fat percentage, validated against hydrostatic weighing across a large population sample.</p>
+
+      <h2>The Katch-McArdle BMR Formula</h2>
+      <p>Once your LBM is known, the Katch-McArdle formula provides the most accurate BMR estimate:</p>
+      <p><strong>BMR = 370 + (21.6 × LBM in kg)</strong></p>
+      <p>This formula is particularly valuable for athletes and highly muscular individuals, where standard BMR formulas (Mifflin-St Jeor, Harris-Benedict) that use total body weight tend to underestimate calorie needs — because they effectively "count" metabolically inactive fat tissue as if it were consuming calories at the same rate as muscle.</p>
+
+      <AdInArticle client:idle />
+
+      <h2>LBM Reference Ranges by Height</h2>
+      <table>
+        <thead>
+          <tr><th>Height</th><th>Average Male LBM</th><th>Athletic Male LBM</th><th>Average Female LBM</th><th>Athletic Female LBM</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>5'4" / 163cm</td><td>52–60 kg</td><td>65–75 kg</td><td>38–46 kg</td><td>48–56 kg</td></tr>
+          <tr><td>5'7" / 170cm</td><td>56–65 kg</td><td>70–80 kg</td><td>42–50 kg</td><td>52–60 kg</td></tr>
+          <tr><td>5'10" / 178cm</td><td>62–72 kg</td><td>76–86 kg</td><td>45–54 kg</td><td>56–64 kg</td></tr>
+          <tr><td>6'0" / 183cm</td><td>66–76 kg</td><td>80–90 kg</td><td>48–57 kg</td><td>59–68 kg</td></tr>
+          <tr><td>6'2" / 188cm</td><td>70–80 kg</td><td>84–94 kg</td><td>51–60 kg</td><td>62–72 kg</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Frequently Asked Questions</h2>
+      <div id="lbm-faq">
+        {faqs.map((faq, i) => (
+          <div class="faq-item" id={`lbm-faq-${i}`}>
+            <button class="faq-question" aria-expanded="false" aria-controls={`lbm-faq-answer-${i}`}>
+              {faq.question}
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" id={`lbm-faq-answer-${i}`} role="region">
+              <p>{faq.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="disclaimer" style="margin-top:40px;">
+        <strong>Medical Disclaimer:</strong> Lean body mass estimates are based on validated formulas but are not a substitute for clinical body composition assessment methods such as DEXA scan or hydrostatic weighing. Results are for educational purposes only.
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script is:inline>
+  (function() {
+    let method = 'body_fat';
+    let unit = 'imperial';
+    let sex = 'male';
+
+    const methodCtrl = document.getElementById('lbm-method-control');
+    const unitCtrl = document.getElementById('lbm-unit-control');
+    const sexCtrl = document.getElementById('lbm-sex-control');
+    const methodBFields = document.getElementById('lbm-method-b-fields');
+    const bfField = document.getElementById('lbm-bf-field');
+    const methodDesc = document.getElementById('lbm-method-desc');
+    const emptyEl = document.getElementById('lbm-empty');
+    const resultsEl = document.getElementById('lbm-results');
+    const weightUnit = document.getElementById('lbm-weight-unit');
+    const heightUnit = document.getElementById('lbm-height-unit');
+
+    function updateMethodUI() {
+      if (method === 'body_fat') {
+        bfField.style.display = 'block';
+        methodBFields.style.display = 'none';
+        methodDesc.textContent = 'Most accurate. Requires knowing your body fat percentage.';
+      } else {
+        bfField.style.display = 'none';
+        methodBFields.style.display = 'grid';
+        methodDesc.textContent = 'Uses the Boer (1984) formula. Enter height and sex — no body fat % needed.';
+      }
+    }
+
+    function updateUnitLabels() {
+      const isMetric = unit === 'metric';
+      const wEl = document.getElementById('lbm-weight');
+      const hEl = document.getElementById('lbm-height');
+      if (weightUnit) weightUnit.textContent = isMetric ? 'kg' : 'lbs';
+      if (heightUnit) heightUnit.textContent = isMetric ? 'cm' : 'in';
+      if (wEl) { wEl.placeholder = isMetric ? '80' : '180'; wEl.min = isMetric ? '30' : '66'; wEl.max = isMetric ? '300' : '660'; }
+      if (hEl) { hEl.placeholder = isMetric ? '178' : '70'; hEl.min = isMetric ? '100' : '36'; hEl.max = isMetric ? '250' : '96'; }
+    }
+
+    function calculate() {
+      const wVal = parseFloat(document.getElementById('lbm-weight').value);
+      if (!wVal) return null;
+      const weight_kg = unit === 'metric' ? wVal : wVal * 0.453592;
+      let lbm_kg;
+
+      if (method === 'body_fat') {
+        const bfVal = parseFloat(document.getElementById('lbm-bf').value);
+        if (!bfVal || bfVal <= 0 || bfVal >= 100) return null;
+        lbm_kg = weight_kg * (1 - bfVal / 100);
+      } else {
+        const hVal = parseFloat(document.getElementById('lbm-height').value);
+        if (!hVal) return null;
+        const height_cm = unit === 'metric' ? hVal : hVal * 2.54;
+        if (sex === 'male') {
+          lbm_kg = (0.407 * weight_kg) + (0.267 * height_cm) - 19.2;
+        } else {
+          lbm_kg = (0.252 * weight_kg) + (0.473 * height_cm) - 48.3;
+        }
+      }
+
+      if (lbm_kg <= 0 || lbm_kg >= weight_kg) return null;
+      const fat_kg = weight_kg - lbm_kg;
+      const bmr = Math.round(370 + 21.6 * lbm_kg);
+      const protein_g = Math.round(lbm_kg * 2.20462); // 1g per lb of LBM
+      const r = v => Math.round(v * 10) / 10;
+
+      return {
+        lbm_kg: r(lbm_kg),
+        lbm_lbs: r(lbm_kg * 2.20462),
+        fat_kg: r(fat_kg),
+        fat_lbs: r(fat_kg * 2.20462),
+        bf_pct: Math.round((fat_kg / weight_kg) * 1000) / 10,
+        bmr, protein_g,
+      };
+    }
+
+    function render(result) {
+      if (!result) {
+        emptyEl.style.display = 'block';
+        resultsEl.style.display = 'none';
+        return;
+      }
+      emptyEl.style.display = 'none';
+      resultsEl.style.display = 'block';
+      document.getElementById('lbm-kg').textContent = result.lbm_kg;
+      document.getElementById('lbm-lbs').textContent = result.lbm_lbs;
+      document.getElementById('lbm-fat-kg').textContent = result.fat_kg + ' kg';
+      document.getElementById('lbm-fat-lbs').textContent = result.fat_lbs + ' lbs';
+      document.getElementById('lbm-bmr').textContent = result.bmr.toLocaleString();
+      document.getElementById('lbm-protein').textContent = result.protein_g + 'g';
+    }
+
+    function wireSegment(ctrl, onChange) {
+      ctrl.querySelectorAll('.segment-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          ctrl.querySelectorAll('.segment-option').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          onChange(btn.dataset.value);
+        });
+      });
+    }
+
+    wireSegment(methodCtrl, v => { method = v; updateMethodUI(); render(calculate()); });
+    wireSegment(unitCtrl, v => {
+      unit = v; updateUnitLabels();
+      ['lbm-weight','lbm-height'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      render(null);
+    });
+    wireSegment(sexCtrl, v => { sex = v; render(calculate()); });
+
+    ['lbm-weight','lbm-bf','lbm-height'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => render(calculate()));
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-answer').classList.remove('open');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          answer.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    updateUnitLabels();
+    updateMethodUI();
+  })();
+</script>

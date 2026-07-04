@@ -1,0 +1,426 @@
+---
+// src/pages/ideal-weight-calculator.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
+
+const title = 'Ideal Weight Calculator — Find Your Healthy Goal Weight | CalcMacros';
+const description = 'Calculate your ideal body weight using 4 science-backed formulas. Find your healthy goal weight range by height and sex. Free ideal weight calculator — no signup.';
+const canonical = 'https://calcmacros.com/ideal-weight-calculator';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Ideal Weight Calculator',
+  url: canonical,
+  description: 'Free ideal weight calculator using 4 validated formulas.',
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://calcmacros.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Ideal Weight Calculator', item: canonical },
+  ],
+};
+
+const faqs = [
+  {
+    question: 'What is the ideal weight for my height?',
+    answer: 'Ideal weight varies by height, sex, and body frame size. As a general guide: for a 5\'10" (178cm) male, ideal weight typically falls between 63–79 kg (139–174 lbs) across the four main formulas. For a 5\'5" (165cm) female, the range is typically 54–67 kg (119–148 lbs). This calculator shows all four validated formula results so you can see the full range.',
+  },
+  {
+    question: 'Which ideal weight formula is most accurate?',
+    answer: 'No single formula is universally "most accurate" — each was developed for different clinical purposes. The Devine formula (1974) is the most widely used in clinical settings and drug dosing calculations. The Hamwi formula accounts for frame size, making it useful for people at the extremes of body frame. For most practical purposes, using the average of all four formulas gives the most reliable estimate.',
+  },
+  {
+    question: 'Is ideal weight different for men and women?',
+    answer: 'Yes. All four formulas have separate starting points and adjustment rates for men and women, reflecting differences in typical muscle mass, bone density, and fat distribution. At the same height, men\'s ideal weight according to these formulas is typically 4–8 kg (9–18 lbs) higher than women\'s, primarily due to greater average muscle and bone mass.',
+  },
+  {
+    question: 'What is a healthy weight range based on BMI?',
+    answer: 'A healthy BMI range of 18.5–24.9 translates to a specific weight range for each height. This calculator shows both the formula-based ideal weights and the BMI-based healthy range so you can see how the approaches compare. The BMI range is typically broader than the formula-based ideal weights.',
+  },
+  {
+    question: 'How does frame size affect ideal weight?',
+    answer: 'The Hamwi formula (1964) is the only one of the four that directly accounts for body frame size. People with a larger skeletal frame (wider shoulders, larger wrists) naturally carry more bone mass and can support more muscle, making a higher weight appropriate. The Hamwi formula adjusts ±10% for small or large frames compared to the medium frame baseline.',
+  },
+  {
+    question: 'Is ideal weight the same as goal weight?',
+    answer: 'Not necessarily. "Ideal weight" from these formulas is a statistical estimate based on population data — it is a useful reference point, not a prescription. Your personal goal weight should account for your individual body composition goals, your starting point, your muscle mass, and what weight makes you feel and perform your best. Many athletes and highly muscular individuals will have a healthy goal weight above these formula estimates.',
+  },
+  {
+    question: 'How long will it take to reach my ideal weight?',
+    answer: 'A sustainable fat loss rate is 0.5–1% of bodyweight per week. At this rate, losing 10 kg would take approximately 10–20 weeks. Muscle gain is slower — typically 0.5–2 kg per month for beginners, less for experienced lifters. Use the Calorie Deficit Calculator to find the right daily calorie target for your timeline.',
+  },
+  {
+    question: 'Does age affect ideal body weight?',
+    answer: 'The four classical formulas do not adjust for age. However, body composition naturally changes with age — muscle mass decreases and fat mass tends to increase starting around age 30. Older adults often find that maintaining a slightly higher weight with good muscle mass is healthier than chasing a lower scale number, as higher weight in older age is associated with better outcomes in some populations.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema, breadcrumbSchema]}>
+  <Header />
+
+  <main>
+    <div class="page-container" style="padding-top: 1rem;">
+      <nav aria-label="breadcrumb">
+        <ol style="list-style:none;padding:0;margin:0;display:flex;gap:0.5rem;font-size:0.875rem;color:var(--text-secondary);">
+          <li><a href="/" style="color:var(--text-secondary);text-decoration:none;">Home</a></li>
+          <li>/</li>
+          <li aria-current="page">Ideal Weight Calculator</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="page-container">
+      <div style="margin-top:16px;margin-bottom:16px;">
+        <AdLeaderboard client:idle />
+      </div>
+
+      <section class="hero">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;">
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">4 validated formulas</span>
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">Instant results</span>
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">Free — no signup</span>
+        </div>
+        <h1>Ideal Weight Calculator</h1>
+        <p>Find your healthy goal weight using four science-backed formulas. See the Devine, Robinson, Miller, and Hamwi estimates side by side with your BMI-based range.</p>
+      </section>
+
+      <!-- Calculator Widget -->
+      <div class="calc-layout" style="display:grid;gap:24px;align-items:start;">
+        <style>
+          @media (min-width: 992px) {
+            .calc-layout { grid-template-columns: minmax(0, 5fr) minmax(0, 4fr); }
+            .sticky-results { position: sticky; top: 24px; }
+          }
+        </style>
+
+        <!-- Form Column -->
+        <div class="calc-card" id="iw-widget">
+          <div id="iw-form">
+          <!-- Sex -->
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Sex</label>
+            <div class="segment-control" id="iw-sex-control">
+              <button class="segment-option active" data-value="male" type="button">Male</button>
+              <button class="segment-option" data-value="female" type="button">Female</button>
+            </div>
+          </div>
+
+          <!-- Unit System -->
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Unit System</label>
+            <div class="segment-control" id="iw-unit-control">
+              <button class="segment-option active" data-value="imperial" type="button">Imperial</button>
+              <button class="segment-option" data-value="metric" type="button">Metric</button>
+            </div>
+          </div>
+
+          <!-- Height + Frame Size -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <label for="iw-height" style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Height</label>
+              <div style="position:relative;">
+                <input type="number" id="iw-height" class="calc-input" placeholder="70" min="51" max="90" step="0.1" style="padding-right:48px;" />
+                <span id="iw-height-unit" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font:500 13px var(--font-sans);color:var(--text-muted);">in</span>
+              </div>
+            </div>
+            <div>
+              <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Frame Size</label>
+              <div class="segment-control" id="iw-frame-control">
+                <button class="segment-option" data-value="small" type="button">S</button>
+                <button class="segment-option active" data-value="medium" type="button">M</button>
+                <button class="segment-option" data-value="large" type="button">L</button>
+              </div>
+              <div style="font:400 11px var(--font-sans);color:var(--text-muted);margin-top:6px;">Skeletal build (wrist size). Leave as M if unsure.</div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Results Column -->
+        <div class="sticky-results">
+          <!-- EMPTY STATE -->
+          <div id="iw-empty" class="calc-empty calc-card" style="height:100%;display:flex;flex-direction:column;justify-content:center;">
+            <div style="width:56px;height:56px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5-6-5 6"/></svg>
+            </div>
+            <p style="font-weight:600;color:var(--text-primary);margin:0 0 4px;">Enter your height</p>
+            <p style="font-size:14px;color:var(--text-secondary);margin:0;">Your ideal weight range appears instantly</p>
+          </div>
+
+          <!-- RESULTS -->
+          <div id="iw-results" style="display:none;" class="animate-slide-up">
+          <!-- Primary: Average -->
+          <div class="result-card" style="margin-bottom:20px;border-top:3px solid var(--accent);">
+            <div class="result-card__label">Recommended Ideal Weight (Average)</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin:8px 0;">
+              <span id="iw-avg-kg" class="result-card__number">—</span>
+              <span style="font:400 16px var(--font-sans);color:var(--text-secondary);">kg</span>
+              <span style="font:400 16px var(--font-sans);color:var(--text-muted);">/</span>
+              <span id="iw-avg-lbs" style="font:700 28px var(--font-mono);color:var(--text-primary);">—</span>
+              <span style="font:400 16px var(--font-sans);color:var(--text-secondary);">lbs</span>
+            </div>
+            <div id="iw-bmi-range" class="result-card__unit">Healthy BMI range: —</div>
+          </div>
+
+          <!-- Formula Breakdown -->
+          <div style="margin-bottom:8px;">
+            <div style="font:500 12px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:12px;">Formula Breakdown</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="result-card" style="padding:16px;">
+                <div style="font:500 11px var(--font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);">Devine (1974)</div>
+                <div id="iw-devine" style="font:700 22px var(--font-mono);color:var(--text-primary);margin-top:4px;">—</div>
+                <div style="font:400 12px var(--font-sans);color:var(--text-muted);margin-top:2px;">Most used clinically</div>
+              </div>
+              <div class="result-card" style="padding:16px;">
+                <div style="font:500 11px var(--font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);">Robinson (1983)</div>
+                <div id="iw-robinson" style="font:700 22px var(--font-mono);color:var(--text-primary);margin-top:4px;">—</div>
+                <div style="font:400 12px var(--font-sans);color:var(--text-muted);margin-top:2px;">Conservative estimate</div>
+              </div>
+              <div class="result-card" style="padding:16px;">
+                <div style="font:500 11px var(--font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);">Miller (1983)</div>
+                <div id="iw-miller" style="font:700 22px var(--font-mono);color:var(--text-primary);margin-top:4px;">—</div>
+                <div style="font:400 12px var(--font-sans);color:var(--text-muted);margin-top:2px;">Higher baseline</div>
+              </div>
+              <div class="result-card" style="padding:16px;">
+                <div style="font:500 11px var(--font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);">Hamwi (1964)</div>
+                <div id="iw-hamwi" style="font:700 22px var(--font-mono);color:var(--text-primary);margin-top:4px;">—</div>
+                <div style="font:400 12px var(--font-sans);color:var(--text-muted);margin-top:2px;">Frame-adjusted</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px;padding:16px;background:var(--bg-subtle);border-radius:12px;font:400 14px/1.6 var(--font-sans);color:var(--text-secondary);">
+            <strong style="color:var(--text-primary);">Ready to reach your goal?</strong>
+            <a href="/" style="color:var(--accent);text-decoration:none;font-weight:600;"> Calculate your macros for your goal weight →</a>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <RelatedCalculators current="/ideal-weight-calculator" />
+    </div>
+
+    <!-- SEO Content -->
+    <section class="content-section">
+      <AdInArticle client:idle />
+
+      <p>The ideal weight calculator uses <strong>four validated medical formulas</strong> to estimate a healthy goal weight for your height and sex. Rather than showing a single number, this calculator gives you the full range — so you can understand what each formula recommends and why they differ.</p>
+
+      <h2>What Is Ideal Weight?</h2>
+      <p>Ideal body weight (IBW) is a statistical estimate of a healthy weight for a given height and sex. These formulas were originally developed for clinical use — primarily for calculating medication dosages based on lean body mass — not as fitness prescriptions. In practice, they serve as a useful starting point for setting a realistic weight goal.</p>
+      <p>It is important to understand that these formulas do not account for body composition. A highly muscular person may have a "healthy" weight above the formula estimates while actually having low body fat — and that is perfectly appropriate.</p>
+
+      <h2>How to Use This Calculator</h2>
+      <p>Enter your height and select your sex. The calculator will instantly show you the results from all four formulas, the average recommended weight, and the healthy BMI-based weight range for your height. Optionally, adjust the frame size (Small, Medium, Large) to see how the Hamwi formula adjusts for your skeletal build.</p>
+
+      <h2>The Four Ideal Weight Formulas</h2>
+      <h3>Devine Formula (1974)</h3>
+      <p>The most widely used ideal body weight formula in clinical medicine, particularly for drug dosing. Male: 50 kg + 2.3 kg per inch over 5 feet. Female: 45.5 kg + 2.3 kg per inch over 5 feet.</p>
+
+      <h3>Robinson Formula (1983)</h3>
+      <p>A refinement of the Devine formula with a slightly lower per-inch increment. Male: 52 kg + 1.9 kg per inch over 5 feet. Female: 49 kg + 1.7 kg per inch over 5 feet.</p>
+
+      <h3>Miller Formula (1983)</h3>
+      <p>Tends to produce the highest estimates of the four formulas. Male: 56.2 kg + 1.41 kg per inch over 5 feet. Female: 53.1 kg + 1.36 kg per inch over 5 feet.</p>
+
+      <h3>Hamwi Formula (1964)</h3>
+      <p>One of the oldest formulas, notable for its frame size adjustment. The Hamwi baseline weight is adjusted by ±10% for small or large body frames. Male: 48 kg + 2.7 kg per inch over 5 feet. Female: 45.4 kg + 2.27 kg per inch over 5 feet.</p>
+
+      <AdInArticle client:idle />
+
+      <h2>Understanding Your Results</h2>
+      <p>This calculator shows three key outputs:</p>
+      <ul>
+        <li><strong>Recommended ideal weight:</strong> The average of the Devine, Robinson, and Miller formulas — a balanced reference point for most people.</li>
+        <li><strong>Formula breakdown:</strong> All four formulas individually, so you can see the full range of estimates.</li>
+        <li><strong>Healthy BMI range:</strong> The weight range corresponding to BMI 18.5–24.9 for your height — typically broader than the formula estimates.</li>
+      </ul>
+
+      <h2>Ideal Weight by Height — Reference Table</h2>
+      <table>
+        <thead>
+          <tr><th>Height</th><th>Male (avg formula)</th><th>Female (avg formula)</th><th>BMI range (both)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>5'4" / 163cm</td><td>56–62 kg / 123–137 lbs</td><td>51–57 kg / 113–126 lbs</td><td>49–67 kg</td></tr>
+          <tr><td>5'6" / 168cm</td><td>60–67 kg / 133–148 lbs</td><td>55–62 kg / 122–137 lbs</td><td>52–70 kg</td></tr>
+          <tr><td>5'8" / 173cm</td><td>64–72 kg / 141–159 lbs</td><td>59–66 kg / 130–146 lbs</td><td>55–74 kg</td></tr>
+          <tr><td>5'10" / 178cm</td><td>68–77 kg / 150–170 lbs</td><td>63–71 kg / 139–157 lbs</td><td>59–79 kg</td></tr>
+          <tr><td>6'0" / 183cm</td><td>73–82 kg / 161–181 lbs</td><td>67–76 kg / 148–168 lbs</td><td>62–84 kg</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Frequently Asked Questions</h2>
+      <div id="iw-faq">
+        {faqs.map((faq, i) => (
+          <div class="faq-item" id={`iw-faq-${i}`}>
+            <button class="faq-question" aria-expanded="false" aria-controls={`iw-faq-answer-${i}`}>
+              {faq.question}
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" id={`iw-faq-answer-${i}`} role="region">
+              <p>{faq.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="disclaimer" style="margin-top:40px;">
+        <strong>Medical Disclaimer:</strong> Ideal weight formulas are statistical estimates developed for clinical use. They are not a prescription for your goal weight. Individual health and body composition goals should be discussed with a qualified healthcare provider.
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script is:inline>
+  (function() {
+    let sex = 'male';
+    let unit = 'imperial';
+    let frame = 'medium';
+
+    const sexCtrl = document.getElementById('iw-sex-control');
+    const unitCtrl = document.getElementById('iw-unit-control');
+    const frameCtrl = document.getElementById('iw-frame-control');
+    const emptyEl = document.getElementById('iw-empty');
+    const resultsEl = document.getElementById('iw-results');
+    const heightUnit = document.getElementById('iw-height-unit');
+
+    function updateUnitLabel() {
+      const hEl = document.getElementById('iw-height');
+      if (unit === 'metric') {
+        if (heightUnit) heightUnit.textContent = 'cm';
+        if (hEl) { hEl.placeholder = '178'; hEl.min = '130'; hEl.max = '230'; }
+      } else {
+        if (heightUnit) heightUnit.textContent = 'in';
+        if (hEl) { hEl.placeholder = '70'; hEl.min = '51'; hEl.max = '90'; }
+      }
+    }
+
+    function fmt(kg, lbs) { return kg + ' kg / ' + lbs + ' lbs'; }
+    function kgToLbs(kg) { return Math.round(kg * 2.20462 * 10) / 10; }
+
+    function calculate() {
+      const hVal = parseFloat(document.getElementById('iw-height').value);
+      if (!hVal) return null;
+
+      const height_cm = unit === 'metric' ? hVal : hVal * 2.54;
+      const height_in = height_cm / 2.54;
+      const over5ft = Math.max(0, height_in - 60);
+
+      // Devine
+      const divine_kg = sex === 'male' ? 50 + 2.3 * over5ft : 45.5 + 2.3 * over5ft;
+      // Robinson
+      const robinson_kg = sex === 'male' ? 52 + 1.9 * over5ft : 49 + 1.7 * over5ft;
+      // Miller
+      const miller_kg = sex === 'male' ? 56.2 + 1.41 * over5ft : 53.1 + 1.36 * over5ft;
+      // Hamwi with frame
+      let hamwi_kg = sex === 'male' ? 48 + 2.7 * over5ft : 45.4 + 2.27 * over5ft;
+      if (frame === 'small') hamwi_kg *= 0.9;
+      if (frame === 'large') hamwi_kg *= 1.1;
+
+      // BMI range
+      const h_m = height_cm / 100;
+      const bmiLow = 18.5 * h_m * h_m;
+      const bmiHigh = 24.9 * h_m * h_m;
+
+      const avg = (divine_kg + robinson_kg + miller_kg) / 3;
+
+      const r = v => Math.round(v * 10) / 10;
+
+      return {
+        avg: r(avg), avgLbs: kgToLbs(avg),
+        devine: r(divine_kg), devineLbs: kgToLbs(divine_kg),
+        robinson: r(robinson_kg), robinsonLbs: kgToLbs(robinson_kg),
+        miller: r(miller_kg), millerLbs: kgToLbs(miller_kg),
+        hamwi: r(hamwi_kg), hamwiLbs: kgToLbs(hamwi_kg),
+        bmiLow: r(bmiLow), bmiHigh: r(bmiHigh),
+        bmiLowLbs: kgToLbs(bmiLow), bmiHighLbs: kgToLbs(bmiHigh),
+      };
+    }
+
+    function render(result) {
+      if (!result) {
+        emptyEl.style.display = 'block';
+        resultsEl.style.display = 'none';
+        return;
+      }
+      emptyEl.style.display = 'none';
+      resultsEl.style.display = 'block';
+
+      document.getElementById('iw-avg-kg').textContent = result.avg;
+      document.getElementById('iw-avg-lbs').textContent = result.avgLbs;
+      document.getElementById('iw-bmi-range').textContent =
+        `Healthy BMI range: ${result.bmiLow}–${result.bmiHigh} kg (${result.bmiLowLbs}–${result.bmiHighLbs} lbs)`;
+      document.getElementById('iw-devine').textContent = `${result.devine} kg`;
+      document.getElementById('iw-robinson').textContent = `${result.robinson} kg`;
+      document.getElementById('iw-miller').textContent = `${result.miller} kg`;
+      document.getElementById('iw-hamwi').textContent = `${result.hamwi} kg`;
+    }
+
+    // Segment controls
+    function wireSegment(ctrl, onChange) {
+      ctrl.querySelectorAll('.segment-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          ctrl.querySelectorAll('.segment-option').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          onChange(btn.dataset.value);
+        });
+      });
+    }
+
+    wireSegment(sexCtrl, v => { sex = v; render(calculate()); });
+    wireSegment(unitCtrl, v => {
+      unit = v;
+      updateUnitLabel();
+      const h = document.getElementById('iw-height');
+      if (h) h.value = '';
+      render(null);
+    });
+    wireSegment(frameCtrl, v => { frame = v; render(calculate()); });
+
+    document.getElementById('iw-height').addEventListener('input', () => render(calculate()));
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-answer').classList.remove('open');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          answer.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    updateUnitLabel();
+  })();
+</script>

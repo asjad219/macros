@@ -1,0 +1,703 @@
+---
+// src/pages/calculators.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+
+const title = 'All Calculators — Free Health & Nutrition Tools | CalcMacros';
+const description = 'Browse all free health and nutrition calculators from CalcMacros. Body fat, TDEE, macros, ideal weight, calorie burn, water intake, BMI, BMR, lean body mass, and more.';
+const canonical = 'https://calcmacros.com/calculators';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'All Calculators — CalcMacros',
+  url: canonical,
+  description,
+  hasPart: [
+    { '@type': 'WebApplication', name: 'Macro Calculator', url: 'https://calcmacros.com/' },
+    { '@type': 'WebApplication', name: 'TDEE Calculator', url: 'https://calcmacros.com/tdee-calculator' },
+    { '@type': 'WebApplication', name: 'Body Fat Calculator', url: 'https://calcmacros.com/body-fat-calculator' },
+    { '@type': 'WebApplication', name: 'BMI Calculator', url: 'https://calcmacros.com/bmi-calculator' },
+    { '@type': 'WebApplication', name: 'BMR Calculator', url: 'https://calcmacros.com/bmr-calculator' },
+    { '@type': 'WebApplication', name: 'Protein Calculator', url: 'https://calcmacros.com/protein-calculator' },
+    { '@type': 'WebApplication', name: 'Calorie Deficit Calculator', url: 'https://calcmacros.com/calorie-deficit-calculator' },
+    { '@type': 'WebApplication', name: 'Ideal Weight Calculator', url: 'https://calcmacros.com/ideal-weight-calculator' },
+    { '@type': 'WebApplication', name: 'Calorie Burn Calculator', url: 'https://calcmacros.com/calorie-burn-calculator' },
+    { '@type': 'WebApplication', name: 'Water Intake Calculator', url: 'https://calcmacros.com/water-intake-calculator' },
+    { '@type': 'WebApplication', name: 'Lean Body Mass Calculator', url: 'https://calcmacros.com/lean-body-mass-calculator' },
+  ],
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://calcmacros.com/' },
+    { '@type': 'ListItem', position: 2, name: 'All Calculators', item: canonical },
+  ],
+};
+
+const calculators = [
+  {
+    href: '/',
+    title: 'Macro Calculator',
+    desc: 'Calculate your optimal protein, carbs, and fat targets based on your TDEE and goal.',
+    category: 'nutrition',
+    categoryLabel: 'Nutrition',
+    tags: ['macros', 'protein', 'carbs', 'fat', 'tdee', 'diet'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v10l6 3"/></svg>`,
+    featured: true,
+  },
+  {
+    href: '/tdee-calculator',
+    title: 'TDEE Calculator',
+    desc: 'Find your Total Daily Energy Expenditure — the calories your body burns across the entire day.',
+    category: 'nutrition',
+    categoryLabel: 'Nutrition',
+    tags: ['tdee', 'calories', 'maintenance', 'activity', 'bmr'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+    featured: true,
+  },
+  {
+    href: '/calorie-deficit-calculator',
+    title: 'Calorie Deficit Calculator',
+    desc: 'Set your daily calorie deficit and get an estimated timeline to reach your goal weight.',
+    category: 'nutrition',
+    categoryLabel: 'Nutrition',
+    tags: ['deficit', 'calories', 'weight loss', 'cut', 'diet'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>`,
+    featured: false,
+  },
+  {
+    href: '/protein-calculator',
+    title: 'Protein Calculator',
+    desc: 'Get your daily protein target based on your bodyweight, goal, and activity level.',
+    category: 'nutrition',
+    categoryLabel: 'Nutrition',
+    tags: ['protein', 'muscle', 'macros', 'intake', 'diet'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10"/><path d="M12 8v4l3 3"/></svg>`,
+    featured: false,
+  },
+  {
+    href: '/bmi-calculator',
+    title: 'BMI Calculator',
+    desc: 'Calculate your Body Mass Index with category classification and a visual gauge.',
+    category: 'body',
+    categoryLabel: 'Body',
+    tags: ['bmi', 'body mass', 'weight', 'height', 'overweight'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.5 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/><polyline points="3 16 8 11 13 16 18 9"/></svg>`,
+    featured: false,
+  },
+  {
+    href: '/bmr-calculator',
+    title: 'BMR Calculator',
+    desc: 'Calculate your Basal Metabolic Rate — calories your body burns at complete rest.',
+    category: 'body',
+    categoryLabel: 'Body',
+    tags: ['bmr', 'metabolism', 'rest', 'calories', 'mifflin'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+    featured: false,
+  },
+  {
+    href: '/body-fat-calculator',
+    title: 'Body Fat Calculator',
+    desc: 'Estimate your body fat percentage with the US Navy tape-measure method. No equipment needed.',
+    category: 'body',
+    categoryLabel: 'Body',
+    tags: ['body fat', 'composition', 'navy method', 'lean mass', 'fat mass'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>`,
+    featured: true,
+  },
+  {
+    href: '/ideal-weight-calculator',
+    title: 'Ideal Weight Calculator',
+    desc: 'Find your healthy goal weight range using four science-backed formulas by height and sex.',
+    category: 'body',
+    categoryLabel: 'Body',
+    tags: ['ideal weight', 'goal weight', 'divine', 'robinson', 'miller', 'hamwi'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4"/><path d="m6 10 6-6 6 6"/></svg>`,
+    featured: false,
+  },
+  {
+    href: '/lean-body-mass-calculator',
+    title: 'Lean Body Mass Calculator',
+    desc: 'Calculate your LBM and get a precise Katch-McArdle BMR. Two methods: with or without body fat %.',
+    category: 'body',
+    categoryLabel: 'Body',
+    tags: ['lbm', 'lean mass', 'muscle', 'katch mcardle', 'body fat'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>`,
+    featured: false,
+  },
+  {
+    href: '/calorie-burn-calculator',
+    title: 'Calorie Burn Calculator',
+    desc: 'Calculate calories burned for 30+ exercises using MET values from Ainsworth et al. 2011.',
+    category: 'activity',
+    categoryLabel: 'Activity',
+    tags: ['calories burned', 'exercise', 'running', 'walking', 'cycling', 'met'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+    featured: true,
+  },
+  {
+    href: '/water-intake-calculator',
+    title: 'Water Intake Calculator',
+    desc: 'Get a personalized hydration target based on weight, activity, climate, and exercise.',
+    category: 'activity',
+    categoryLabel: 'Activity',
+    tags: ['water', 'hydration', 'intake', 'drink', 'efsa', 'daily'],
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6 2 2 7.5 2 12a10 10 0 0 0 20 0c0-4.5-4-10-10-10z"/></svg>`,
+    featured: false,
+  },
+];
+
+const categories = [
+  { id: 'all', label: 'All' },
+  { id: 'nutrition', label: 'Nutrition' },
+  { id: 'body', label: 'Body' },
+  { id: 'activity', label: 'Activity' },
+];
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, breadcrumbSchema]}>
+  <Header />
+
+  <main>
+    <!-- Breadcrumb -->
+    <div class="page-container" style="padding-top:1rem;">
+      <nav aria-label="breadcrumb">
+        <ol style="list-style:none;padding:0;margin:0;display:flex;gap:.5rem;font-size:.875rem;color:var(--text-secondary);">
+          <li><a href="/" style="color:var(--text-secondary);text-decoration:none;">Home</a></li>
+          <li>/</li>
+          <li aria-current="page" style="color:var(--text-primary);font-weight:500;">All Calculators</li>
+        </ol>
+      </nav>
+    </div>
+
+    <!-- Hero -->
+    <div class="calc-hub-hero">
+      <div class="calc-hub-hero-inner">
+        <div class="calc-hub-eyebrow">11 free tools</div>
+        <h1 class="calc-hub-h1">All Calculators</h1>
+        <p class="calc-hub-subtitle">Science-backed health and nutrition calculators. Pick a tool, get your numbers.</p>
+
+        <!-- Search Bar -->
+        <div class="calc-hub-search-wrap" role="search">
+          <div class="calc-hub-search-box">
+            <svg class="calc-hub-search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              type="search"
+              id="calc-search"
+              class="calc-hub-search-input"
+              placeholder="Search calculators…"
+              autocomplete="off"
+              aria-label="Search calculators"
+            />
+            <button class="calc-hub-search-clear" id="search-clear" aria-label="Clear search" style="display:none;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="page-container">
+      <div class="calc-hub-tabs" role="tablist" aria-label="Filter by category" id="category-tabs">
+        {categories.map(cat => (
+          <button
+            class={`calc-hub-tab ${cat.id === 'all' ? 'active' : ''}`}
+            data-category={cat.id}
+            role="tab"
+            aria-selected={cat.id === 'all' ? 'true' : 'false'}
+            id={`tab-${cat.id}`}
+            type="button"
+          >
+            {cat.label}
+            <span class="calc-hub-tab-count" id={`count-${cat.id}`}>
+              {cat.id === 'all' ? calculators.length : calculators.filter(c => c.category === cat.id).length}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <!-- Empty state (search no results) -->
+      <div id="hub-empty" style="display:none;text-align:center;padding:80px 24px;">
+        <div style="width:52px;height:52px;border-radius:50%;background:var(--bg-subtle);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <p style="font:600 16px var(--font-sans);color:var(--text-primary);margin:0 0 6px;">No calculators found</p>
+        <p style="font:400 14px var(--font-sans);color:var(--text-secondary);margin:0;">Try a different search term or <button onclick="window.clearHubSearch()" style="background:none;border:none;padding:0;color:var(--accent);font:inherit;cursor:pointer;text-decoration:underline;">clear the search</button>.</p>
+      </div>
+
+      <!-- Calculator Grid -->
+      <div class="calc-hub-grid" id="calc-grid" role="list">
+        {calculators.map((calc, i) => (
+          <a
+            href={calc.href}
+            class={`calc-hub-card ${calc.featured ? 'calc-hub-card--featured' : ''}`}
+            data-category={calc.category}
+            data-tags={calc.tags.join(' ')}
+            data-title={calc.title.toLowerCase()}
+            data-desc={calc.desc.toLowerCase()}
+            role="listitem"
+            id={`calc-card-${i}`}
+          >
+            <div class="calc-hub-card-inner">
+              <div class="calc-hub-card-top">
+                <div class="calc-hub-card-icon" aria-hidden="true">
+                  <Fragment set:html={calc.icon} />
+                </div>
+                <span class="calc-hub-card-cat">{calc.categoryLabel}</span>
+              </div>
+              <div class="calc-hub-card-body">
+                <h2 class="calc-hub-card-title">{calc.title}</h2>
+                <p class="calc-hub-card-desc">{calc.desc}</p>
+              </div>
+              <div class="calc-hub-card-footer">
+                <span class="calc-hub-card-cta">
+                  Open calculator
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- Stats bar -->
+      <div class="calc-hub-stats">
+        <div class="calc-hub-stat">
+          <span class="calc-hub-stat-num">11</span>
+          <span class="calc-hub-stat-label">Calculators</span>
+        </div>
+        <div class="calc-hub-stat-divider"></div>
+        <div class="calc-hub-stat">
+          <span class="calc-hub-stat-num">Free</span>
+          <span class="calc-hub-stat-label">No signup needed</span>
+        </div>
+        <div class="calc-hub-stat-divider"></div>
+        <div class="calc-hub-stat">
+          <span class="calc-hub-stat-num">Science</span>
+          <span class="calc-hub-stat-label">Backed formulas</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ── Hero ──────────────────────────────────────────────── */
+  .calc-hub-hero {
+    padding: 72px 0 48px;
+    text-align: center;
+  }
+  .calc-hub-hero-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .calc-hub-eyebrow {
+    display: inline-block;
+    font: 600 11px/1 var(--font-sans);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .calc-hub-h1 {
+    font: 800 52px/1.05 var(--font-sans);
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .calc-hub-subtitle {
+    font: 400 18px/1.65 var(--font-sans);
+    color: var(--text-secondary);
+    margin: 0 0 36px;
+    text-wrap: balance;
+  }
+  @media (max-width: 640px) {
+    .calc-hub-hero { padding: 48px 0 36px; }
+    .calc-hub-h1 { font-size: 34px; }
+    .calc-hub-subtitle { font-size: 16px; }
+  }
+
+  /* ── Search ────────────────────────────────────────────── */
+  .calc-hub-search-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .calc-hub-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .calc-hub-search-icon {
+    position: absolute;
+    left: 16px;
+    color: var(--text-muted);
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+  .calc-hub-search-input {
+    width: 100%;
+    height: 52px;
+    padding: 0 48px 0 48px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font: 400 15px var(--font-sans);
+    color: var(--text-primary);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .calc-hub-search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  .calc-hub-search-input::placeholder {
+    color: var(--text-muted);
+  }
+  /* Hide the native clear button in search inputs */
+  .calc-hub-search-input::-webkit-search-cancel-button { display: none; }
+  .calc-hub-search-clear {
+    position: absolute;
+    right: 14px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: background 150ms, color 150ms;
+  }
+  .calc-hub-search-clear:hover {
+    background: var(--border);
+    color: var(--text-primary);
+  }
+
+  /* ── Category Tabs ─────────────────────────────────────── */
+  .calc-hub-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 0 0 32px;
+    padding-top: 8px;
+  }
+  .calc-hub-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    font: 500 13px var(--font-sans);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: border-color 150ms, color 150ms, background 150ms, box-shadow 150ms;
+    white-space: nowrap;
+  }
+  .calc-hub-tab:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+  .calc-hub-tab.active {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+    color: var(--bg-base);
+    font-weight: 600;
+  }
+  .calc-hub-tab-count {
+    font: 600 11px var(--font-sans);
+    background: currentColor;
+    color: inherit;
+    opacity: 0.2;
+    border-radius: 20px;
+    min-width: 20px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    transition: opacity 150ms;
+  }
+  .calc-hub-tab.active .calc-hub-tab-count {
+    opacity: 0.35;
+    background: var(--bg-base);
+    color: var(--bg-base);
+  }
+
+  /* ── Calculator Grid ───────────────────────────────────── */
+  .calc-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+  @media (max-width: 1024px) {
+    .calc-hub-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .calc-hub-grid { grid-template-columns: 1fr; gap: 12px; }
+  }
+
+  /* ── Calculator Card ───────────────────────────────────── */
+  .calc-hub-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    text-decoration: none;
+    display: block;
+    transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .calc-hub-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 8px 24px rgba(0,0,0,.07), 0 2px 6px rgba(0,0,0,.04);
+    transform: translateY(-2px);
+  }
+  .calc-hub-card--featured::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 14px 14px 0 0;
+  }
+  .calc-hub-card-inner {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .calc-hub-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .calc-hub-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    transition: background 200ms, color 200ms;
+  }
+  .calc-hub-card:hover .calc-hub-card-icon {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+  .calc-hub-card-cat {
+    font: 500 10px var(--font-sans);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-top: 4px;
+  }
+  .calc-hub-card-body {
+    flex: 1;
+  }
+  .calc-hub-card-title {
+    font: 600 16px/1.35 var(--font-sans);
+    color: var(--text-primary);
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .calc-hub-card-desc {
+    font: 400 13.5px/1.65 var(--font-sans);
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .calc-hub-card-footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .calc-hub-card-cta {
+    font: 500 13px var(--font-sans);
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 150ms, gap 150ms;
+  }
+  .calc-hub-card:hover .calc-hub-card-cta {
+    color: var(--accent);
+    gap: 9px;
+  }
+
+  /* ── Stats Bar ─────────────────────────────────────────── */
+  .calc-hub-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    padding: 32px 0 64px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .calc-hub-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .calc-hub-stat-num {
+    font: 700 20px/1 var(--font-mono);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+  .calc-hub-stat-label {
+    font: 400 12px var(--font-sans);
+    color: var(--text-muted);
+    letter-spacing: .02em;
+  }
+  .calc-hub-stat-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--border);
+  }
+  @media (max-width: 480px) {
+    .calc-hub-stat-divider { display: none; }
+    .calc-hub-stats { gap: 20px; }
+  }
+
+  /* ── Card hidden state ─────────────────────────────────── */
+  .calc-hub-card[data-hidden="true"] {
+    display: none;
+  }
+
+  /* ── Dark mode tweaks ──────────────────────────────────── */
+  :global([data-theme="dark"]) .calc-hub-tab.active {
+    background: var(--bg-card);
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+  :global([data-theme="dark"]) .calc-hub-card--featured::before {
+    background: var(--accent);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const searchInput = document.getElementById('calc-search');
+    const clearBtn = document.getElementById('search-clear');
+    const grid = document.getElementById('calc-grid');
+    const emptyState = document.getElementById('hub-empty');
+    const categoryTabs = document.querySelectorAll('.calc-hub-tab');
+    const allCards = Array.from(document.querySelectorAll('.calc-hub-card'));
+    const countEls = {};
+
+    ['all','nutrition','body','activity'].forEach(id => {
+      countEls[id] = document.getElementById('count-' + id);
+    });
+
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    function filter() {
+      let visible = 0;
+      allCards.forEach(card => {
+        const cat = card.dataset.category;
+        const matchesCat = activeCategory === 'all' || cat === activeCategory;
+        const searchable = (card.dataset.title + ' ' + card.dataset.desc + ' ' + card.dataset.tags).toLowerCase();
+        const matchesSearch = searchQuery === '' || searchable.includes(searchQuery);
+        const show = matchesCat && matchesSearch;
+        card.setAttribute('data-hidden', show ? 'false' : 'true');
+        if (show) visible++;
+      });
+
+      // Update counts
+      ['all','nutrition','body','activity'].forEach(id => {
+        let count = 0;
+        allCards.forEach(card => {
+          const matchesCat = id === 'all' || card.dataset.category === id;
+          const searchable = (card.dataset.title + ' ' + card.dataset.desc + ' ' + card.dataset.tags).toLowerCase();
+          const matchesSearch = searchQuery === '' || searchable.includes(searchQuery);
+          if (matchesCat && matchesSearch) count++;
+        });
+        if (countEls[id]) countEls[id].textContent = count;
+      });
+
+      // Toggle empty state
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+      grid.style.display = visible === 0 ? 'none' : '';
+    }
+
+    // Search
+    searchInput.addEventListener('input', function () {
+      searchQuery = this.value.trim().toLowerCase();
+      clearBtn.style.display = searchQuery ? 'flex' : 'none';
+      filter();
+    });
+
+    // Clear
+    clearBtn.addEventListener('click', function () {
+      searchInput.value = '';
+      searchQuery = '';
+      clearBtn.style.display = 'none';
+      searchInput.focus();
+      filter();
+    });
+
+    // Expose to global for empty state button
+    window.clearHubSearch = function () {
+      searchInput.value = '';
+      searchQuery = '';
+      clearBtn.style.display = 'none';
+      filter();
+    };
+
+    // Category tabs
+    categoryTabs.forEach(tab => {
+      tab.addEventListener('click', function () {
+        categoryTabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        this.classList.add('active');
+        this.setAttribute('aria-selected', 'true');
+        activeCategory = this.dataset.category;
+        filter();
+      });
+    });
+
+    // Keyboard: arrow keys between tabs
+    document.getElementById('category-tabs').addEventListener('keydown', function (e) {
+      const tabs = Array.from(categoryTabs);
+      const idx = tabs.indexOf(document.activeElement);
+      if (idx === -1) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); tabs[(idx + 1) % tabs.length].focus(); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); tabs[(idx - 1 + tabs.length) % tabs.length].focus(); }
+    });
+  })();
+</script>

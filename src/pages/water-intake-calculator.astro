@@ -1,0 +1,469 @@
+---
+// src/pages/water-intake-calculator.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import RelatedCalculators from '../components/astro/RelatedCalculators.astro';
+import { AdLeaderboard, AdInArticle } from '../components/ui/AdUnits.jsx';
+
+const title = 'Water Intake Calculator — How Much Water Should You Drink? | CalcMacros';
+const description = 'Calculate your daily water intake based on your weight, activity level, and climate. Go beyond "8 glasses a day" with a personalized hydration target. Free.';
+const canonical = 'https://calcmacros.com/water-intake-calculator';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Water Intake Calculator',
+  url: canonical,
+  description: 'Personalized daily water intake calculator based on body weight, activity level, climate, and exercise using the EFSA 35ml/kg standard.',
+  applicationCategory: 'HealthApplication',
+  offers: { '@type': 'Offer', price: '0' },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://calcmacros.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Water Intake Calculator', item: canonical },
+  ],
+};
+
+const faqs = [
+  {
+    question: 'How much water should I drink per day?',
+    answer: 'The European Food Safety Authority (EFSA) recommends 35ml of water per kg of body weight as a baseline — more accurate than the common "8 glasses a day" rule. For a 70 kg (154 lb) person with moderate activity in a temperate climate, this translates to approximately 2.4–2.8 liters (80–95 fl oz) per day. Your specific needs are higher if you exercise, live in a hot climate, or are pregnant or breastfeeding.',
+  },
+  {
+    question: 'Does the 8 glasses of water rule actually work?',
+    answer: 'The "8 glasses a day" (approximately 1.9 liters) rule is an oversimplification with no scientific basis as a universal recommendation. It ignores body weight — a 50 kg person has completely different needs than a 100 kg person. It also ignores activity level, climate, and individual variation. The EFSA\'s 35ml per kg bodyweight is a much more accurate starting point.',
+  },
+  {
+    question: 'How does body weight affect how much water I need?',
+    answer: 'Body weight is the most important factor in determining water needs. More body mass = more cells = more metabolic activity = more water required. The EFSA standard of 35ml per kg means a 60 kg person needs 2.1 liters at baseline, while a 90 kg person needs 3.15 liters — a 50% difference, just from body weight alone.',
+  },
+  {
+    question: 'Does exercise increase my water needs?',
+    answer: 'Yes — significantly. Exercise can increase sweat production to 1–2 liters per hour depending on intensity and temperature. This calculator adds approximately 500ml per 30 minutes of vigorous exercise to your baseline. It is also important to start exercise well-hydrated and to drink water during long sessions (aim for 150–250ml every 15–20 minutes of intense activity).',
+  },
+  {
+    question: 'Does coffee count as water intake?',
+    answer: 'Yes — despite popular belief, caffeinated beverages including coffee and tea do contribute to your daily fluid intake. Research shows that the mild diuretic effect of caffeine does not negate the hydration value of these drinks. A standard cup of coffee contributes approximately 95% of its volume toward hydration. However, very high caffeine intake (5+ cups per day) may have a slight net diuretic effect.',
+  },
+  {
+    question: 'What color should my urine be to know I\'m hydrated?',
+    answer: 'Pale yellow (similar to lemonade) is the target. Dark yellow or amber urine indicates mild to moderate dehydration — drink water immediately. Completely clear urine may indicate overhydration. The first urine of the morning is normally darker — this is expected after a night without drinking. Use your subsequent urinations during the day as your hydration check.',
+  },
+  {
+    question: 'Can I drink too much water?',
+    answer: 'Yes — hyponatremia (water intoxication) occurs when fluid intake dilutes sodium in the blood to dangerously low levels. This is rare and typically only occurs in endurance athletes drinking large amounts of plain water over several hours without electrolyte replacement. For healthy adults, the kidneys can process approximately 1 liter of water per hour, making accidental overhydration from normal drinking very unlikely.',
+  },
+  {
+    question: 'Should I drink more water in hot weather?',
+    answer: 'Yes — heat significantly increases water needs through sweat. This calculator adds 500ml for hot climates and 1,000ml for very hot conditions (above 35°C / 95°F or intense heat exposure). When you are active in hot weather, combine the heat and exercise adjustments for your total increased need. Signs of heat-related dehydration include dark urine, headache, dizziness, and reduced sweat production.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+---
+
+<BaseLayout {title} {description} {canonical} schema={[schema, faqSchema, breadcrumbSchema]}>
+  <Header />
+
+  <main>
+    <div class="page-container" style="padding-top:1rem;">
+      <nav aria-label="breadcrumb">
+        <ol style="list-style:none;padding:0;margin:0;display:flex;gap:.5rem;font-size:.875rem;color:var(--text-secondary);">
+          <li><a href="/" style="color:var(--text-secondary);text-decoration:none;">Home</a></li>
+          <li>/</li>
+          <li aria-current="page">Water Intake Calculator</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="page-container">
+      <div style="margin-top:16px;margin-bottom:16px;">
+        <AdLeaderboard client:idle />
+      </div>
+
+      <section class="hero">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;">
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">EFSA standard</span>
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">Climate adjusted</span>
+          <span class="badge" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:6px 12px;">Instant results</span>
+        </div>
+        <h1>Water Intake Calculator</h1>
+        <p>Get a personalized daily hydration target based on your weight, activity level, climate, and exercise. Go beyond the outdated "8 glasses a day" myth.</p>
+      </section>
+
+      <!-- Calculator Widget -->
+      <div id="wi-widget" class="grid lg:grid-cols-[1fr_380px] gap-6 items-start">
+        <div class="calc-card" id="wi-form">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+            <div>
+              <h2 style="font-size:1.25rem;font-weight:700;color:var(--text-primary);margin:0;">Your Details</h2>
+              <p style="font-size:0.875rem;color:var(--text-secondary);margin:4px 0 0 0;">Results update automatically as you type</p>
+            </div>
+            <!-- Unit System -->
+            <div class="segment-control" id="wi-unit-control" style="margin:0;">
+              <button class="segment-option" data-value="metric" type="button">Metric</button>
+              <button class="segment-option active" data-value="imperial" type="button">Imperial</button>
+            </div>
+          </div>
+
+          <!-- Weight -->
+          <div style="margin-bottom:20px;">
+            <label for="wi-weight" style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Body Weight</label>
+            <div style="position:relative;">
+              <input type="number" id="wi-weight" class="calc-input" placeholder="180" min="66" max="660" step="1" style="padding-right:48px;" />
+              <span id="wi-weight-unit" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font:500 13px var(--font-sans);color:var(--text-muted);">lbs</span>
+            </div>
+          </div>
+
+          <!-- Activity Level -->
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Activity Level</label>
+            <div id="wi-activity-control" style="display:flex;flex-direction:column;gap:4px;padding:6px;border-radius:12px;background:var(--bg-subtle);">
+              
+              <button class="wi-act-btn segment-option active" data-value="sedentary" type="button" style="width:100%;text-align:left;padding:12px;border-radius:8px;transition:all 0.15s;border:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <span style="font:600 14px var(--font-sans);color:var(--text-primary);">Sedentary</span>
+                  <div class="wi-act-dot"></div>
+                </div>
+                <div style="font:400 12px var(--font-sans);color:var(--text-secondary);margin-top:2px;">Desk job, little or no exercise</div>
+              </button>
+
+              <button class="wi-act-btn segment-option" data-value="light" type="button" style="width:100%;text-align:left;padding:12px;border-radius:8px;transition:all 0.15s;border:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <span style="font:600 14px var(--font-sans);color:var(--text-primary);">Lightly Active</span>
+                  <div class="wi-act-dot"></div>
+                </div>
+                <div style="font:400 12px var(--font-sans);color:var(--text-secondary);margin-top:2px;">Light exercise 1–3 days/week</div>
+              </button>
+
+              <button class="wi-act-btn segment-option" data-value="moderate" type="button" style="width:100%;text-align:left;padding:12px;border-radius:8px;transition:all 0.15s;border:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <span style="font:600 14px var(--font-sans);color:var(--text-primary);">Moderately Active</span>
+                  <div class="wi-act-dot"></div>
+                </div>
+                <div style="font:400 12px var(--font-sans);color:var(--text-secondary);margin-top:2px;">Moderate exercise 3–5 days/week</div>
+              </button>
+
+              <button class="wi-act-btn segment-option" data-value="active" type="button" style="width:100%;text-align:left;padding:12px;border-radius:8px;transition:all 0.15s;border:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <span style="font:600 14px var(--font-sans);color:var(--text-primary);">Very Active</span>
+                  <div class="wi-act-dot"></div>
+                </div>
+                <div style="font:400 12px var(--font-sans);color:var(--text-secondary);margin-top:2px;">Hard exercise 6–7 days/week</div>
+              </button>
+
+              <button class="wi-act-btn segment-option" data-value="very_active" type="button" style="width:100%;text-align:left;padding:12px;border-radius:8px;transition:all 0.15s;border:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <span style="font:600 14px var(--font-sans);color:var(--text-primary);">Extremely Active</span>
+                  <div class="wi-act-dot"></div>
+                </div>
+                <div style="font:400 12px var(--font-sans);color:var(--text-secondary);margin-top:2px;">Physical job + hard training</div>
+              </button>
+            </div>
+            
+            <style>
+              .wi-act-btn { background: transparent; box-shadow: none; color: inherit; }
+              .wi-act-btn.active { background: var(--bg-card); box-shadow: var(--shadow-sm); }
+              .wi-act-dot { width: 8px; height: 8px; border-radius: 50%; background: transparent; }
+              .wi-act-btn.active .wi-act-dot { background: var(--accent); }
+            </style>
+          </div>
+
+          <!-- Climate -->
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Climate</label>
+            <div class="segment-control" id="wi-climate-control">
+              <button class="segment-option active" data-value="temperate" type="button">Temperate</button>
+              <button class="segment-option" data-value="hot" type="button">Hot</button>
+              <button class="segment-option" data-value="very_hot" type="button">Very Hot</button>
+            </div>
+          </div>
+
+          <!-- Exercise Today -->
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font:500 13px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Exercise Today</label>
+            <div class="segment-control" id="wi-exercise-control">
+              <button class="segment-option active" data-value="0" type="button">None</button>
+              <button class="segment-option" data-value="30" type="button">30 min</button>
+              <button class="segment-option" data-value="60" type="button">60 min</button>
+              <button class="segment-option" data-value="90" type="button">90+ min</button>
+            </div>
+          </div>
+
+          <!-- Pregnancy / Breastfeeding -->
+          <div style="display:flex;gap:20px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font:500 14px var(--font-sans);color:var(--text-secondary);">
+              <input type="checkbox" id="wi-pregnant" style="width:16px;height:16px;accent-color:var(--accent);" />
+              Pregnant
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font:500 14px var(--font-sans);color:var(--text-secondary);">
+              <input type="checkbox" id="wi-breastfeeding" style="width:16px;height:16px;accent-color:var(--accent);" />
+              Breastfeeding
+            </label>
+          </div>
+        </div>
+
+        <!-- RESULTS COLUMN -->
+        <div class="calc-card" style="position:sticky;top:96px;">
+          <!-- EMPTY STATE -->
+          <div id="wi-empty" class="calc-empty">
+            <div style="width:56px;height:56px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6 2 2 7.5 2 12a10 10 0 0 0 20 0c0-4.5-4-10-10-10z"/></svg>
+            </div>
+            <p style="font-weight:600;color:var(--text-primary);margin:0 0 4px;">Enter your body weight</p>
+            <p style="font-size:14px;color:var(--text-secondary);margin:0;">Your personalized hydration target appears instantly</p>
+          </div>
+
+          <!-- RESULTS -->
+          <div id="wi-results" style="display:none;" class="animate-slide-up">
+            <!-- Primary: Liters/oz -->
+            <div class="result-card" style="margin-bottom:16px;border-top:3px solid #3B82F6;">
+              <div class="result-card__label">Daily Water Intake</div>
+              <div style="display:flex;align-items:baseline;gap:12px;margin:8px 0;flex-wrap:wrap;">
+                <div style="display:flex;align-items:baseline;gap:6px;">
+                  <span id="wi-liters" class="result-card__number">—</span>
+                  <span style="font:500 18px var(--font-mono);color:var(--text-secondary);">L</span>
+                </div>
+                <span style="font:400 18px var(--font-sans);color:var(--text-muted);">/</span>
+                <div style="display:flex;align-items:baseline;gap:6px;">
+                  <span id="wi-floz" style="font:700 36px var(--font-mono);color:var(--text-primary);">—</span>
+                  <span style="font:500 18px var(--font-mono);color:var(--text-secondary);">fl oz</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Secondary cards -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
+              <div class="result-card" style="padding:14px;text-align:center;">
+                <div style="font:700 28px var(--font-mono);color:var(--text-primary);" id="wi-glasses">—</div>
+                <div style="font:500 11px var(--font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;">glasses</div>
+                <div style="font:400 11px var(--font-sans);color:var(--text-muted);">(250ml each)</div>
+              </div>
+              <div class="result-card" style="padding:14px;text-align:center;">
+                <div style="font:700 28px var(--font-mono);color:var(--text-primary);" id="wi-bottles">—</div>
+                <div style="font:500 11px var(--font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;">bottles</div>
+                <div style="font:400 11px var(--font-sans);color:var(--text-muted);">(500ml each)</div>
+              </div>
+              <div class="result-card" style="padding:14px;text-align:center;">
+                <div style="font:700 28px var(--font-mono);color:var(--text-primary);" id="wi-hourly">—</div>
+                <div style="font:500 11px var(--font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;">ml / hour</div>
+                <div style="font:400 11px var(--font-sans);color:var(--text-muted);">(16 waking hrs)</div>
+              </div>
+            </div>
+
+            <!-- Breakdown -->
+            <div style="padding:16px;background:var(--bg-subtle);border-radius:12px;font:400 13px/1.8 var(--font-sans);color:var(--text-secondary);margin-bottom:16px;" id="wi-breakdown">
+              <!-- filled by JS -->
+            </div>
+
+            <div style="padding:16px;background:var(--bg-subtle);border-radius:12px;font:400 14px/1.6 var(--font-sans);color:var(--text-secondary);">
+            <strong style="color:var(--text-primary);">Tip:</strong> Drink a glass of water immediately after waking — your body is mildly dehydrated after 7–8 hours of sleep.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <RelatedCalculators current="/water-intake-calculator" />
+    </div>
+
+    <!-- SEO Content -->
+    <section class="content-section">
+      <AdInArticle client:idle />
+
+      <p>The water intake calculator uses the <strong>European Food Safety Authority (EFSA) standard</strong> of 35ml per kg of body weight as its baseline — the most accurate and scientifically validated method for estimating daily hydration needs. From this baseline, it adds adjustments for your activity level, climate, exercise, and other individual factors that significantly affect how much water you need.</p>
+
+      <h2>Why "8 Glasses a Day" Is Wrong</h2>
+      <p>Most people have heard the advice to drink 8 glasses (approximately 2 liters) of water per day. The problem: this rule ignores your body weight, activity level, climate, and exercise. A 50 kg sedentary person in a cool climate and a 100 kg athlete training outdoors in summer cannot have the same water requirement.</p>
+      <p>The "8 glasses" rule has no strong scientific backing and was popularized by a misinterpretation of a 1945 US Food and Nutrition Board recommendation. The EFSA 35ml/kg standard is more accurate because it scales directly with body mass — the primary driver of metabolic activity and water demand.</p>
+
+      <h2>Signs You're Not Drinking Enough Water</h2>
+      <p>Dehydration at even 1–2% body water loss causes measurable performance decline. Watch for these signs:</p>
+      <ul>
+        <li><strong>Dark yellow or amber urine</strong> — the most reliable indicator. Target pale yellow.</li>
+        <li><strong>Headaches</strong> — one of the earliest symptoms of mild dehydration.</li>
+        <li><strong>Fatigue</strong> — dehydration reduces blood volume and makes the heart work harder.</li>
+        <li><strong>Reduced exercise performance</strong> — strength, endurance, and coordination all decline.</li>
+        <li><strong>Difficulty concentrating</strong> — the brain is particularly sensitive to hydration status.</li>
+        <li><strong>Increased hunger</strong> — dehydration is often misread as hunger by the brain.</li>
+      </ul>
+
+      <h2>Does Coffee and Tea Count Toward Water Intake?</h2>
+      <p>Yes — caffeinated drinks do contribute to daily fluid intake, despite the common belief otherwise. Research consistently shows that the diuretic effect of caffeine in typical amounts (1–4 cups of coffee per day) is mild and does not negate the hydration benefit. Coffee and tea can count toward your daily water target.</p>
+      <p>However, pure water is still the best hydration source — it contains no calories, additives, or caffeine. Use caffeinated beverages as a supplement to water intake, not a replacement.</p>
+
+      <h2>Hydration by Activity Level — Reference Table</h2>
+      <table>
+        <thead>
+          <tr><th>Body Weight</th><th>Sedentary</th><th>Active</th><th>Very Active</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>50 kg / 110 lbs</td><td>1.75 L</td><td>2.1 L</td><td>2.45 L</td></tr>
+          <tr><td>65 kg / 143 lbs</td><td>2.3 L</td><td>2.65 L</td><td>3.0 L</td></tr>
+          <tr><td>80 kg / 176 lbs</td><td>2.8 L</td><td>3.15 L</td><td>3.5 L</td></tr>
+          <tr><td>95 kg / 209 lbs</td><td>3.3 L</td><td>3.65 L</td><td>4.0 L</td></tr>
+          <tr><td>110 kg / 242 lbs</td><td>3.85 L</td><td>4.2 L</td><td>4.55 L</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:13px;color:var(--text-muted);">Baseline values only. Add 500ml for hot climate, 1,000ml for very hot climate, and 500–1,000ml per 30–60 min of vigorous exercise.</p>
+
+      <AdInArticle client:idle />
+
+      <h2>Frequently Asked Questions</h2>
+      <div id="wi-faq">
+        {faqs.map((faq, i) => (
+          <div class="faq-item" id={`wi-faq-${i}`}>
+            <button class="faq-question" aria-expanded="false" aria-controls={`wi-faq-answer-${i}`}>
+              {faq.question}
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" id={`wi-faq-answer-${i}`} role="region">
+              <p>{faq.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="disclaimer" style="margin-top:40px;">
+        <strong>Medical Disclaimer:</strong> Water intake recommendations are general estimates. Individual hydration needs vary based on health conditions, medications, and other factors. Consult a healthcare provider if you have kidney disease, heart disease, or other conditions that affect fluid balance.
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script is:inline>
+  (function() {
+    let unit = 'imperial';
+    let activity = 'sedentary';
+    let climate = 'temperate';
+    let exercise = 0;
+    let pregnant = false;
+    let breastfeeding = false;
+
+    const unitCtrl = document.getElementById('wi-unit-control');
+    const activityCtrl = document.getElementById('wi-activity-control');
+    const climateCtrl = document.getElementById('wi-climate-control');
+    const exerciseCtrl = document.getElementById('wi-exercise-control');
+    const weightEl = document.getElementById('wi-weight');
+    const weightUnit = document.getElementById('wi-weight-unit');
+    const emptyEl = document.getElementById('wi-empty');
+    const resultsEl = document.getElementById('wi-results');
+
+    function updateWeightUnit() {
+      if (weightUnit) weightUnit.textContent = unit === 'metric' ? 'kg' : 'lbs';
+      if (unit === 'metric') { weightEl.placeholder = '80'; weightEl.min = '30'; weightEl.max = '300'; }
+      else { weightEl.placeholder = '180'; weightEl.min = '66'; weightEl.max = '660'; }
+    }
+
+    function calculate() {
+      const wVal = parseFloat(weightEl.value);
+      if (!wVal) return null;
+      const weight_kg = unit === 'metric' ? wVal : wVal * 0.453592;
+
+      let base = weight_kg * 35;
+      const actAdd = { sedentary: 0, light: 175, moderate: 350, active: 525, very_active: 700 }[activity] || 0;
+      const climAdd = { temperate: 0, hot: 500, very_hot: 1000 }[climate] || 0;
+      const exAdd = { 0: 0, 30: 500, 60: 750, 90: 1000 }[exercise] || 0;
+      let pregAdd = 0;
+      let bfAdd = 0;
+      if (pregnant) pregAdd = 300;
+      if (breastfeeding) bfAdd = 700;
+
+      const total = base + actAdd + climAdd + exAdd + pregAdd + bfAdd;
+
+      return {
+        ml: Math.round(total),
+        liters: Math.round(total / 100) / 10,
+        floz: Math.round(total * 0.033814 * 10) / 10,
+        glasses: Math.round(total / 250),
+        bottles: Math.round((total / 500) * 10) / 10,
+        hourly: Math.round(total / 16),
+        base: Math.round(base),
+        actAdd, climAdd, exAdd, pregAdd, bfAdd,
+      };
+    }
+
+    function render(result) {
+      if (!result) {
+        emptyEl.style.display = 'block';
+        resultsEl.style.display = 'none';
+        return;
+      }
+      emptyEl.style.display = 'none';
+      resultsEl.style.display = 'block';
+
+      document.getElementById('wi-liters').textContent = result.liters;
+      document.getElementById('wi-floz').textContent = result.floz;
+      document.getElementById('wi-glasses').textContent = result.glasses;
+      document.getElementById('wi-bottles').textContent = result.bottles;
+      document.getElementById('wi-hourly').textContent = result.hourly;
+
+      // Breakdown
+      let bdLines = [`<strong style="color:var(--text-primary);">Breakdown:</strong>`,
+        `Base (${Math.round(result.base/100)/10}L) = your body weight × 35ml/kg`];
+      if (result.actAdd) bdLines.push(`+ ${result.actAdd}ml activity adjustment`);
+      if (result.climAdd) bdLines.push(`+ ${result.climAdd}ml climate adjustment`);
+      if (result.exAdd) bdLines.push(`+ ${result.exAdd}ml exercise adjustment`);
+      if (result.pregAdd) bdLines.push(`+ ${result.pregAdd}ml (pregnancy)`);
+      if (result.bfAdd) bdLines.push(`+ ${result.bfAdd}ml (breastfeeding)`);
+      document.getElementById('wi-breakdown').innerHTML = bdLines.join('<br>');
+    }
+
+    function wireSegment(ctrl, onChange) {
+      ctrl.querySelectorAll('.segment-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          ctrl.querySelectorAll('.segment-option').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          onChange(btn.dataset.value);
+        });
+      });
+    }
+
+    wireSegment(unitCtrl, v => {
+      unit = v; updateWeightUnit();
+      weightEl.value = ''; render(null);
+    });
+    wireSegment(activityCtrl, v => { activity = v; render(calculate()); });
+    wireSegment(climateCtrl, v => { climate = v; render(calculate()); });
+    wireSegment(exerciseCtrl, v => { exercise = parseInt(v); render(calculate()); });
+
+    weightEl.addEventListener('input', () => render(calculate()));
+    document.getElementById('wi-pregnant').addEventListener('change', e => { pregnant = e.target.checked; render(calculate()); });
+    document.getElementById('wi-breastfeeding').addEventListener('change', e => { breastfeeding = e.target.checked; render(calculate()); });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-answer').classList.remove('open');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          answer.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    updateWeightUnit();
+  })();
+</script>
