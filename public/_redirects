@@ -1,1 +1,6 @@
-/sitemap.xml /sitemap-index.xml 301
+# Redirect HTTP to HTTPS (non-www and www)
+http://calcmacros.com/* https://calcmacros.com/:splat 301
+http://www.calcmacros.com/* https://calcmacros.com/:splat 301
+
+# Redirect www to non-www (HTTPS)
+https://www.calcmacros.com/* https://calcmacros.com/:splat 301

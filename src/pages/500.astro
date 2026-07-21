@@ -13,7 +13,7 @@ interface Props {
 const { error } = Astro.props;
 ---
 
-<BaseLayout {title} {description} {canonical}>
+<BaseLayout {title} {description} {canonical} robots="noindex, nofollow">
   <Header />
   <main class="page-container" style="text-align: center; padding: 100px 20px; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <h1 style="font-size: 4rem; color: var(--primary); margin-bottom: 16px;">500</h1>

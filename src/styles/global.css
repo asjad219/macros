@@ -473,7 +473,17 @@ button:focus-visible {
   flex-shrink: 0;
 }
 
-.faq-item.open .faq-chevron {
+details.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+details.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item.open .faq-chevron,
+details[open].faq-item .faq-chevron {
   transform: rotate(180deg);
 }
 
@@ -483,8 +493,10 @@ button:focus-visible {
   transition: max-height 300ms ease;
 }
 
-.faq-answer.open {
+.faq-answer.open,
+details[open].faq-item .faq-answer {
   max-height: 800px;
+  overflow: visible;
 }
 
 .faq-answer p {
